@@ -1,3 +1,8 @@
+// 공통 색 변수로 분리
+$input-background: #b7d3d6;
+$input-border: #8aaaad;
+$input-pseudo: #608a8e;
+
 // 체크박스 공통 스타일
 input[type=checkbox] {
   display: none;
@@ -7,8 +12,8 @@ input[type=checkbox] {
   margin-right: 5px;
   height: 16px;
   width: 16px;
-  background-color: #b7d3d6;
-  border: 0.5px solid #8aaaad;
+  background-color: $input-background;
+  border: 0.5px solid $input-border;
   border-radius: 2px;
   position: relative;
   top: 3px;
@@ -20,7 +25,7 @@ input[type=checkbox] {
     position: absolute;
     height: 0;
     width: 2px;
-    background-color: #608a8e;
+    background-color: $input-pseudo;
     display: inline-block;
     transform-origin: left top;
     border-radius: 1px;
@@ -40,7 +45,7 @@ input[type=checkbox] {
 }
 
 input[type=checkbox]:checked + .input-checkbox, .input-checkbox.checked {
-  border-color: #608a8e;
+  border-color: $input-pseudo;
 }
 
 input[type=checkbox]:checked + .input-checkbox::after, .input-checkbox.checked::after {
@@ -51,4 +56,28 @@ input[type=checkbox]:checked + .input-checkbox::after, .input-checkbox.checked::
 input[type=checkbox]:checked + .input-checkbox::before, .input-checkbox.checked::before {
   height: 18px;
   width: 3px;
+}
+
+// 라디오 버튼 공통 스타일
+input[type=radio] {
+  display: none;
+}
+
+input[type=radio] + .input-radio-label {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 16px;
+  height: 16px;
+  border: 0.5px solid $input-border;
+  border-radius: 50%;
+}
+
+input[type=radio]:checked + .input-radio-label .input-radio-span {
+  width: 9.6px;
+  height: 9.6px;
+  display: inline-block;
+  border-radius: 50%;
+  background-color: $input-background;
+  border: solid 0.5px $input-border;
 }
