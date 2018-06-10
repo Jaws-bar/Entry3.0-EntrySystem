@@ -7,6 +7,7 @@
 <script>
 // import EntryFooter from '@/components/EntryFooter';
 // import Headline from '@/components/Headline';
+// import PrevNextBtn from '@/components/PrevNextBtn';
 
 export default {
   name: 'app',
