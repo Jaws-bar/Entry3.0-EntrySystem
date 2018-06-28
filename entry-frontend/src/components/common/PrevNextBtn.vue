@@ -49,8 +49,11 @@ $inner-btn: #296169;
 
 // 전체 감싸는 부분
 .prev-next-btn-cover {
+  width: 1140px;
   height: 200px;
+  margin: 0 auto;
   position: relative;
+
   // 버튼 2개
   .input-btn {
     position: absolute;
@@ -62,14 +65,17 @@ $inner-btn: #296169;
     border: 1px solid #5f8a90;
     outline: none;
     cursor: pointer;
+
     // 왼쪽 버튼
     @include m('prev') {
       left: 0;
     }
+
     // 오른쪽 버튼
     @include m('next') {
       right: 0;
     }
+
     // 버튼 내부 화살표 및 세부 설정
     @include e('arrow') {
       font-size: 19px;
@@ -83,6 +89,7 @@ $inner-btn: #296169;
         margin-right: 13px;
       }
     }
+
     // 버튼 내부 텍스트 및 세부 설정
     @include e('text') {
       font-size: 18px;

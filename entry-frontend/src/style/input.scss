@@ -18,7 +18,7 @@ $input-pseudo: #608a8e;
   height: 16px;
   width: 16px;
   background-color: #FFF;
-  border: 0.5px solid $input-border;
+  border: 1px solid $input-border;
   border-radius: 2px;
   position: relative;
   top: 3px;
@@ -67,7 +67,7 @@ $input-pseudo: #608a8e;
   height: 40px;
   border-radius: 5px;
   background-color: #ffffff;
-  border: solid 0.5px #5f8a90;
+  border: solid 1px #5f8a90;
   padding: 11px 16px 10px;
   width: 400px;
   font-size: 18px;
@@ -89,17 +89,17 @@ $input-pseudo: #608a8e;
   justify-content: center;
   width: 16px;
   height: 16px;
-  border: 0.5px solid $input-border;
+  border: 1px solid $input-border;
   border-radius: 50%;
 }
 .input-radio-span {
-  width: 9.6px;
-  height: 9.6px;
+  width: 9px;
+  height: 9px;
   display: inline-block;
   border-radius: 50%;
   background-color: none;
 }
 .input-radio:checked + .input-radio-label .input-radio-span {
   background-color: $input-background;
-  border: solid 0.5px $input-border;
+  border: solid 1px $input-border;
 }
