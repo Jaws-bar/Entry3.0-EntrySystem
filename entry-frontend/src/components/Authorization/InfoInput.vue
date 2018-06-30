@@ -7,7 +7,7 @@
       <div class="InfoInput__wapper__inputBox">
         <input type="text" class="InfoInput__wapper__inputBox__input"
         placeholder="example@dsmhs.kr" v-model="email"/>
-        <div class="InfoInput__wapper__inputBox__check" v-if="emailICheck">
+        <div class="InfoInput__wapper__inputBox__check" v-if="verifi[0]">
           ✓
         </div>
       </div>
@@ -19,7 +19,7 @@
       <div class="InfoInput__wapper__inputBox">
         <input type="password" class="InfoInput__wapper__inputBox__input"
         placeholder="●●●●●●●●●●●●" v-model="pw"/>
-        <div class="InfoInput__wapper__inputBox__check" v-if="pwICheck">
+        <div class="InfoInput__wapper__inputBox__check" v-if="verifi[1]">
           ✓
         </div>
       </div>
@@ -34,10 +34,11 @@
       <div class="InfoInput__wapper__inputBox">
         <input type="password" class="InfoInput__wapper__inputBox__input"
         placeholder="●●●●●●●●●●●●" v-model="pwcheck"/>
-        <div class="InfoInput__wapper__inputBox__check" v-if="pwcIChack">
+        <div class="InfoInput__wapper__inputBox__check" v-if="verifi[2]">
           ✓
         </div>
-        <div class="InfoInput__wapper__inputBox--wrong" v-if="(this.pw !== this.pwcheck)">
+        <div class="InfoInput__wapper__inputBox--wrong"
+        v-if="(pw !== pwcheck)">
           비밀번호를 정확히 입력해주세요
         </div>
       </div>
@@ -45,7 +46,7 @@
     <div class="btn">
       <button type="button"
             class="input-btn input-btn--next"
-            v-if="(isOkay && isInputOkay)"
+            v-if="(isAccept && verifi[0] && verifi[1] && verifi[2])"
             @click="moveToNextPage"
       >
         <span class="input-btn__arrow input-btn__arrow--right">〉</span>
@@ -53,7 +54,7 @@
       </button>
       <button type="button"
             class="input-btn input-btn--next input-btn input-btn--next--false"
-            v-if="!(isOkay && isInputOkay)"
+            v-else
       >
         <span class="input-btn__arrow input-btn__arrow--right
         input-btn__arrow--right--false">〉</span>
@@ -68,25 +69,58 @@
 const emailReg = /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,5}$/i;
 const pwReg = /^(?=.*?[A-Z])*(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-])*.{8,}$/;
 export default {
-  data: () => ({
-    email: '',
-    pw: '',
-    pwcheck: '',
-  }),
-  props: ['isOkay'],
   computed: {
-    emailICheck() {
-      return emailReg.test(this.email);
+    email: {
+      get() {
+        return this.$store.state.auth.email;
+      },
+      set(value) {
+        const RegResult = emailReg.test(value);
+        this.$store.commit('updateEmail', value);
+        if (this.$store.state.auth.verifi[0] !== RegResult) {
+          this.$store.commit('updateVerifi', {
+            index: 0,
+            data: RegResult,
+          });
+        }
+      },
     },
-    pwICheck() {
-      return pwReg.test(this.pw);
+    pw: {
+      get() {
+        return this.$store.state.auth.pw;
+      },
+      set(value) {
+        const RegResult = pwReg.test(value);
+        this.$store.commit('updatePw', value);
+        if (this.$store.state.auth.verifi[1] !== RegResult) {
+          this.$store.commit('updateVerifi', {
+            index: 1,
+            data: RegResult,
+          });
+        }
+      },
     },
-    pwcIChack() {
-      return (this.pw === this.pwcheck && this.pwcheck !== '');
+    pwcheck: {
+      get() {
+        return this.$store.state.auth.pwcheck;
+      },
+      set(value) {
+        const RegResult = this.$store.state.auth.pw === value;
+        this.$store.commit('updatePwCheck', value);
+        if (this.$store.state.auth.verifi[2] !== RegResult &&
+        value !== '') {
+          this.$store.commit('updateVerifi', {
+            index: 2,
+            data: RegResult,
+          });
+        }
+      },
     },
-    isInputOkay() {
-      const check = (emailReg.test(this.email) && pwReg.test(this.pw) && this.pw === this.pwcheck && this.pwcheck !== '');
-      return (check);
+    verifi() {
+      return this.$store.state.auth.verifi;
+    },
+    isAccept() {
+      return this.$store.state.auth.isAccept;
     },
   },
   methods: {

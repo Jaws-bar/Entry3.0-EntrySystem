@@ -51,7 +51,7 @@
 export default {
   methods: {
     sendAccept() {
-      this.$parent.$emit('OkayEvent');
+      this.$store.commit('updateAccept', !this.$store.state.auth.isAccept);
     },
   },
 };

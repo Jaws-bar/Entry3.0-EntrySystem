@@ -2,7 +2,7 @@
   <div class="Authorization">
     <headline title="2019 지원자 본인인증"/>
     <accept-terms />
-    <info-input :isOkay="isOkay"/>
+    <info-input/>
   </div>
 </template>
 
@@ -17,14 +17,6 @@ export default {
     Headline,
     AcceptTerms,
     InfoInput,
-  },
-  data: () => ({
-    isOkay: false,
-  }),
-  created() {
-    this.$on('OkayEvent', () => {
-      this.isOkay = !this.isOkay;
-    });
   },
 };
 </script>
