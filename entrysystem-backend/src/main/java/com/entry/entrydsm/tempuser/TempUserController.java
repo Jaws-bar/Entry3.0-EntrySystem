@@ -1,8 +1,18 @@
 package com.entry.entrydsm.tempuser;
 
+import com.entry.entrydsm.apply.ApplyStatus;
+import com.entry.entrydsm.apply.ApplyStatusRepository;
 import com.entry.entrydsm.common.security.Crypto;
 import com.entry.entrydsm.exception.BadRequestException;
 import com.entry.entrydsm.exception.ForbiddenException;
+import com.entry.entrydsm.grade.domain.ged.GedGrade;
+import com.entry.entrydsm.grade.domain.ged.GedGradeRepository;
+import com.entry.entrydsm.grade.domain.graduate.GraduateGrade;
+import com.entry.entrydsm.grade.domain.graduate.GraduateGradeRepository;
+import com.entry.entrydsm.graduate.info.GraduateInfo;
+import com.entry.entrydsm.graduate.info.GraduateInfoRepository;
+import com.entry.entrydsm.info.domain.Info;
+import com.entry.entrydsm.info.domain.InfoRepository;
 import com.entry.entrydsm.mail.EmailServiceImpl;
 import com.entry.entrydsm.user.User;
 import com.entry.entrydsm.user.UserRepository;
@@ -22,13 +32,23 @@ public class TempUserController {
     private final TempUserRepository tempUserRepo;
     private final Crypto crypto;
     private final EmailServiceImpl emailService;
+    private final GraduateInfoRepository graduateInfoRepo;
+    private final ApplyStatusRepository applyStatusRepo;
+    private final InfoRepository infoRepo;
+    private final GedGradeRepository gedGradeRepo;
+    private final GraduateGradeRepository graduateGradeRepo;
 
     @Autowired
-    public TempUserController(UserRepository userRepo, TempUserRepository tempUserRepo, Crypto crypto, EmailServiceImpl emailService) {
+    public TempUserController(UserRepository userRepo, TempUserRepository tempUserRepo, Crypto crypto, EmailServiceImpl emailService, GraduateInfoRepository graduateInfoRepo, ApplyStatusRepository applyStatusRepo, InfoRepository infoRepo, GedGradeRepository gedGradeRepo, GraduateGradeRepository graduateGradeRepo) {
         this.tempUserRepo = tempUserRepo;
         this.userRepo = userRepo;
         this.crypto = crypto;
         this.emailService = emailService;
+        this.graduateInfoRepo = graduateInfoRepo;
+        this.applyStatusRepo = applyStatusRepo;
+        this.infoRepo = infoRepo;
+        this.gedGradeRepo = gedGradeRepo;
+        this.graduateGradeRepo = graduateGradeRepo;
     }
 
     @ApiOperation(value = "회원가입")
@@ -55,6 +75,11 @@ public class TempUserController {
         User user = new User(tempUser);
         tempUserRepo.delete(tempUser);
         userRepo.save(user);
+        graduateInfoRepo.save(new GraduateInfo(user));
+        applyStatusRepo.save(new ApplyStatus(user));
+        infoRepo.save(new Info(user));
+        gedGradeRepo.save(new GedGrade(user));
+        graduateGradeRepo.save(new GraduateGrade(user));
         return new ResponseEntity<>(HttpStatus.OK);
     }
 

@@ -1,5 +1,7 @@
 package com.entry.entrydsm.grade.domain;
 
+import com.entry.entrydsm.grade.domain.ged.GedGrade;
+import com.entry.entrydsm.grade.domain.graduate.GraduateGrade;
 import com.fasterxml.jackson.annotation.JsonSubTypes;
 import lombok.Getter;
 
@@ -29,4 +31,8 @@ public abstract class Grade {
 
     @Column(nullable = false)
     private Double finalScore;
+
+    public Grade(String userId) {
+        this.userId = userId;
+    }
 }

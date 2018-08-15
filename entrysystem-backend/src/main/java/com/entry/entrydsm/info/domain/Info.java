@@ -1,5 +1,6 @@
 package com.entry.entrydsm.info.domain;
 
+import com.entry.entrydsm.user.User;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
@@ -85,5 +86,9 @@ public class Info {
     @Override
     public int hashCode() {
         return Objects.hash(userId);
+    }
+
+    public Info(User user) {
+        this.userId = user.getId();
     }
 }

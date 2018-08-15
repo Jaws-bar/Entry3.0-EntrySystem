@@ -1,5 +1,7 @@
 package com.entry.entrydsm.apply;
 
+import com.entry.entrydsm.user.User;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -21,4 +23,8 @@ public class ApplyStatus {
 
     @Column(nullable = false)
     private Boolean receipt;
+
+    public ApplyStatus(User user) {
+        this.userId = user.getId();
+    }
 }
