@@ -28,39 +28,35 @@ import java.util.UUID;
 @RequestMapping(value = "/user/temp")
 public class TempUserController {
 
-    private final UserRepository userRepo;
-    private final TempUserRepository tempUserRepo;
-    private final Crypto crypto;
-    private final EmailServiceImpl emailService;
-    private final GraduateInfoRepository graduateInfoRepo;
-    private final ApplyStatusRepository applyStatusRepo;
-    private final InfoRepository infoRepo;
-    private final GedGradeRepository gedGradeRepo;
-    private final GraduateGradeRepository graduateGradeRepo;
-
     @Autowired
-    public TempUserController(UserRepository userRepo, TempUserRepository tempUserRepo, Crypto crypto, EmailServiceImpl emailService, GraduateInfoRepository graduateInfoRepo, ApplyStatusRepository applyStatusRepo, InfoRepository infoRepo, GedGradeRepository gedGradeRepo, GraduateGradeRepository graduateGradeRepo) {
-        this.tempUserRepo = tempUserRepo;
-        this.userRepo = userRepo;
-        this.crypto = crypto;
-        this.emailService = emailService;
-        this.graduateInfoRepo = graduateInfoRepo;
-        this.applyStatusRepo = applyStatusRepo;
-        this.infoRepo = infoRepo;
-        this.gedGradeRepo = gedGradeRepo;
-        this.graduateGradeRepo = graduateGradeRepo;
-    }
+    private UserRepository userRepository;
+    @Autowired
+    private TempUserRepository tempUserRepository;
+    @Autowired
+    private Crypto crypto;
+    @Autowired
+    private EmailServiceImpl emailService;
+    @Autowired
+    private GraduateInfoRepository graduateInfoRepository;
+    @Autowired
+    private ApplyStatusRepository applyStatusRepository;
+    @Autowired
+    private InfoRepository infoRepository;
+    @Autowired
+    private GedGradeRepository gedGradeRepository;
+    @Autowired
+    private GraduateGradeRepository graduateGradeRepository;
 
     @ApiOperation(value = "회원가입")
     @RequestMapping(value = "/signup", method = RequestMethod.POST)
     public ResponseEntity<Void> signup(@RequestBody TempUserDTO tempUserDTO) {
-        if (userRepo.existsUserByEmail(String.valueOf(tempUserDTO.getEmail())) || tempUserRepo.existsTempUserByEmail(String.valueOf(tempUserDTO.getEmail()))) {
+        if (userRepository.existsUserByEmail(String.valueOf(tempUserDTO.getEmail())) || tempUserRepository.existsTempUserByEmail(String.valueOf(tempUserDTO.getEmail()))) {
             throw new ForbiddenException("Already registered email");
         }
         tempUserDTO.setPassword(crypto.encode(tempUserDTO.getPassword()));
         tempUserDTO.setCode(UUID.randomUUID().toString().substring(0, 6));
         emailService.sendMessage(tempUserDTO.getEmail(), "EntryDSM 인증 메일", "인증 코드 : " + tempUserDTO.getCode());
-        tempUserRepo.save(tempUserDTO.toEntity());
+        tempUserRepository.save(tempUserDTO.toEntity());
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
@@ -71,15 +67,15 @@ public class TempUserController {
     @ApiOperation(value = "회원 인증코드 API")
     @RequestMapping(value = "/{code}", method = RequestMethod.POST)
     public ResponseEntity<Void> certification(@PathVariable String code) {
-        TempUser tempUser = tempUserRepo.findByCode(code).orElseThrow(() -> new BadRequestException("Not Found Code"));
+        TempUser tempUser = tempUserRepository.findByCode(code).orElseThrow(() -> new BadRequestException("Not Found Code"));
         User user = new User(tempUser);
-        userRepo.save(user);
-        graduateInfoRepo.save(new GraduateInfo(user));
-        applyStatusRepo.save(new ApplyStatus(user));
-        infoRepo.save(new Info(user));
-        gedGradeRepo.save(new GedGrade(user));
-        graduateGradeRepo.save(new GraduateGrade(user));
-        tempUserRepo.delete(tempUser);
+        userRepository.save(user);
+        graduateInfoRepository.save(new GraduateInfo(user));
+        applyStatusRepository.save(new ApplyStatus(user));
+        infoRepository.save(new Info(user));
+        gedGradeRepository.save(new GedGrade(user));
+        graduateGradeRepository.save(new GraduateGrade(user));
+        tempUserRepository.delete(tempUser);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
