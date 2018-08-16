@@ -4,6 +4,7 @@ import com.entry.entrydsm.grade.domain.ged.GedGrade;
 import com.entry.entrydsm.grade.domain.graduate.GraduateGrade;
 import com.fasterxml.jackson.annotation.JsonSubTypes;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.Column;
 import javax.persistence.Id;
@@ -15,22 +16,23 @@ import javax.persistence.MappedSuperclass;
         @JsonSubTypes.Type(value = GraduateGrade.class, name = "GRADUATE"),
 })
 @MappedSuperclass
+@NoArgsConstructor
 public abstract class Grade {
     @Id
     @Column(length = 32)
     private String userId;
 
     @Column(nullable = false)
-    private Double conversionScore;
+    private Double conversionScore = 0.0;
 
-    @Column(nullable = false, length = 10)
-    private Integer attendanceScore;
-
-    @Column(nullable = false)
-    private Double volunteerScore;
+    @Column(length = 10)
+    private Integer attendanceScore = null;
 
     @Column(nullable = false)
-    private Double finalScore;
+    private Double volunteerScore = 0.0;
+
+    @Column(nullable = false)
+    private Double finalScore =0.0;
 
     public Grade(String userId) {
         this.userId = userId;

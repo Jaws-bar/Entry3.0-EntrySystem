@@ -8,30 +8,30 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 
-@NoArgsConstructor
 @Entity
+@NoArgsConstructor
 public class GraduateInfo {
     @Id
     @Column(length = 32)
     private String userId;
 
-    @Column(length = 4, nullable = false)
-    private Integer graduateYear;
+    @Column(length = 4)
+    private Integer graduateYear = null;
 
     @Column(length = 32, nullable = false)
-    private String schoolCode;
+    private String schoolCode = "";
 
     @Column(length = 50, nullable = false)
-    private String schoolName;
+    private String schoolName = "";
 
     @Column(length = 1, nullable = false)
-    private Integer studentGrade;
+    private Integer studentGrade = 3;
 
     @Column(length = 2)
-    private Integer studentClass;
+    private Integer studentClass = null;
 
     @Column(length = 2)
-    private Integer studentNumber;
+    private Integer studentNumber = null;
 
     public GraduateInfo(User user) {
         this(user, 2019, null, "", 3, null, null);

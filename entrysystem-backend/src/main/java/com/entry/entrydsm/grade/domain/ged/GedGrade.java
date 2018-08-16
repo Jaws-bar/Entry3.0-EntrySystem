@@ -8,9 +8,10 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 
 @Entity
+@NoArgsConstructor
 public class GedGrade extends Grade {
     @Column(nullable = false)
-    private Double grade;
+    private Double grade = 0.0;
 
     public GedGrade(User user) {
         super(user.getId());
