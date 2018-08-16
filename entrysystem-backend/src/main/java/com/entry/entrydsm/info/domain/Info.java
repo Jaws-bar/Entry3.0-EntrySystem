@@ -1,6 +1,7 @@
 package com.entry.entrydsm.info.domain;
 
 import com.entry.entrydsm.user.User;
+import lombok.NoArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
@@ -8,6 +9,7 @@ import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.util.Objects;
 
+@NoArgsConstructor
 @Entity
 public class Info {
     @Id

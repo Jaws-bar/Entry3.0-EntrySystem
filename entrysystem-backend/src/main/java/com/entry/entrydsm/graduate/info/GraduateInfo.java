@@ -2,11 +2,13 @@ package com.entry.entrydsm.graduate.info;
 
 import com.entry.entrydsm.user.User;
 import lombok.Builder;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 
+@NoArgsConstructor
 @Entity
 public class GraduateInfo {
     @Id
@@ -32,7 +34,7 @@ public class GraduateInfo {
     private Integer studentNumber;
 
     public GraduateInfo(User user) {
-        this(user, 2019, "", "", 3, null, null);
+        this(user, 2019, null, "", 3, null, null);
     }
 
     @Builder

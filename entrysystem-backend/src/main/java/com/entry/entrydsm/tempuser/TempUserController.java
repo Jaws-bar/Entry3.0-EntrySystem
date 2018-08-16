@@ -73,13 +73,13 @@ public class TempUserController {
     public ResponseEntity<Void> certification(@PathVariable String code) {
         TempUser tempUser = tempUserRepo.findByCode(code).orElseThrow(() -> new BadRequestException("Not Found Code"));
         User user = new User(tempUser);
-        tempUserRepo.delete(tempUser);
         userRepo.save(user);
         graduateInfoRepo.save(new GraduateInfo(user));
         applyStatusRepo.save(new ApplyStatus(user));
         infoRepo.save(new Info(user));
         gedGradeRepo.save(new GedGrade(user));
         graduateGradeRepo.save(new GraduateGrade(user));
+        tempUserRepo.delete(tempUser);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
