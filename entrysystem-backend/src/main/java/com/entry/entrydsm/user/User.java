@@ -1,6 +1,6 @@
 package com.entry.entrydsm.user;
 
-import com.entry.entrydsm.tempuser.TempUser;
+import com.entry.entrydsm.tempuser.model.TempUser;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

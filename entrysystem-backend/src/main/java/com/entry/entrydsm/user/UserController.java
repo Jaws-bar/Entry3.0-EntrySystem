@@ -3,7 +3,7 @@ package com.entry.entrydsm.user;
 import com.entry.entrydsm.common.security.Crypto;
 import com.entry.entrydsm.common.security.jwt.Jwt;
 import com.entry.entrydsm.exception.BadRequestException;
-import com.entry.entrydsm.tempuser.TempUserDTO;
+import com.entry.entrydsm.tempuser.model.TempUserDTO;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;

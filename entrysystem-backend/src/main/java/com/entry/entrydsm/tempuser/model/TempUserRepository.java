@@ -1,5 +1,6 @@
-package com.entry.entrydsm.tempuser;
+package com.entry.entrydsm.tempuser.model;
 
+import com.entry.entrydsm.tempuser.model.TempUser;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;

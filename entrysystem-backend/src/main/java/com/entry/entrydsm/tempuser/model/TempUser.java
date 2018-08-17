@@ -1,4 +1,4 @@
-package com.entry.entrydsm.tempuser;
+package com.entry.entrydsm.tempuser.model;
 
 import lombok.Builder;
 import lombok.Getter;
