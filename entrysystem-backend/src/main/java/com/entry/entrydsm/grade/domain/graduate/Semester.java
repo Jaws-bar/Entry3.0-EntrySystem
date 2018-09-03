@@ -1,4 +1,4 @@
-package com.entry.entrydsm.graduate.grade;
+package com.entry.entrydsm.grade.domain.graduate;
 
 import lombok.Getter;
 

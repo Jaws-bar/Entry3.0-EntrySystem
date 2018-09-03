@@ -1,4 +1,4 @@
-package com.entry.entrydsm.user;
+package com.entry.entrydsm.user.domain;
 
 public enum GraduateType {
     WILL,

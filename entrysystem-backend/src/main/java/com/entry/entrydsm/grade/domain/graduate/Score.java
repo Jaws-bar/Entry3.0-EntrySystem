@@ -1,4 +1,4 @@
-package com.entry.entrydsm.graduate.grade;
+package com.entry.entrydsm.grade.domain.graduate;
 
 public enum Score {
     A,

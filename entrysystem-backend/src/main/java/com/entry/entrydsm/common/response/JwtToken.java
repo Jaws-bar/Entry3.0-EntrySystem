@@ -1,4 +1,4 @@
-package com.entry.entrydsm.user;
+package com.entry.entrydsm.common.response;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
@@ -10,7 +10,7 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-class ResponseToken {
+class JwtToken {
 
     @JsonProperty("access_token")
     private String accessToken;

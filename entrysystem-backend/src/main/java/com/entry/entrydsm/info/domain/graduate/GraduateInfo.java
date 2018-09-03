@@ -1,6 +1,6 @@
-package com.entry.entrydsm.graduate.info;
+package com.entry.entrydsm.info.domain.graduate;
 
-import com.entry.entrydsm.user.User;
+import com.entry.entrydsm.user.domain.User;
 import lombok.Builder;
 import lombok.NoArgsConstructor;
 
@@ -15,11 +15,11 @@ public class GraduateInfo {
     @Column(length = 32)
     private String userId;
 
-    @Column(length = 4)
-    private Integer graduateYear = null;
+    @Column(length = 4, nullable = false)
+    private Integer graduateYear;
 
-    @Column(length = 32, nullable = false)
-    private String schoolCode = "";
+    @Column(length = 32)
+    private String schoolCode;
 
     @Column(length = 50, nullable = false)
     private String schoolName = "";
@@ -28,10 +28,10 @@ public class GraduateInfo {
     private Integer studentGrade = 3;
 
     @Column(length = 2)
-    private Integer studentClass = null;
+    private Integer studentClass;
 
     @Column(length = 2)
-    private Integer studentNumber = null;
+    private Integer studentNumber;
 
     public GraduateInfo(User user) {
         this(user, 2019, null, "", 3, null, null);

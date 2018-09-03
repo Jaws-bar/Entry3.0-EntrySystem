@@ -4,7 +4,7 @@ import com.auth0.jwt.Algorithm;
 import com.auth0.jwt.JWTSigner;
 import com.auth0.jwt.JWTVerifier;
 import com.auth0.jwt.internal.org.apache.commons.codec.binary.Base64;
-import com.entry.entrydsm.user.User;
+import com.entry.entrydsm.user.domain.User;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 

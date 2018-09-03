@@ -1,8 +1,7 @@
 package com.entry.entrydsm.support;
 
 import com.entry.entrydsm.common.security.jwt.Jwt;
-import com.entry.entrydsm.user.User;
-import com.entry.entrydsm.user.UserRepository;
+import com.entry.entrydsm.user.domain.User;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -23,9 +22,6 @@ public abstract class AcceptanceTest {
     private TestRestTemplate template;
 
     @Autowired
-    private UserRepository userRepository;
-
-    @Autowired
     private Jwt jwt;
 
     @Value("${jwt.prefix}")
@@ -36,11 +32,6 @@ public abstract class AcceptanceTest {
 
     protected TestRestTemplate template() {
         return template;
-    }
-
-    @Bean
-    protected HttpHeaders defaultUserAuthorizationHeader() {
-        return prefixedAuthorizationHeader(jwt.createToken(defaultUser()));
     }
 
     protected HttpHeaders prefixedAuthorizationHeader(String token) {
@@ -54,10 +45,4 @@ public abstract class AcceptanceTest {
         headers.add("Authorization", token);
         return headers;
     }
-
-    protected User defaultUser() {
-        return userRepository.findById(DEFAULT_USER_ID).get();
-    }
-
-
 }

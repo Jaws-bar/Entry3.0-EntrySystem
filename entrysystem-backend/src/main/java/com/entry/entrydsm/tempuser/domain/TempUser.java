@@ -1,4 +1,4 @@
-package com.entry.entrydsm.tempuser.model;
+package com.entry.entrydsm.tempuser.domain;
 
 import lombok.Builder;
 import lombok.Getter;

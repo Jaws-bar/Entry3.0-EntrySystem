@@ -1,6 +1,6 @@
 package com.entry.entrydsm.apply;
 
-import com.entry.entrydsm.user.User;
+import com.entry.entrydsm.user.domain.User;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.Column;

@@ -1,7 +1,7 @@
 package com.entry.entrydsm.grade.domain.ged;
 
 import com.entry.entrydsm.grade.domain.Grade;
-import com.entry.entrydsm.user.User;
+import com.entry.entrydsm.user.domain.User;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.Column;

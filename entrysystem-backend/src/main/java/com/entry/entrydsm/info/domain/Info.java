@@ -1,11 +1,12 @@
 package com.entry.entrydsm.info.domain;
 
-import com.entry.entrydsm.user.User;
+import com.entry.entrydsm.user.domain.User;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.*;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Objects;
 
@@ -54,7 +55,7 @@ public class Info {
 
     @Column
     @Enumerated(EnumType.STRING)
-    private Sex sex = Sex.MALE;
+    private Sex sex;
 
     @Column(length = 1600, nullable = false)
     private String introduce = "";
@@ -63,11 +64,10 @@ public class Info {
     private String studyPlan = "";
 
     @Column(length = 3)
-    @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer receiptCode;
 
     @Column(nullable = false)
-    private LocalDateTime birth = LocalDateTime.now();
+    private LocalDate birth = LocalDate.now();
 
     @Column
     @CreationTimestamp
