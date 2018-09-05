@@ -1,4 +1,4 @@
-package com.entry.entrydsm.exception;
+package com.entry.entrydsm.common.exception;
 
 public class UnauthenticatedException extends RuntimeException {
 }

@@ -32,7 +32,7 @@ public abstract class Grade {
     private Double volunteerScore = 0.0;
 
     @Column(nullable = false)
-    private Double finalScore =0.0;
+    private Double finalScore = 0.0;
 
     public Grade(String userId) {
         this.userId = userId;

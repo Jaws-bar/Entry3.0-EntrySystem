@@ -1,6 +1,5 @@
 package com.entry.entrydsm.user.domain;
 
-import com.entry.entrydsm.tempuser.domain.TempUser;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -32,8 +31,9 @@ public class User {
     @CreationTimestamp
     private LocalDateTime createdAt;
 
+    @Column(nullable = false)
     @Enumerated(EnumType.STRING)
-    private GraduateType graduateType = GraduateType.WILL;
+    private GraduateType graduateType;
 
     public User(TempUser tempUser) {
         this.email = tempUser.getEmail();
@@ -46,7 +46,7 @@ public class User {
     public User(String email, String password, GraduateType graduateType) {
         this.email = email;
         this.password = password;
-        this.graduateType = graduateType;
+        this.graduateType = (graduateType == null) ? GraduateType.WILL : graduateType;
         this.createdAt = LocalDateTime.now();
     }
 

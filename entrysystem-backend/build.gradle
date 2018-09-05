@@ -41,7 +41,8 @@ dependencies {
     runtime('com.h2database:h2')
     runtime('org.springframework.boot:spring-boot-devtools')
     runtime('mysql:mysql-connector-java')
-    compileOnly('org.projectlombok:lombok:1.16.22')
+    compileOnly('org.projectlombok:lombok')
+    testCompile('org.apache.httpcomponents:httpclient')
     testCompile('org.springframework.boot:spring-boot-starter-test')
     testCompile('org.springframework.restdocs:spring-restdocs-mockmvc')
 }

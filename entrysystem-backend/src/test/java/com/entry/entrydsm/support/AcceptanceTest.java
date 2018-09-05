@@ -1,25 +1,39 @@
 package com.entry.entrydsm.support;
 
+import com.entry.entrydsm.common.response.RestResponse;
 import com.entry.entrydsm.common.security.jwt.Jwt;
+import com.entry.entrydsm.user.domain.GraduateType;
 import com.entry.entrydsm.user.domain.User;
+import com.entry.entrydsm.user.domain.UserRepository;
+import org.junit.After;
+import org.junit.Before;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.client.TestRestTemplate;
-import org.springframework.context.annotation.Bean;
+import org.springframework.core.ParameterizedTypeReference;
+import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
+@ActiveProfiles("test")
 public abstract class AcceptanceTest {
 
-    private final String DEFAULT_USER_ID = "DEFAULT_USER_ID";
+    protected final String DEFAULT_USER_EMAIL = "entrydsm@dsm.hs.kr";
+    protected final String DEFAULT_USER_PASSWORD = "password1234";
 
     @Autowired
     private TestRestTemplate template;
+
+    @Autowired
+    private UserRepository userRepository;
 
     @Autowired
     private Jwt jwt;
@@ -30,8 +44,18 @@ public abstract class AcceptanceTest {
     @Autowired
     private PasswordEncoder passwordEncoder;
 
-    protected TestRestTemplate template() {
+    @Before
+    public void setUp() throws Exception {
+        userRepository.save(new User(DEFAULT_USER_EMAIL,
+                passwordEncoder.encode(DEFAULT_USER_PASSWORD), GraduateType.WILL));
+    }
+
+    private TestRestTemplate template() {
         return template;
+    }
+
+    private HttpHeaders defaultUserAuthorizationHeader() {
+        return prefixedAuthorizationHeader(jwt.createToken(defaultUser()));
     }
 
     protected HttpHeaders prefixedAuthorizationHeader(String token) {
@@ -44,5 +68,18 @@ public abstract class AcceptanceTest {
         HttpHeaders headers = new HttpHeaders();
         headers.add("Authorization", token);
         return headers;
+    }
+
+    protected User defaultUser() {
+        return userRepository.findById(DEFAULT_USER_EMAIL).get();
+    }
+
+    protected <T, R> ResponseEntity<RestResponse<R>> postRequest(String url, T dto, ParameterizedTypeReference<RestResponse<R>> typeRef) {
+        return template().exchange(url, HttpMethod.POST, new HttpEntity<>(dto), typeRef);
+    }
+
+    @After
+    public void tearDown() throws Exception {
+        userRepository.deleteAll();
     }
 }

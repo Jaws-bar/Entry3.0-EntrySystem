@@ -1,4 +1,4 @@
-package com.entry.entrydsm.common.security;
+package com.entry.entrydsm.common.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

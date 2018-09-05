@@ -15,16 +15,16 @@ import java.util.Map;
 @Component
 public class Jwt {
 
-    @Value("${issuer}")
+    @Value("${jwt.issuer}")
     private String issuer;
 
-    @Value("${clientId}")
+    @Value("${jwt.clientId}")
     private String clientId;
 
-    @Value("${exp}")
+    @Value("${jwt.exp}")
     private int exp;
 
-    @Value("${refreshExp}")
+    @Value("${jwt.refreshExp}")
     private int refreshExp;
 
     @Value("{jwt.secret}")
