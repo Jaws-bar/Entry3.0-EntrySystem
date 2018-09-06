@@ -1,9 +1,12 @@
 package com.entry.entrydsm.user.service;
 
+import com.entry.entrydsm.common.exception.BadRequestException;
 import com.entry.entrydsm.common.exception.ConflictException;
+import com.entry.entrydsm.info.domain.InfoRepository;
 import com.entry.entrydsm.mail.EmailService;
 import com.entry.entrydsm.user.domain.TempUser;
 import com.entry.entrydsm.user.domain.TempUserRepository;
+import com.entry.entrydsm.user.domain.User;
 import com.entry.entrydsm.user.domain.UserRepository;
 import com.entry.entrydsm.user.dto.SignupDTO;
 import org.junit.After;
@@ -17,6 +20,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import javax.mail.SendFailedException;
+import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.AdditionalAnswers.returnsFirstArg;
@@ -40,6 +44,8 @@ public class AuthServiceTest {
     private TempUserRepository tempUserRepository;
     @Mock
     private UserRepository userRepository;
+    @Mock
+    private InfoRepository infoRepository;
     @Mock
     private EmailService emailService;
 
@@ -65,6 +71,22 @@ public class AuthServiceTest {
     public void 회원가입_중복된_이메일() throws SendFailedException {
         when(userRepository.existsByEmail(any())).thenReturn(true);
         authService.signup(new SignupDTO(DEFAULT_EMAIL, DEFAULT_PASSWORD));
+    }
+
+    @Test
+    public void 회원가입_인증() {
+        when(tempUserRepository.findById(DEFAULT_CODE)).thenReturn(Optional.of(new TempUser(DEFAULT_EMAIL, DEFAULT_PASSWORD)));
+        when(userRepository.save(any())).then(returnsFirstArg());
+
+        User user = authService.confirm(DEFAULT_CODE);
+        assertThat(user.getEmail()).isEqualTo(DEFAULT_EMAIL);
+        assertThat(user.getPassword()).isEqualTo(DEFAULT_PASSWORD);
+    }
+
+    @Test(expected = BadRequestException.class)
+    public void 회원가입_인증_실패() {
+        when(tempUserRepository.findById(DEFAULT_CODE)).thenReturn(Optional.empty());
+        authService.confirm(DEFAULT_CODE);
     }
 
     @After

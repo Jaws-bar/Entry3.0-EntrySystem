@@ -78,6 +78,10 @@ public abstract class AcceptanceTest {
         return template().exchange(url, HttpMethod.POST, new HttpEntity<>(dto), typeRef);
     }
 
+    protected <T> ResponseEntity<RestResponse<T>> getRequest(String url, ParameterizedTypeReference<RestResponse<T>> typeRef) {
+        return template().exchange(url, HttpMethod.GET, null, typeRef);
+    }
+
     @After
     public void tearDown() throws Exception {
         userRepository.deleteAll();

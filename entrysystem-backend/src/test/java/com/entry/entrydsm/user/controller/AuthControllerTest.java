@@ -2,10 +2,10 @@ package com.entry.entrydsm.user.controller;
 
 import com.entry.entrydsm.common.response.RestResponse;
 import com.entry.entrydsm.support.AcceptanceTest;
+import com.entry.entrydsm.user.domain.GraduateType;
 import com.entry.entrydsm.user.domain.TempUser;
 import com.entry.entrydsm.user.domain.TempUserRepository;
 import com.entry.entrydsm.user.domain.User;
-import com.entry.entrydsm.user.domain.UserRepository;
 import com.entry.entrydsm.user.dto.SignupDTO;
 import org.junit.After;
 import org.junit.Before;
@@ -26,11 +26,8 @@ public class AuthControllerTest extends AcceptanceTest {
 
     @Autowired
     private TempUserRepository tempUserRepository;
-    @Autowired
-    private UserRepository userRepository;
 
     private TempUser tempUser;
-    private User user;
 
     @Before
     public void setUp() throws Exception {
@@ -84,6 +81,26 @@ public class AuthControllerTest extends AcceptanceTest {
 
         assertThat(response.getStatusCode()).isEqualTo(HttpStatus.BAD_REQUEST);
         assertThat(response.getBody().getErrors()).hasSize(1);
+    }
+
+    @Test
+    public void 회원가입_인증() {
+        ResponseEntity<RestResponse<User>> response = getRequest(String.format("/api/signup/confirm/%s", tempUser.getCode()), userTypeRef());
+        assertThat(response.getStatusCode()).isEqualTo(HttpStatus.CREATED);
+        assertThat(response.getBody().getData().getGraduateType()).isEqualTo(GraduateType.WILL);
+        assertThat(response.getBody().getData().getEmail()).isEqualTo(tempUser.getEmail());
+    }
+
+    @Test
+    public void 회원가입_인증_실패() {
+        ResponseEntity<RestResponse<User>> response = getRequest(String.format("/api/signup/confirm/%s", tempUser.getCode() + "A"), userTypeRef());
+        assertThat(response.getStatusCode()).isEqualTo(HttpStatus.BAD_REQUEST);
+        assertThat(response.getBody().getErrors()).hasSize(1);
+    }
+
+    private ParameterizedTypeReference<RestResponse<User>> userTypeRef() {
+        return new ParameterizedTypeReference<RestResponse<User>>() {
+        };
     }
 
     private ParameterizedTypeReference<RestResponse<TempUser>> tempUserTypeRef() {
