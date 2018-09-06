@@ -23,6 +23,8 @@ public class AuthControllerTest extends AcceptanceTest {
     private static final String UNSAFE_EMAIL = "unsafe";
     private static final String SAFE_PASSWORD = "password1234";
     private static final String UNSAFE_PASSWORD = "unsafe";
+    public static final String SIGNUP_URL = "/api/signup";
+    public static final String SIGNUP_CONFIRM_BASE_URL = "/api/signup/confirm";
 
     @Autowired
     private TempUserRepository tempUserRepository;
@@ -37,7 +39,7 @@ public class AuthControllerTest extends AcceptanceTest {
 
     @Test
     public void 회원가입() {
-        ResponseEntity<RestResponse<TempUser>> response = postRequest("/api/signup", new SignupDTO(SAFE_EMAIL, SAFE_PASSWORD), tempUserTypeRef());
+        ResponseEntity<RestResponse<TempUser>> response = postRequest(SIGNUP_URL, new SignupDTO(SAFE_EMAIL, SAFE_PASSWORD), tempUserTypeRef());
 
         assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
         assertThat(response.getBody().getData().getEmail()).isEqualTo(SAFE_EMAIL);
@@ -45,7 +47,7 @@ public class AuthControllerTest extends AcceptanceTest {
 
     @Test
     public void 회원가입_이메일_NULL() {
-        ResponseEntity<RestResponse<TempUser>> response = postRequest("/api/signup", new SignupDTO(null, SAFE_PASSWORD), tempUserTypeRef());
+        ResponseEntity<RestResponse<TempUser>> response = postRequest(SIGNUP_URL, new SignupDTO(null, SAFE_PASSWORD), tempUserTypeRef());
 
         assertThat(response.getStatusCode()).isEqualTo(HttpStatus.BAD_REQUEST);
         assertThat(response.getBody().getErrors()).hasSize(1);
@@ -53,7 +55,7 @@ public class AuthControllerTest extends AcceptanceTest {
 
     @Test
     public void 회원가입_비밀번호_NULL() {
-        ResponseEntity<RestResponse<TempUser>> response = postRequest("/api/signup", new SignupDTO(SAFE_EMAIL, null), tempUserTypeRef());
+        ResponseEntity<RestResponse<TempUser>> response = postRequest(SIGNUP_URL, new SignupDTO(SAFE_EMAIL, null), tempUserTypeRef());
 
         assertThat(response.getStatusCode()).isEqualTo(HttpStatus.BAD_REQUEST);
         assertThat(response.getBody().getErrors()).hasSize(1);
@@ -61,7 +63,7 @@ public class AuthControllerTest extends AcceptanceTest {
 
     @Test
     public void 회원가입_이메일_형식_안맞음() {
-        ResponseEntity<RestResponse<TempUser>> response = postRequest("/api/signup", new SignupDTO(UNSAFE_EMAIL, SAFE_PASSWORD), tempUserTypeRef());
+        ResponseEntity<RestResponse<TempUser>> response = postRequest(SIGNUP_URL, new SignupDTO(UNSAFE_EMAIL, SAFE_PASSWORD), tempUserTypeRef());
 
         assertThat(response.getStatusCode()).isEqualTo(HttpStatus.BAD_REQUEST);
         assertThat(response.getBody().getErrors()).hasSize(1);
@@ -69,7 +71,7 @@ public class AuthControllerTest extends AcceptanceTest {
 
     @Test
     public void 회원가입_비밀번호_형식_안맞음() {
-        ResponseEntity<RestResponse<TempUser>> response = postRequest("/api/signup", new SignupDTO(SAFE_EMAIL, UNSAFE_PASSWORD), tempUserTypeRef());
+        ResponseEntity<RestResponse<TempUser>> response = postRequest(SIGNUP_URL, new SignupDTO(SAFE_EMAIL, UNSAFE_PASSWORD), tempUserTypeRef());
 
         assertThat(response.getStatusCode()).isEqualTo(HttpStatus.BAD_REQUEST);
         assertThat(response.getBody().getErrors()).hasSize(1);
@@ -77,7 +79,7 @@ public class AuthControllerTest extends AcceptanceTest {
 
     @Test
     public void 회원가입_중복된_이메일() {
-        ResponseEntity<RestResponse<TempUser>> response = postRequest("/api/signup", new SignupDTO(DEFAULT_USER_EMAIL, UNSAFE_PASSWORD), tempUserTypeRef());
+        ResponseEntity<RestResponse<TempUser>> response = postRequest(SIGNUP_URL, new SignupDTO(DEFAULT_USER_EMAIL, UNSAFE_PASSWORD), tempUserTypeRef());
 
         assertThat(response.getStatusCode()).isEqualTo(HttpStatus.BAD_REQUEST);
         assertThat(response.getBody().getErrors()).hasSize(1);
@@ -85,7 +87,7 @@ public class AuthControllerTest extends AcceptanceTest {
 
     @Test
     public void 회원가입_인증() {
-        ResponseEntity<RestResponse<User>> response = getRequest(String.format("/api/signup/confirm/%s", tempUser.getCode()), userTypeRef());
+        ResponseEntity<RestResponse<User>> response = getRequest(String.format("%s/%s", SIGNUP_CONFIRM_BASE_URL, tempUser.getCode()), userTypeRef());
         assertThat(response.getStatusCode()).isEqualTo(HttpStatus.CREATED);
         assertThat(response.getBody().getData().getGraduateType()).isEqualTo(GraduateType.WILL);
         assertThat(response.getBody().getData().getEmail()).isEqualTo(tempUser.getEmail());
@@ -93,7 +95,7 @@ public class AuthControllerTest extends AcceptanceTest {
 
     @Test
     public void 회원가입_인증_실패() {
-        ResponseEntity<RestResponse<User>> response = getRequest(String.format("/api/signup/confirm/%s", tempUser.getCode() + "A"), userTypeRef());
+        ResponseEntity<RestResponse<User>> response = getRequest(String.format("%s/%s", SIGNUP_CONFIRM_BASE_URL, tempUser.getCode() + "A"), userTypeRef());
         assertThat(response.getStatusCode()).isEqualTo(HttpStatus.BAD_REQUEST);
         assertThat(response.getBody().getErrors()).hasSize(1);
     }
