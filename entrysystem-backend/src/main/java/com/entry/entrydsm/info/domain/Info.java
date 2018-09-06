@@ -18,18 +18,18 @@ public class Info {
     private String userId;
 
     @Column(length = 100, nullable = false)
-    private String addressBase = "";
+    private String addressBase;
 
     @Column(length = 50, nullable = false)
-    private String addressDetail = "";
+    private String addressDetail;
 
     @Column(nullable = false)
     @Enumerated(EnumType.STRING)
-    private Admission admission = Admission.NORMAL;
+    private Admission admission;
 
     @Column(nullable = false)
     @Enumerated(EnumType.STRING)
-    private AdmissionDetail admissionDetail = AdmissionDetail.DEFAULT;
+    private AdmissionDetail admissionDetail;
 
     @Column(length = 6)
     private String examCode;
@@ -39,35 +39,35 @@ public class Info {
 
 
     @Column(length = 15, nullable = false)
-    private String myTel = "";
+    private String myTel;
 
     @Column(length = 20, nullable = false)
-    private String name = "";
+    private String name;
 
     @Column(length = 20, nullable = false)
-    private String parentName = "";
+    private String parentName;
 
     @Column(length = 15, nullable = false)
-    private String parentTel = "";
+    private String parentTel;
 
     @Column(nullable = false)
-    private Boolean region = false;
+    private Boolean region;
 
     @Column
     @Enumerated(EnumType.STRING)
     private Sex sex;
 
     @Column(length = 1600, nullable = false)
-    private String introduce = "";
+    private String introduce;
 
     @Column(length = 1600, nullable = false)
-    private String studyPlan = "";
+    private String studyPlan;
 
     @Column(length = 3)
     private Integer receiptCode;
 
     @Column(nullable = false)
-    private LocalDate birth = LocalDate.now();
+    private LocalDate birth;
 
     @Column
     @CreationTimestamp
@@ -92,5 +92,17 @@ public class Info {
 
     public Info(User user) {
         this.userId = user.getId();
+        this.addressBase = "";
+        this.myTel = "";
+        this.admission = Admission.NORMAL;
+        this.admissionDetail = AdmissionDetail.DEFAULT;
+        this.addressDetail = "";
+        this.name = "";
+        this.parentName = "";
+        this.parentTel = "";
+        this.region = false;
+        this.introduce = "";
+        this.studyPlan = "";
+        this.birth = LocalDate.now();
     }
 }

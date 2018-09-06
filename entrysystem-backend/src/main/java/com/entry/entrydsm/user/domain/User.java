@@ -1,5 +1,6 @@
 package com.entry.entrydsm.user.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -56,6 +57,11 @@ public class User {
         if (o == null || getClass() != o.getClass()) return false;
         User user = (User) o;
         return Objects.equals(id, user.id);
+    }
+
+    @JsonIgnore
+    public String getPassword() {
+        return password;
     }
 
     @Override

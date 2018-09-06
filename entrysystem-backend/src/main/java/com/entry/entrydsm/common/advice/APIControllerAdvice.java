@@ -1,5 +1,6 @@
 package com.entry.entrydsm.common.advice;
 
+import com.entry.entrydsm.common.exception.BadRequestException;
 import com.entry.entrydsm.common.exception.ConflictException;
 import com.entry.entrydsm.common.response.RestResponse;
 import lombok.extern.slf4j.Slf4j;
@@ -61,5 +62,11 @@ public class APIControllerAdvice {
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public RestResponse<?> handleConflictException(ConflictException e) {
         return RestResponse.error(e.getField(), e.getMessage()).build();
+    }
+
+    @ExceptionHandler(BadRequestException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public RestResponse<?> handleBadRequestException(BadRequestException e) {
+        return RestResponse.error(e.getMessage()).build();
     }
 }

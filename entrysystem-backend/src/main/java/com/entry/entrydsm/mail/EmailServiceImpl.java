@@ -1,18 +1,25 @@
 package com.entry.entrydsm.mail;
 
+import com.entry.entrydsm.user.domain.TempUser;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Configuration;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Profile;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.scheduling.annotation.EnableAsync;
+import org.springframework.stereotype.Service;
 
 @EnableAsync
-@Configuration
+@Service
+@Profile({"production", "local"})
 public class EmailServiceImpl implements EmailService {
 
     @Autowired
-    public JavaMailSender mailSender;
+    private JavaMailSender mailSender;
+
+    @Value("${url}")
+    private String baseUrl;
 
     @Async
     @Override
@@ -22,5 +29,12 @@ public class EmailServiceImpl implements EmailService {
         message.setSubject(title);
         message.setText(body);
         mailSender.send(message);
+    }
+
+    @Async
+    @Override
+    public void sendConfirmCode(String email, TempUser tempUser) {
+        sendMessage(email, "[대덕소프트웨어마이스터고등학교 입학전형시스템] 회원가입 인증 코드입니다.", "다음 링크를 클릭하세요.\n" +
+                String.format("http://%s/signup/confirm/%s", baseUrl, tempUser.getCode()));
     }
 }

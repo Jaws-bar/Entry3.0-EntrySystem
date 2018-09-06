@@ -1,6 +1,7 @@
 package com.entry.entrydsm.user.service;
 
 import com.entry.entrydsm.common.exception.ConflictException;
+import com.entry.entrydsm.mail.EmailService;
 import com.entry.entrydsm.user.domain.TempUser;
 import com.entry.entrydsm.user.domain.TempUserRepository;
 import com.entry.entrydsm.user.domain.UserRepository;
@@ -14,6 +15,8 @@ import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.security.crypto.password.PasswordEncoder;
+
+import javax.mail.SendFailedException;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.AdditionalAnswers.returnsFirstArg;
@@ -37,6 +40,9 @@ public class AuthServiceTest {
     private TempUserRepository tempUserRepository;
     @Mock
     private UserRepository userRepository;
+    @Mock
+    private EmailService emailService;
+
     private TempUser tempUser;
 
     @Before
@@ -48,7 +54,7 @@ public class AuthServiceTest {
     }
 
     @Test
-    public void 회원가입() {
+    public void 회원가입() throws SendFailedException {
         when(userRepository.existsByEmail(any())).thenReturn(false);
         TempUser tempUser = authService.signup(new SignupDTO(DEFAULT_EMAIL, DEFAULT_PASSWORD));
         assertThat(tempUser.getEmail()).isEqualTo(DEFAULT_EMAIL);
@@ -56,7 +62,7 @@ public class AuthServiceTest {
     }
 
     @Test(expected = ConflictException.class)
-    public void 회원가입_중복된_이메일() {
+    public void 회원가입_중복된_이메일() throws SendFailedException {
         when(userRepository.existsByEmail(any())).thenReturn(true);
         authService.signup(new SignupDTO(DEFAULT_EMAIL, DEFAULT_PASSWORD));
     }
