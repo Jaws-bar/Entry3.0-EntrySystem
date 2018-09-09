@@ -2,6 +2,7 @@ package com.entry.entrydsm.common.advice;
 
 import com.entry.entrydsm.common.exception.BadRequestException;
 import com.entry.entrydsm.common.exception.ConflictException;
+import com.entry.entrydsm.common.exception.UnauthorizedException;
 import com.entry.entrydsm.common.response.RestResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.support.MessageSourceAccessor;
@@ -68,5 +69,11 @@ public class APIControllerAdvice {
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public RestResponse<?> handleBadRequestException(BadRequestException e) {
         return RestResponse.error(e.getMessage()).build();
+    }
+
+    @ExceptionHandler(UnauthorizedException.class)
+    @ResponseStatus(HttpStatus.UNAUTHORIZED)
+    public RestResponse<?> handlerUnauthorizedException(UnauthorizedException e) {
+        return RestResponse.error("로그인이 필요합니다.").build();
     }
 }

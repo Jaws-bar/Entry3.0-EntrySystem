@@ -2,6 +2,7 @@ package com.entry.entrydsm.user.service;
 
 import com.entry.entrydsm.common.exception.BadRequestException;
 import com.entry.entrydsm.common.exception.ConflictException;
+import com.entry.entrydsm.common.security.jwt.Jwt;
 import com.entry.entrydsm.info.domain.Info;
 import com.entry.entrydsm.info.domain.InfoRepository;
 import com.entry.entrydsm.mail.EmailService;
@@ -11,6 +12,7 @@ import com.entry.entrydsm.user.domain.User;
 import com.entry.entrydsm.user.domain.UserRepository;
 import com.entry.entrydsm.user.dto.SignupDTO;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -18,6 +20,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 
 import javax.mail.SendFailedException;
 import javax.validation.Valid;
+import java.util.Optional;
 
 @Service
 public class AuthService {
@@ -29,6 +32,9 @@ public class AuthService {
     private EmailService emailService;
 
     @Autowired
+    private Jwt jwt;
+
+    @Autowired
     private UserRepository userRepository;
 
     @Autowired
@@ -36,6 +42,9 @@ public class AuthService {
 
     @Autowired
     private PasswordEncoder passwordEncoder;
+
+    @Value("${jwt.prefix}")
+    private String prefix;
 
     @Transactional
     public TempUser signup(@Valid @RequestBody SignupDTO dto) throws SendFailedException {
@@ -64,5 +73,16 @@ public class AuthService {
     private void initializeUser(User user) {
         infoRepository.save(new Info(user));
 
+    }
+
+    public Optional<User> validateToken(String authorizationHeader) {
+        if (authorizationHeader == null || !authorizationHeader.startsWith(prefix)) {
+            return Optional.empty();
+        }
+        try {
+            return userRepository.findById(jwt.getUserId(authorizationHeader.substring(prefix.length())));
+        } catch (Exception e) {
+            return Optional.empty();
+        }
     }
 }

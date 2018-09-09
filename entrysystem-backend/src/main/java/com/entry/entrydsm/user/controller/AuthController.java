@@ -1,5 +1,6 @@
 package com.entry.entrydsm.user.controller;
 
+import com.entry.entrydsm.common.config.AuthRequired;
 import com.entry.entrydsm.common.response.RestResponse;
 import com.entry.entrydsm.user.domain.TempUser;
 import com.entry.entrydsm.user.domain.User;
@@ -28,5 +29,11 @@ public class AuthController {
     @ResponseStatus(HttpStatus.CREATED)
     public RestResponse<User> confirm(@PathVariable String code) {
         return RestResponse.success(authService.confirm(code));
+    }
+
+    @AuthRequired
+    @GetMapping("/auth-required")
+    public RestResponse<User> authTest(User user) {
+        return RestResponse.success(user);
     }
 }

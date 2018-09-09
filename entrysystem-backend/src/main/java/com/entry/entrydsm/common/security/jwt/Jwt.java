@@ -27,7 +27,7 @@ public class Jwt {
     @Value("${jwt.refreshExp}")
     private int refreshExp;
 
-    @Value("{jwt.secret}")
+    @Value("${jwt.secret}")
     private String secret;
 
     private JWTSigner signer;
