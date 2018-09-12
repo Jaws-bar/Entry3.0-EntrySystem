@@ -1,9 +1,11 @@
 package com.entry.entrydsm.user.controller;
 
 import com.entry.entrydsm.common.config.AuthRequired;
+import com.entry.entrydsm.common.response.JwtToken;
 import com.entry.entrydsm.common.response.RestResponse;
 import com.entry.entrydsm.user.domain.TempUser;
 import com.entry.entrydsm.user.domain.User;
+import com.entry.entrydsm.user.dto.SigninDTO;
 import com.entry.entrydsm.user.dto.SignupDTO;
 import com.entry.entrydsm.user.service.AuthService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,6 +31,11 @@ public class AuthController {
     @ResponseStatus(HttpStatus.CREATED)
     public RestResponse<User> confirm(@PathVariable String code) {
         return RestResponse.success(authService.confirm(code));
+    }
+
+    @PostMapping("/signin")
+    public RestResponse<JwtToken> signin(@Valid @RequestBody SigninDTO dto) throws Exception {
+        return RestResponse.success(authService.signin(dto));
     }
 
     @AuthRequired

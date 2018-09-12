@@ -4,6 +4,7 @@ import com.auth0.jwt.Algorithm;
 import com.auth0.jwt.JWTSigner;
 import com.auth0.jwt.JWTVerifier;
 import com.auth0.jwt.internal.org.apache.commons.codec.binary.Base64;
+import com.entry.entrydsm.common.response.JwtToken;
 import com.entry.entrydsm.user.domain.User;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
@@ -48,11 +49,12 @@ public class Jwt {
         return options;
     }
 
-    public String createToken(User user) {
-        return createToken(user.getId());
+    public JwtToken createToken(User user) throws Exception {
+        String accessToken = createToken(user.getId());
+        return new JwtToken(accessToken, createRefreshToken(accessToken));
     }
 
-    public String createToken(String userId) {
+    private String createToken(String userId) {
         Map<String, Object> map = new HashMap<>();
         map.put("iss", issuer);
         map.put("userId", userId);

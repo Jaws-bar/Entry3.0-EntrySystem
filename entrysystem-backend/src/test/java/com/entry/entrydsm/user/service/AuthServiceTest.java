@@ -3,6 +3,7 @@ package com.entry.entrydsm.user.service;
 import com.entry.entrydsm.common.exception.BadRequestException;
 import com.entry.entrydsm.common.exception.ConflictException;
 import com.entry.entrydsm.info.domain.InfoRepository;
+import com.entry.entrydsm.info.domain.graduate.GraduateInfoRepository;
 import com.entry.entrydsm.mail.EmailService;
 import com.entry.entrydsm.user.domain.TempUser;
 import com.entry.entrydsm.user.domain.TempUserRepository;
@@ -38,6 +39,10 @@ public class AuthServiceTest {
 
     @InjectMocks
     private AuthService authService;
+
+    @Mock
+    private GraduateInfoRepository repository;
+
     @Mock
     private PasswordEncoder passwordEncoder;
     @Mock

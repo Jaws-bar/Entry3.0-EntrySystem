@@ -1,20 +1,24 @@
 package com.entry.entrydsm.user.domain;
 
+import com.entry.entrydsm.common.domain.BaseTimeEntity;
+import com.entry.entrydsm.info.domain.Admission;
+import com.entry.entrydsm.info.domain.AdmissionDetail;
+import com.entry.entrydsm.info.dto.ClassificationDTO;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import org.hibernate.annotations.CreationTimestamp;
+import lombok.Setter;
 import org.hibernate.annotations.GenericGenerator;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 import javax.persistence.*;
-import java.time.LocalDateTime;
 import java.util.Objects;
 
 @Entity
 @NoArgsConstructor
 @Getter
-public class User {
+public class User extends BaseTimeEntity {
 
     @Id
     @GeneratedValue(generator = "system-uuid")
@@ -29,26 +33,48 @@ public class User {
     private String password;
 
     @Column(nullable = false)
-    @CreationTimestamp
-    private LocalDateTime createdAt;
+    @Enumerated(EnumType.STRING)
+    @Setter
+    private GraduateType graduateType;
 
     @Column(nullable = false)
     @Enumerated(EnumType.STRING)
-    private GraduateType graduateType;
+    @Setter
+    private Admission admission;
+
+    @Column(nullable = false)
+    @Enumerated(EnumType.STRING)
+    @Setter
+    private AdmissionDetail admissionDetail;
+
+    @Column(nullable = false)
+    @Setter
+    private Boolean region;
+
+    @Column(nullable = false)
+    @Enumerated(EnumType.STRING)
+    @Setter
+    private AdditionalType additionalType;
 
     public User(TempUser tempUser) {
         this.email = tempUser.getEmail();
         this.password = tempUser.getPassword();
         this.graduateType = GraduateType.WILL;
-        this.createdAt = LocalDateTime.now();
+        this.region = false;
+        this.admission = Admission.NORMAL;
+        this.admissionDetail = AdmissionDetail.NONE;
+        this.additionalType = AdditionalType.NONE;
     }
 
     @Builder
-    public User(String email, String password, GraduateType graduateType) {
+    public User(String email, String password, GraduateType graduateType, Admission admission, AdmissionDetail admissionDetail, Boolean region, AdditionalType additionalType) {
         this.email = email;
         this.password = password;
         this.graduateType = (graduateType == null) ? GraduateType.WILL : graduateType;
-        this.createdAt = LocalDateTime.now();
+        this.region = (region == null) ? false : region;
+        this.admission = (admission == null) ? Admission.NORMAL : admission;
+        this.admissionDetail = (this.admission == Admission.SOCIAL && admissionDetail != null) ? admissionDetail : AdmissionDetail.NONE;
+        this.additionalType = (additionalType == null) ? AdditionalType.NONE : additionalType;
     }
 
     @Override
@@ -75,8 +101,19 @@ public class User {
                 "id='" + id + '\'' +
                 ", email='" + email + '\'' +
                 ", password='" + password + '\'' +
-                ", createdAt=" + createdAt +
+                ", createdAt=" + getCreatedAt() +
                 ", graduateType=" + graduateType +
                 '}';
+    }
+
+    public boolean matchPassword(String password, PasswordEncoder passwordEncoder) {
+        return passwordEncoder.matches(password, this.password);
+    }
+
+    public void updateInfo(ClassificationDTO classificationDTO) {
+        this.graduateType = classificationDTO.getGraduateType();
+        this.region = classificationDTO.getRegion();
+        this.admission = classificationDTO.getAdmission();
+        this.admissionDetail = classificationDTO.getAdmissionDetail();
     }
 }

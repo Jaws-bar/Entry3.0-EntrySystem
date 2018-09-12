@@ -63,7 +63,11 @@ public class RestResponse<T> {
         }
 
         public ErrorResponseBuilder appendError(String field, String errorMessage) {
-            errors.add(new Error(field, errorMessage));
+            return appendError(new Error(field, errorMessage));
+        }
+
+        public ErrorResponseBuilder appendError(Error error) {
+            this.errors.add(error);
             return this;
         }
 
@@ -88,6 +92,10 @@ public class RestResponse<T> {
         public Error(String field, String message) {
             this.field = field;
             this.message = message;
+        }
+
+        public Error(String message) {
+            this(null, message);
         }
     }
 }

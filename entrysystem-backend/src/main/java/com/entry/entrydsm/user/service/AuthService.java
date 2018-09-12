@@ -2,14 +2,19 @@ package com.entry.entrydsm.user.service;
 
 import com.entry.entrydsm.common.exception.BadRequestException;
 import com.entry.entrydsm.common.exception.ConflictException;
+import com.entry.entrydsm.common.exception.UnauthorizedException;
+import com.entry.entrydsm.common.response.JwtToken;
 import com.entry.entrydsm.common.security.jwt.Jwt;
 import com.entry.entrydsm.info.domain.Info;
 import com.entry.entrydsm.info.domain.InfoRepository;
+import com.entry.entrydsm.info.domain.graduate.GraduateInfo;
+import com.entry.entrydsm.info.domain.graduate.GraduateInfoRepository;
 import com.entry.entrydsm.mail.EmailService;
 import com.entry.entrydsm.user.domain.TempUser;
 import com.entry.entrydsm.user.domain.TempUserRepository;
 import com.entry.entrydsm.user.domain.User;
 import com.entry.entrydsm.user.domain.UserRepository;
+import com.entry.entrydsm.user.dto.SigninDTO;
 import com.entry.entrydsm.user.dto.SignupDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -18,6 +23,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.RequestBody;
 
+import javax.annotation.PostConstruct;
 import javax.mail.SendFailedException;
 import javax.validation.Valid;
 import java.util.Optional;
@@ -27,6 +33,9 @@ public class AuthService {
 
     @Autowired
     private TempUserRepository tempUserRepository;
+
+    @Autowired
+    private GraduateInfoRepository graduateInfoRepository;
 
     @Autowired
     private EmailService emailService;
@@ -45,6 +54,11 @@ public class AuthService {
 
     @Value("${jwt.prefix}")
     private String prefix;
+
+    @PostConstruct
+    private void init() {
+        this.prefix += " ";
+    }
 
     @Transactional
     public TempUser signup(@Valid @RequestBody SignupDTO dto) throws SendFailedException {
@@ -72,7 +86,7 @@ public class AuthService {
 
     private void initializeUser(User user) {
         infoRepository.save(new Info(user));
-
+        graduateInfoRepository.save(new GraduateInfo(user));
     }
 
     public Optional<User> validateToken(String authorizationHeader) {
@@ -84,5 +98,11 @@ public class AuthService {
         } catch (Exception e) {
             return Optional.empty();
         }
+    }
+
+    public JwtToken signin(SigninDTO dto) throws Exception {
+        return jwt.createToken(userRepository.findByEmail(dto.getEmail())
+                .filter(user -> user.matchPassword(dto.getPassword(), passwordEncoder))
+                .orElseThrow(UnauthorizedException::new));
     }
 }

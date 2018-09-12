@@ -1,8 +1,8 @@
 package com.entry.entrydsm.support;
 
+import com.entry.entrydsm.common.response.JwtToken;
 import com.entry.entrydsm.common.response.RestResponse;
 import com.entry.entrydsm.common.security.jwt.Jwt;
-import com.entry.entrydsm.user.domain.GraduateType;
 import com.entry.entrydsm.user.domain.User;
 import com.entry.entrydsm.user.domain.UserRepository;
 import org.junit.After;
@@ -46,22 +46,22 @@ public abstract class AcceptanceTest {
 
     @Before
     public void setUp() throws Exception {
-        userRepository.save(new User(DEFAULT_USER_EMAIL,
-                passwordEncoder.encode(DEFAULT_USER_PASSWORD), GraduateType.WILL));
+        userRepository.save(User.builder()
+                .email(DEFAULT_USER_EMAIL)
+                .password(passwordEncoder.encode(DEFAULT_USER_PASSWORD))
+                .build());
     }
 
     private TestRestTemplate template() {
         return template;
     }
 
-    private HttpHeaders defaultUserAuthorizationHeader() {
+    private HttpHeaders defaultUserAuthorizationHeader() throws Exception {
         return prefixedAuthorizationHeader(jwt.createToken(defaultUser()));
     }
 
-    protected HttpHeaders prefixedAuthorizationHeader(String token) {
-        HttpHeaders headers = new HttpHeaders();
-        headers.add("Authorization", jwtHeaderPrefix + token);
-        return headers;
+    protected HttpHeaders prefixedAuthorizationHeader(JwtToken token) {
+        return authorizationHeader(jwtHeaderPrefix + " " + token.getAccessToken());
     }
 
     protected HttpHeaders authorizationHeader(String token) {
@@ -71,7 +71,7 @@ public abstract class AcceptanceTest {
     }
 
     protected User defaultUser() {
-        return userRepository.findById(DEFAULT_USER_EMAIL).get();
+        return userRepository.findByEmail(DEFAULT_USER_EMAIL).get();
     }
 
     protected <T, R> ResponseEntity<RestResponse<R>> postRequest(String url, T dto, ParameterizedTypeReference<RestResponse<R>> typeRef) {

@@ -1,7 +1,7 @@
 package com.entry.entrydsm.info.domain;
 
 public enum AdmissionDetail {
-    DEFAULT,
+    NONE,
     BENEFICIARY,
     ONE_PARENT,
     CHA_UPPER,

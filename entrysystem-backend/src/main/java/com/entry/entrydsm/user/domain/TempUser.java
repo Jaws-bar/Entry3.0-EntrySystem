@@ -1,5 +1,6 @@
 package com.entry.entrydsm.user.domain;
 
+import com.entry.entrydsm.common.domain.BaseTimeEntity;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -15,7 +16,7 @@ import javax.persistence.Id;
 @Entity
 @NoArgsConstructor
 @EqualsAndHashCode
-public class TempUser {
+public class TempUser extends BaseTimeEntity {
 
     @Id
     @GeneratedValue(generator = "system-uuid")

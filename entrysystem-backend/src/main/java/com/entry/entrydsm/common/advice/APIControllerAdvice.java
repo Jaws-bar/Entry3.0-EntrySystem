@@ -3,6 +3,7 @@ package com.entry.entrydsm.common.advice;
 import com.entry.entrydsm.common.exception.BadRequestException;
 import com.entry.entrydsm.common.exception.ConflictException;
 import com.entry.entrydsm.common.exception.UnauthorizedException;
+import com.entry.entrydsm.common.exception.ValidationException;
 import com.entry.entrydsm.common.response.RestResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.support.MessageSourceAccessor;
@@ -30,13 +31,10 @@ public class APIControllerAdvice {
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public RestResponse<?> handleValidationException(MethodArgumentNotValidException exception) {
         List<ObjectError> errors = exception.getBindingResult().getAllErrors();
-        RestResponse.ErrorResponseBuilder errorResponseBuilder = RestResponse.error();
-        for (ObjectError objectError : errors) {
-            log.debug("object error : {}", objectError);
-            FieldError fieldError = (FieldError) objectError;
-            errorResponseBuilder.appendError(fieldError.getField(), getErrorMessage(fieldError));
-        }
-        return errorResponseBuilder.build();
+        return buildErrorResponse(errors, err -> {
+            FieldError fieldError = (FieldError) err;
+            return new RestResponse.Error(fieldError.getField(), getErrorMessage(fieldError));
+        });
     }
 
     private String getErrorMessage(FieldError fieldError) {
@@ -75,5 +73,17 @@ public class APIControllerAdvice {
     @ResponseStatus(HttpStatus.UNAUTHORIZED)
     public RestResponse<?> handlerUnauthorizedException(UnauthorizedException e) {
         return RestResponse.error("로그인이 필요합니다.").build();
+    }
+
+    @ExceptionHandler(ValidationException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public RestResponse<?> handleValidationException(ValidationException e) {
+        return buildErrorResponse(e.getValidationErrors(), err -> new RestResponse.Error(err.getPropertyPath().toString(), err.getMessage()));
+    }
+
+    private <T> RestResponse<?> buildErrorResponse(Iterable<T> errors, ErrorSupplier<T> errorSupplier) {
+        RestResponse.ErrorResponseBuilder errorResponseBuilder = RestResponse.error();
+        errors.forEach(error -> errorResponseBuilder.appendError(errorSupplier.apply(error)));
+        return errorResponseBuilder.build();
     }
 }

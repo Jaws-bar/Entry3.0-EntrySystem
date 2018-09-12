@@ -10,7 +10,7 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-class JwtToken {
+public class JwtToken {
 
     @JsonProperty("access_token")
     private String accessToken;
