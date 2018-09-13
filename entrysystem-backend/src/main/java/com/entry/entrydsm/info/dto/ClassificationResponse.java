@@ -2,7 +2,6 @@ package com.entry.entrydsm.info.dto;
 
 import com.entry.entrydsm.info.domain.Admission;
 import com.entry.entrydsm.info.domain.AdmissionDetail;
-import com.entry.entrydsm.info.domain.graduate.GraduateInfo;
 import com.entry.entrydsm.user.domain.AdditionalType;
 import com.entry.entrydsm.user.domain.GraduateType;
 import com.entry.entrydsm.user.domain.User;
@@ -30,23 +29,14 @@ public class ClassificationResponse {
         this.additionalType = additionalType;
     }
 
-    public static ClassificationResponse of(User user, GraduateInfo graduateInfo) {
-        return preBuild(user)
-                .graduateYear(graduateInfo.getGraduateYear())
-                .build();
-    }
-
     public static ClassificationResponse of(User user) {
-        return preBuild(user)
-                .build();
-    }
-
-    private static ClassificationResponseBuilder preBuild(User user) {
         return ClassificationResponse.builder()
                 .graduateType(user.getGraduateType())
                 .admission(user.getAdmission())
                 .admissionDetail(user.getAdmissionDetail())
                 .region(user.getRegion())
-                .additionalType(user.getAdditionalType());
+                .additionalType(user.getAdditionalType())
+                .graduateYear(user.getGraduateInfo().getGraduateYear())
+                .build();
     }
 }

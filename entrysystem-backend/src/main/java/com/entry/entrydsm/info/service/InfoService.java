@@ -1,9 +1,7 @@
 package com.entry.entrydsm.info.service;
 
 import com.entry.entrydsm.common.exception.BadRequestException;
-import com.entry.entrydsm.common.exception.ResourceNotFoundException;
 import com.entry.entrydsm.info.domain.Info;
-import com.entry.entrydsm.info.domain.InfoRepository;
 import com.entry.entrydsm.info.domain.graduate.GraduateInfo;
 import com.entry.entrydsm.info.domain.graduate.GraduateInfoRepository;
 import com.entry.entrydsm.info.dto.InfoDTO;
@@ -18,8 +16,6 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 public class InfoService {
 
-    @Autowired
-    private InfoRepository infoRepository;
 
     @Autowired
     private GraduateInfoRepository graduateInfoRepository;
@@ -28,22 +24,20 @@ public class InfoService {
     private com.entry.entrydsm.school.domain.SchoolRepository schoolRepository;
 
     public InfoResponse getInfo(User user) {
-        Info info = infoRepository.findById(user.getId()).orElseThrow(ResourceNotFoundException::new);
         if (user.getGraduateType() == GraduateType.GED) {
-            return new InfoResponse(user.getGraduateType(), info);
+            return new InfoResponse(user.getGraduateType(), user.getInfo());
         }
-        GraduateInfo graduateInfo = graduateInfoRepository.findById(user.getId()).orElseThrow(ResourceNotFoundException::new);
-        return new InfoResponse(user.getGraduateType(), info, graduateInfo);
+        return new InfoResponse(user.getGraduateType(), user.getInfo(), user.getGraduateInfo());
     }
 
     @Transactional
     public InfoResponse putInfo(User user, InfoDTO infoDTO) {
-        Info info = infoRepository.findById(user.getId()).orElseThrow(ResourceNotFoundException::new);
+        Info info = user.getInfo();
         info.update(infoDTO);
         if (user.getGraduateType() == GraduateType.GED) {
             return new InfoResponse(user.getGraduateType(), info);
         }
-        GraduateInfo graduateInfo = graduateInfoRepository.findById(user.getId()).orElseThrow(ResourceNotFoundException::new);
+        GraduateInfo graduateInfo = user.getGraduateInfo();
         graduateInfo.update(infoDTO, findSchool(infoDTO));
         return new InfoResponse(user.getGraduateType(), info, graduateInfo);
     }

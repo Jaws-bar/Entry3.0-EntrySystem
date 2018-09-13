@@ -3,6 +3,8 @@ package com.entry.entrydsm.user.domain;
 import com.entry.entrydsm.common.domain.BaseTimeEntity;
 import com.entry.entrydsm.info.domain.Admission;
 import com.entry.entrydsm.info.domain.AdmissionDetail;
+import com.entry.entrydsm.info.domain.Info;
+import com.entry.entrydsm.info.domain.graduate.GraduateInfo;
 import com.entry.entrydsm.info.dto.ClassificationDTO;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Builder;
@@ -55,6 +57,15 @@ public class User extends BaseTimeEntity {
     @Enumerated(EnumType.STRING)
     @Setter
     private AdditionalType additionalType;
+
+    @JsonIgnore
+    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL, optional = false, fetch = FetchType.LAZY)
+    private Info info;
+
+    @JsonIgnore
+    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL, optional = false, fetch = FetchType.LAZY)
+    private GraduateInfo graduateInfo;
+
 
     public User(TempUser tempUser) {
         this.email = tempUser.getEmail();
@@ -115,5 +126,13 @@ public class User extends BaseTimeEntity {
         this.region = classificationDTO.getRegion();
         this.admission = classificationDTO.getAdmission();
         this.admissionDetail = classificationDTO.getAdmissionDetail();
+        if (classificationDTO.getGraduateType() != GraduateType.GED) {
+            this.graduateInfo.updateClassification(classificationDTO);
+        }
+    }
+
+    public void initialize() {
+        this.info = new Info(this);
+        this.graduateInfo = new GraduateInfo(this);
     }
 }

@@ -5,9 +5,6 @@ import com.entry.entrydsm.common.exception.ConflictException;
 import com.entry.entrydsm.common.exception.UnauthorizedException;
 import com.entry.entrydsm.common.response.JwtToken;
 import com.entry.entrydsm.common.security.jwt.Jwt;
-import com.entry.entrydsm.info.domain.Info;
-import com.entry.entrydsm.info.domain.InfoRepository;
-import com.entry.entrydsm.info.domain.graduate.GraduateInfo;
 import com.entry.entrydsm.info.domain.graduate.GraduateInfoRepository;
 import com.entry.entrydsm.mail.EmailService;
 import com.entry.entrydsm.user.domain.TempUser;
@@ -46,8 +43,6 @@ public class AuthService {
     @Autowired
     private UserRepository userRepository;
 
-    @Autowired
-    private InfoRepository infoRepository;
 
     @Autowired
     private PasswordEncoder passwordEncoder;
@@ -79,14 +74,8 @@ public class AuthService {
         TempUser tempUser = tempUserRepository.findById(code).orElseThrow(() -> new BadRequestException("올바르지 않은 인증 코드입니다."));
         User user = userRepository.save(new User(tempUser));
         tempUserRepository.delete(tempUser);
-
-        initializeUser(user);
+        user.initialize();
         return user;
-    }
-
-    private void initializeUser(User user) {
-        infoRepository.save(new Info(user));
-        graduateInfoRepository.save(new GraduateInfo(user));
     }
 
     public Optional<User> validateToken(String authorizationHeader) {

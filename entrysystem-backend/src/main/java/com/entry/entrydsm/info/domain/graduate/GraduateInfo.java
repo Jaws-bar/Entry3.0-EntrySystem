@@ -21,6 +21,12 @@ public class GraduateInfo extends BaseTimeEntity {
     @JsonIgnore
     private String userId;
 
+    @MapsId
+    @OneToOne
+    @JoinColumn(name = "user_id")
+    @JsonIgnore
+    private User user;
+
     @Column(length = 4, nullable = false)
     private Integer graduateYear;
 
@@ -46,7 +52,7 @@ public class GraduateInfo extends BaseTimeEntity {
 
     @Builder
     public GraduateInfo(User user, Integer graduateYear, School school, String schoolTel, Integer studentGrade, Integer studentClass, Integer studentNumber) {
-        this.userId = user.getId();
+        this.user = user;
         this.graduateYear = graduateYear;
         this.school = school;
         this.schoolTel = schoolTel;

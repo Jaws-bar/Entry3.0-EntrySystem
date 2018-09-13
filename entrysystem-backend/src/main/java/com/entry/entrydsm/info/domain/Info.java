@@ -20,6 +20,12 @@ public class Info extends BaseTimeEntity {
     @JsonIgnore
     private String userId;
 
+    @MapsId
+    @OneToOne
+    @JoinColumn(name = "user_id")
+    @JsonIgnore
+    private User user;
+
     @Column(length = 20, nullable = false)
     private String name;
 
@@ -56,16 +62,16 @@ public class Info extends BaseTimeEntity {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Info info = (Info) o;
-        return Objects.equals(userId, info.userId);
+        return Objects.equals(user, info.user);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(userId);
+        return Objects.hash(user);
     }
 
     public Info(User user) {
-        this.userId = user.getId();
+        this.user = user;
         this.addressBase = "";
         this.myTel = "";
         this.addressDetail = "";
