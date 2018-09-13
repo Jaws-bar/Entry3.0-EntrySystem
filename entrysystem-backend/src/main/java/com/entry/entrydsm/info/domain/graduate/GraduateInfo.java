@@ -2,14 +2,15 @@ package com.entry.entrydsm.info.domain.graduate;
 
 import com.entry.entrydsm.common.domain.BaseTimeEntity;
 import com.entry.entrydsm.info.dto.ClassificationDTO;
+import com.entry.entrydsm.info.dto.InfoDTO;
+import com.entry.entrydsm.school.domain.School;
 import com.entry.entrydsm.user.domain.User;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 @Entity
 @Getter
@@ -17,13 +18,15 @@ import javax.persistence.Id;
 public class GraduateInfo extends BaseTimeEntity {
     @Id
     @Column(length = 32)
+    @JsonIgnore
     private String userId;
 
     @Column(length = 4, nullable = false)
     private Integer graduateYear;
 
-    @Column(length = 32)
-    private String schoolCode;
+    @ManyToOne
+    @JoinColumn(name = "school_code")
+    private School school;
 
     @Column(length = 15, nullable = false)
     private String schoolTel;
@@ -42,10 +45,10 @@ public class GraduateInfo extends BaseTimeEntity {
     }
 
     @Builder
-    public GraduateInfo(User user, Integer graduateYear, String schoolCode, String schoolTel, Integer studentGrade, Integer studentClass, Integer studentNumber) {
+    public GraduateInfo(User user, Integer graduateYear, School school, String schoolTel, Integer studentGrade, Integer studentClass, Integer studentNumber) {
         this.userId = user.getId();
         this.graduateYear = graduateYear;
-        this.schoolCode = schoolCode;
+        this.school = school;
         this.schoolTel = schoolTel;
         this.studentGrade = studentGrade;
         this.studentClass = studentClass;
@@ -54,5 +57,12 @@ public class GraduateInfo extends BaseTimeEntity {
 
     public void updateClassification(ClassificationDTO classificationDTO) {
         this.graduateYear = classificationDTO.getGraduateYear();
+    }
+
+    public void update(InfoDTO infoDTO, School school) {
+        this.school = school;
+        this.schoolTel = infoDTO.getSchoolTel();
+        this.studentClass = infoDTO.getStudentClass();
+        this.studentNumber = infoDTO.getStudentNumber();
     }
 }

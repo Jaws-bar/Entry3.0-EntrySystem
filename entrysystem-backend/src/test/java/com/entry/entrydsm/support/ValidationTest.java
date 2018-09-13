@@ -20,8 +20,8 @@ public abstract class ValidationTest {
         validator = Validation.buildDefaultValidatorFactory().getValidator();
     }
 
-    protected <T> void assertConstraintViolations(T dto, int size) {
-        Set<ConstraintViolation<T>> constraintViolations = validator.validate(dto);
+    protected <T> void assertConstraintViolations(T dto, int size, Class<?>... groups) {
+        Set<ConstraintViolation<T>> constraintViolations = validator.validate(dto, groups);
         constraintViolations.forEach(violation -> log.debug("violation : {}", violation.getMessage()));
         assertThat(constraintViolations.size()).isEqualTo(size);
     }

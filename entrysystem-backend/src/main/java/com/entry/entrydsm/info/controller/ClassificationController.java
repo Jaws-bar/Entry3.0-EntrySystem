@@ -23,14 +23,13 @@ public class ClassificationController {
 
     @GetMapping
     @AuthRequired
-    public RestResponse<ClassificationResponse> getInfo(User user) {
+    public RestResponse<ClassificationResponse> getClassification(User user) {
         return RestResponse.success(classificationService.getInfo(user));
     }
 
     @PutMapping
     @AuthRequired
-    public RestResponse<ClassificationResponse> putInfo(@Valid @RequestBody ClassificationDTO classificationDTO, User user) {
-//        ValidationUtil.validate(classificationDTO, Ged.class);
+    public RestResponse<ClassificationResponse> putClassification(@Valid @RequestBody ClassificationDTO classificationDTO, User user) {
         return RestResponse.success(classificationService.putInfo(user, classificationDTO));
     }
 

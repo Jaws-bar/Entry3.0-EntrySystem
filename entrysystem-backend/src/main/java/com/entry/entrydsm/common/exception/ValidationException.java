@@ -3,7 +3,7 @@ package com.entry.entrydsm.common.exception;
 import javax.validation.ConstraintViolation;
 import java.util.Set;
 
-public class ValidationException extends RuntimeException {
+public class ValidationException extends Exception {
     private final Set<ConstraintViolation<Object>> validationErrors;
 
     public ValidationException(Set<ConstraintViolation<Object>> validationErrors) {

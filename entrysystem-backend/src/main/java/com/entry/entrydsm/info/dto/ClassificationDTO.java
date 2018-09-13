@@ -38,7 +38,11 @@ public class ClassificationDTO {
             return false;
         }
 
-        if ((graduateType == GraduateType.WILL) && graduateYear != 2019) {
+        if (graduateType != GraduateType.GED && graduateYear == null) {
+            return false;
+        }
+
+        if ((graduateType == GraduateType.WILL) && (graduateYear == null || graduateYear != 2019)) {
             return false;
         }
 

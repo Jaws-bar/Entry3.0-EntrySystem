@@ -1,6 +1,7 @@
 package com.entry.entrydsm.info.domain;
 
 import com.entry.entrydsm.common.domain.BaseTimeEntity;
+import com.entry.entrydsm.info.dto.InfoDTO;
 import com.entry.entrydsm.user.domain.User;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
@@ -72,6 +73,19 @@ public class Info extends BaseTimeEntity {
         this.parentName = "";
         this.parentTel = "";
         this.zipCode = "";
-        this.birth = LocalDate.now();
+        this.birth = LocalDate.of(2002, 1, 1);
+    }
+
+    public void update(InfoDTO infoDTO) {
+        this.name = infoDTO.getName();
+        this.sex = infoDTO.getSex();
+        this.birth = infoDTO.getBirth();
+        this.myTel = infoDTO.getMyTel();
+        this.parentName = infoDTO.getParentName();
+        this.parentTel = infoDTO.getParentTel();
+        this.addressBase = infoDTO.getAddressBase();
+        this.addressDetail = infoDTO.getAddressDetail();
+        this.zipCode = infoDTO.getZipCode();
+        this.imgPath = infoDTO.getImgPath();
     }
 }
