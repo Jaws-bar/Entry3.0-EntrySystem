@@ -1,6 +1,6 @@
 package com.entry.entrydsm.grade.domain.graduate;
 
-public enum Score {
+public enum Grade {
     A,
     B,
     C,

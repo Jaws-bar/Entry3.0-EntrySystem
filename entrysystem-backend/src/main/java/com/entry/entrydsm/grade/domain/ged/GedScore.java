@@ -1,6 +1,6 @@
 package com.entry.entrydsm.grade.domain.ged;
 
-import com.entry.entrydsm.grade.domain.Grade;
+import com.entry.entrydsm.grade.domain.Score;
 import com.entry.entrydsm.user.domain.User;
 import lombok.NoArgsConstructor;
 
@@ -9,11 +9,12 @@ import javax.persistence.Entity;
 
 @Entity
 @NoArgsConstructor
-public class GedGrade extends Grade {
+public class GedScore extends Score {
     @Column(nullable = false)
-    private Double grade = 0.0;
+    private Double grade;
 
-    public GedGrade(User user) {
-        super(user.getId());
+    public GedScore(User user) {
+        super(user, 15);
+        grade = 0.0;
     }
 }

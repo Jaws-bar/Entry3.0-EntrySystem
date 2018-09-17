@@ -1,6 +1,10 @@
 package com.entry.entrydsm.user.domain;
 
 import com.entry.entrydsm.common.domain.BaseTimeEntity;
+import com.entry.entrydsm.grade.domain.ged.GedScore;
+import com.entry.entrydsm.grade.domain.graduate.GradeInfoId;
+import com.entry.entrydsm.grade.domain.graduate.GraduateGrade;
+import com.entry.entrydsm.grade.domain.graduate.GraduateScore;
 import com.entry.entrydsm.info.domain.Admission;
 import com.entry.entrydsm.info.domain.AdmissionDetail;
 import com.entry.entrydsm.info.domain.Info;
@@ -15,6 +19,8 @@ import org.hibernate.annotations.GenericGenerator;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 @Entity
@@ -65,6 +71,18 @@ public class User extends BaseTimeEntity {
     @JsonIgnore
     @OneToOne(mappedBy = "user", cascade = CascadeType.ALL, optional = false, fetch = FetchType.LAZY)
     private GraduateInfo graduateInfo;
+
+    @JsonIgnore
+    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL, optional = false, fetch = FetchType.LAZY)
+    private GraduateScore graduateScore;
+
+    @JsonIgnore
+    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL, optional = false, fetch = FetchType.LAZY)
+    private GedScore gedScore;
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "id.user", cascade = CascadeType.ALL)
+    private List<GraduateGrade> grades;
 
 
     public User(TempUser tempUser) {
@@ -134,5 +152,11 @@ public class User extends BaseTimeEntity {
     public void initialize() {
         this.info = new Info(this);
         this.graduateInfo = new GraduateInfo(this);
+        this.grades = new ArrayList<>();
+        for (int i = 1; i <= 6; i++) {
+            this.grades.add(GraduateGrade.builder().id(new GradeInfoId(this, i)).build());
+        }
+        this.graduateScore = new GraduateScore(this);
+        this.gedScore = new GedScore(this);
     }
 }

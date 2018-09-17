@@ -8,16 +8,20 @@ import com.fasterxml.jackson.annotation.JsonUnwrapped;
 import lombok.Getter;
 
 @Getter
-public class InfoResponse extends WrappedResponse<Info> {
+public class InfoResponse extends WrappedResponse {
     @JsonUnwrapped
     private GraduateInfo graduateInfo;
 
+    @JsonUnwrapped
+    private Info info;
+
     public InfoResponse(GraduateType graduateType, Info info) {
-        super(graduateType, info);
+        super(graduateType);
+        this.info = info;
     }
 
     public InfoResponse(GraduateType graduateType, Info info, GraduateInfo graduateInfo) {
-        super(graduateType, info);
+        this(graduateType, info);
         this.graduateInfo = graduateInfo;
     }
 }
