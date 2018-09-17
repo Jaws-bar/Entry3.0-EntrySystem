@@ -68,7 +68,7 @@
         </tr>
       </table>
 
-      <h3>미이수 학기 선택</h3>
+      <h3>미이수(자유) 학기 선택</h3>
       <table class="discomplete-table">
         <tr class="table-row">
           <td class="table-row__first-grade">1학년</td>
