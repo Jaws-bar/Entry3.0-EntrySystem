@@ -1,6 +1,7 @@
 package com.entry.entrydsm.user.domain;
 
 import com.entry.entrydsm.common.domain.BaseTimeEntity;
+import com.entry.entrydsm.document.domain.Document;
 import com.entry.entrydsm.grade.domain.ged.GedScore;
 import com.entry.entrydsm.grade.domain.graduate.GradeInfoId;
 import com.entry.entrydsm.grade.domain.graduate.GraduateGrade;
@@ -82,6 +83,10 @@ public class User extends BaseTimeEntity {
     private GedScore gedScore;
 
     @JsonIgnore
+    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL, optional = false, fetch = FetchType.LAZY)
+    private Document document;
+
+    @JsonIgnore
     @OneToMany(mappedBy = "id.user", cascade = CascadeType.ALL)
     @SortComparator(GraduateGradeComparator.class)
     private List<GraduateGrade> grades;
@@ -160,5 +165,6 @@ public class User extends BaseTimeEntity {
         }
         this.graduateScore = new GraduateScore(this);
         this.gedScore = new GedScore(this);
+        this.document = new Document(this);
     }
 }

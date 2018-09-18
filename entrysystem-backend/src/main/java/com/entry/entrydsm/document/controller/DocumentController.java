@@ -1,0 +1,30 @@
+package com.entry.entrydsm.document.controller;
+
+import com.entry.entrydsm.common.config.AuthRequired;
+import com.entry.entrydsm.common.response.RestResponse;
+import com.entry.entrydsm.document.domain.Document;
+import com.entry.entrydsm.user.domain.User;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.bind.annotation.*;
+
+import javax.validation.Valid;
+
+@RestController
+@RequestMapping("/api/me/document")
+public class DocumentController {
+
+    @GetMapping
+    @AuthRequired
+    public RestResponse<Document> get(User user) {
+        return RestResponse.success(user.getDocument());
+    }
+
+    @PutMapping
+    @AuthRequired
+    @Transactional
+    public RestResponse<Document> put(User user, @Valid @RequestBody Document documentDto) {
+        Document document = user.getDocument();
+        document.update(documentDto);
+        return RestResponse.success(document);
+    }
+}
