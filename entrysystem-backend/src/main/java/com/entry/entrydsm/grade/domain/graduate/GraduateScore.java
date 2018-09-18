@@ -2,12 +2,14 @@ package com.entry.entrydsm.grade.domain.graduate;
 
 import com.entry.entrydsm.grade.domain.Score;
 import com.entry.entrydsm.user.domain.User;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 
 @Entity
+@Getter
 @NoArgsConstructor
 public class GraduateScore extends Score {
 
