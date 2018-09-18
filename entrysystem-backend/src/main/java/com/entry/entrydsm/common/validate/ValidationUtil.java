@@ -27,6 +27,17 @@ public class ValidationUtil {
             validate(dto, Ged.class);
             return;
         }
-        validate(dto, Graduate.class);
+        if (user.getGraduateType() == GraduateType.WILL) {
+            validate(dto, Graduate.Will.class);
+            return;
+        }
+        if (user.getGraduateType() == GraduateType.DONE) {
+            validate(dto, Graduate.Done.class);
+            return;
+        }
+
+        validate(dto);
     }
+
+
 }

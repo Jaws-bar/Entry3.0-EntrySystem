@@ -39,7 +39,7 @@ public abstract class Score extends BaseTimeEntity {
     @Column(nullable = false)
     private Double volunteerScore;
 
-    @Column(nullable = false, insertable = false)
+    @Column(nullable = false, insertable = false, updatable = false)
     private Double finalScore;
 
     public Score(User user, int attendanceScore) {

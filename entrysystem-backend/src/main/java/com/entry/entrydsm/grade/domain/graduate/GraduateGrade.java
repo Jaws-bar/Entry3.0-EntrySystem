@@ -1,6 +1,7 @@
 package com.entry.entrydsm.grade.domain.graduate;
 
 import com.entry.entrydsm.common.domain.BaseTimeEntity;
+import com.entry.entrydsm.grade.dto.GraduateGradeDTO;
 import com.fasterxml.jackson.annotation.JsonUnwrapped;
 import lombok.Builder;
 import lombok.Getter;
@@ -45,5 +46,15 @@ public class GraduateGrade extends BaseTimeEntity {
         this.science = science;
         this.tech = tech;
         this.english = english;
+    }
+
+    public void update(GraduateGradeDTO graduateGradeDTO) {
+        this.korean = graduateGradeDTO.getKorean();
+        this.social = graduateGradeDTO.getSocial();
+        this.history = graduateGradeDTO.getHistory();
+        this.math = graduateGradeDTO.getMath();
+        this.science = graduateGradeDTO.getScience();
+        this.tech = graduateGradeDTO.getTech();
+        this.english = graduateGradeDTO.getEnglish();
     }
 }

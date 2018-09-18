@@ -1,6 +1,7 @@
 package com.entry.entrydsm.grade.domain.graduate;
 
 import com.entry.entrydsm.grade.domain.Score;
+import com.entry.entrydsm.grade.dto.GradeDTO;
 import com.entry.entrydsm.user.domain.User;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -47,5 +48,14 @@ public class GraduateScore extends Score {
         this.thirdGrade = 0.0;
         this.secondGrade = 0.0;
         this.firstGrade = 0.0;
+    }
+
+    // TODO: Calculate
+    public void update(GradeDTO dto) {
+        this.earlyLeave = dto.getEarlyLeave();
+        this.late = dto.getLate();
+        this.fullCut = dto.getFullCut();
+        this.periodCut = dto.getPeriodCut();
+        this.volunteerTime = dto.getVolunteerTime();
     }
 }
