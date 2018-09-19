@@ -1,14 +1,14 @@
 package com.entry.entrydsm.document.domain;
 
 import com.entry.entrydsm.common.domain.BaseTimeEntity;
+import com.entry.entrydsm.document.dto.DocumentDTO;
 import com.entry.entrydsm.user.domain.User;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import org.hibernate.validator.constraints.Length;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotNull;
+import javax.validation.constraints.NotBlank;
 
 @Entity
 @Getter
@@ -25,13 +25,11 @@ public class Document extends BaseTimeEntity {
     @JsonIgnore
     private User user;
 
-    @NotNull
-    @Length(max = 1600)
+    @NotBlank
     @Column(length = 1600, nullable = false)
     private String introduce;
 
-    @NotNull
-    @Length(max = 1600)
+    @NotBlank
     @Column(length = 1600, nullable = false)
     private String studyPlan;
 
@@ -41,8 +39,8 @@ public class Document extends BaseTimeEntity {
         this.studyPlan = "";
     }
 
-    public void update(Document document) {
-        this.introduce = document.introduce;
-        this.studyPlan = document.studyPlan;
+    public void update(DocumentDTO document) {
+        this.introduce = document.getIntroduce();
+        this.studyPlan = document.getStudyPlan();
     }
 }

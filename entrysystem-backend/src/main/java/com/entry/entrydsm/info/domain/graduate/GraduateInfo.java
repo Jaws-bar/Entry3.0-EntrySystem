@@ -11,11 +11,16 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import javax.validation.constraints.AssertTrue;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
 
 @Entity
 @Getter
 @NoArgsConstructor
 public class GraduateInfo extends BaseTimeEntity {
+    private static final String PHONE_NUMBER_PATTERN = "^\\d{11}$";
+
     @Id
     @Column(length = 32)
     @JsonIgnore
@@ -30,15 +35,17 @@ public class GraduateInfo extends BaseTimeEntity {
     @Column(length = 4, nullable = false)
     private Integer graduateYear;
 
+    @NotNull
     @ManyToOne
     @JoinColumn(name = "school_code")
     private School school;
 
+    @Pattern(regexp = PHONE_NUMBER_PATTERN)
     @Column(length = 15, nullable = false)
     private String schoolTel;
 
-    @Column(length = 1, nullable = false)
-    private Integer studentGrade = 3;
+    @Column(length = 1, nullable = false, updatable = false)
+    private Integer studentGrade;
 
     @Column(length = 2, nullable = false)
     private Integer studentClass;
@@ -47,16 +54,16 @@ public class GraduateInfo extends BaseTimeEntity {
     private Integer studentNumber;
 
     public GraduateInfo(User user) {
-        this(user, 2019, null, "", 3, 0, 0);
+        this(user, 2019, null, "", 0, 0);
     }
 
     @Builder
-    public GraduateInfo(User user, Integer graduateYear, School school, String schoolTel, Integer studentGrade, Integer studentClass, Integer studentNumber) {
+    public GraduateInfo(User user, Integer graduateYear, School school, String schoolTel, Integer studentClass, Integer studentNumber) {
         this.user = user;
         this.graduateYear = graduateYear;
         this.school = school;
         this.schoolTel = schoolTel;
-        this.studentGrade = studentGrade;
+        this.studentGrade = 3;
         this.studentClass = studentClass;
         this.studentNumber = studentNumber;
     }
@@ -71,4 +78,20 @@ public class GraduateInfo extends BaseTimeEntity {
         this.studentClass = infoDTO.getStudentClass();
         this.studentNumber = infoDTO.getStudentNumber();
     }
+
+
+    @AssertTrue
+    public boolean isValidSchoolForRegion() {
+
+        if (school == null) {
+            return false;
+        }
+
+        if (user.getRegion()) {
+            return school.getSchoolRegion().startsWith("대전");
+        }
+
+        return !school.getSchoolRegion().startsWith("대전");
+    }
+
 }

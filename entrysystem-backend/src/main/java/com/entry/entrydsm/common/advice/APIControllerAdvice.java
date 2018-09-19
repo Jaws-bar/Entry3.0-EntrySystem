@@ -5,6 +5,7 @@ import com.entry.entrydsm.common.exception.ConflictException;
 import com.entry.entrydsm.common.exception.UnauthorizedException;
 import com.entry.entrydsm.common.exception.ValidationException;
 import com.entry.entrydsm.common.response.RestResponse;
+import com.entry.entrydsm.common.validate.ValidationUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.support.MessageSourceAccessor;
 import org.springframework.http.HttpStatus;
@@ -78,7 +79,7 @@ public class APIControllerAdvice {
     @ExceptionHandler(ValidationException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public RestResponse<?> handleValidationException(ValidationException e) {
-        return buildErrorResponse(e.getValidationErrors(), err -> new RestResponse.Error(err.getPropertyPath().toString(), err.getMessage()));
+        return buildErrorResponse(e.getValidationErrors(), ValidationUtil::toError);
     }
 
     private <T> RestResponse<?> buildErrorResponse(Iterable<T> errors, ErrorSupplier<T> errorSupplier) {

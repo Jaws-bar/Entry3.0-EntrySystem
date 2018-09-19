@@ -8,6 +8,8 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
 
 @Entity
 @Getter
@@ -24,18 +26,28 @@ public class GraduateScore extends Score {
     private Double thirdGrade;
 
     @Column(nullable = false, length = 10)
+    @NotNull
+    @Min(value = 0)
     private Integer volunteerTime;
 
     @Column(nullable = false, length = 10)
+    @NotNull
+    @Min(value = 0)
     private Integer periodCut;
 
     @Column(nullable = false, length = 10)
+    @NotNull
+    @Min(value = 0)
     private Integer fullCut;
 
     @Column(nullable = false, length = 10)
+    @NotNull
+    @Min(value = 0)
     private Integer late;
 
     @Column(nullable = false, length = 10)
+    @NotNull
+    @Min(value = 0)
     private Integer earlyLeave;
 
     public GraduateScore(User user) {

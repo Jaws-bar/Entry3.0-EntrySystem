@@ -8,5 +8,9 @@ public enum AdmissionDetail {
     CHACHA_UPPER,
     FROM_NORTH,
     MULTI_CULTURE,
-    ETC
+    ETC;
+
+    public boolean isNone() {
+        return this == NONE;
+    }
 }

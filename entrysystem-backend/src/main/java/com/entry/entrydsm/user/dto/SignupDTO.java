@@ -1,6 +1,6 @@
 package com.entry.entrydsm.user.dto;
 
-import com.entry.entrydsm.user.domain.TempUser;
+import com.entry.entrydsm.user.domain.tempuser.TempUser;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;

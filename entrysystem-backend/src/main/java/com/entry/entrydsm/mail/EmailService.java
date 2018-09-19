@@ -1,6 +1,6 @@
 package com.entry.entrydsm.mail;
 
-import com.entry.entrydsm.user.domain.TempUser;
+import com.entry.entrydsm.user.domain.tempuser.TempUser;
 
 import javax.mail.SendFailedException;
 

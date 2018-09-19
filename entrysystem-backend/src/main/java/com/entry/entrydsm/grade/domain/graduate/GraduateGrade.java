@@ -57,4 +57,28 @@ public class GraduateGrade extends BaseTimeEntity {
         this.tech = graduateGradeDTO.getTech();
         this.english = graduateGradeDTO.getEnglish();
     }
+
+    public boolean isInput() {
+        return korean != null &&
+                social != null &&
+                history != null &&
+                math != null &&
+                science != null &&
+                tech != null &&
+                english != null;
+    }
+
+    public boolean isSkipped() {
+        if (!isInput()) {
+            return true;
+        }
+
+        return !(korean.isSkiped() &&
+                social.isSkiped() &&
+                history.isSkiped() &&
+                math.isSkiped() &&
+                science.isSkiped() &&
+                tech.isSkiped() &&
+                english.isSkiped());
+    }
 }

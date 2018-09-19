@@ -1,6 +1,6 @@
 package com.entry.entrydsm.mail;
 
-import com.entry.entrydsm.user.domain.TempUser;
+import com.entry.entrydsm.user.domain.tempuser.TempUser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Profile;

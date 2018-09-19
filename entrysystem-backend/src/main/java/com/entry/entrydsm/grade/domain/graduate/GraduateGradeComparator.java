@@ -1,6 +1,4 @@
-package com.entry.entrydsm.user.domain;
-
-import com.entry.entrydsm.grade.domain.graduate.GraduateGrade;
+package com.entry.entrydsm.grade.domain.graduate;
 
 import java.util.Comparator;
 

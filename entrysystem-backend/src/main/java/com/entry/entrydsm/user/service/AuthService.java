@@ -7,10 +7,10 @@ import com.entry.entrydsm.common.response.JwtToken;
 import com.entry.entrydsm.common.security.jwt.Jwt;
 import com.entry.entrydsm.info.domain.graduate.GraduateInfoRepository;
 import com.entry.entrydsm.mail.EmailService;
-import com.entry.entrydsm.user.domain.TempUser;
-import com.entry.entrydsm.user.domain.TempUserRepository;
 import com.entry.entrydsm.user.domain.User;
 import com.entry.entrydsm.user.domain.UserRepository;
+import com.entry.entrydsm.user.domain.tempuser.TempUser;
+import com.entry.entrydsm.user.domain.tempuser.TempUserRepository;
 import com.entry.entrydsm.user.dto.SigninDTO;
 import com.entry.entrydsm.user.dto.SignupDTO;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -72,10 +72,10 @@ public class AuthService {
     @Transactional
     public User confirm(String code) {
         TempUser tempUser = tempUserRepository.findById(code).orElseThrow(() -> new BadRequestException("올바르지 않은 인증 코드입니다."));
-        User user = userRepository.save(new User(tempUser));
+        User user = new User(tempUser);
         tempUserRepository.delete(tempUser);
         user.initialize();
-        return user;
+        return userRepository.save(user);
     }
 
     public Optional<User> validateToken(String authorizationHeader) {

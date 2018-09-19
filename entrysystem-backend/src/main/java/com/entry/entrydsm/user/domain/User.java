@@ -1,16 +1,19 @@
 package com.entry.entrydsm.user.domain;
 
+import com.entry.entrydsm.apply.domain.ApplyStatus;
 import com.entry.entrydsm.common.domain.BaseTimeEntity;
 import com.entry.entrydsm.document.domain.Document;
 import com.entry.entrydsm.grade.domain.ged.GedScore;
 import com.entry.entrydsm.grade.domain.graduate.GradeInfoId;
 import com.entry.entrydsm.grade.domain.graduate.GraduateGrade;
+import com.entry.entrydsm.grade.domain.graduate.GraduateGradeComparator;
 import com.entry.entrydsm.grade.domain.graduate.GraduateScore;
 import com.entry.entrydsm.info.domain.Admission;
 import com.entry.entrydsm.info.domain.AdmissionDetail;
 import com.entry.entrydsm.info.domain.Info;
 import com.entry.entrydsm.info.domain.graduate.GraduateInfo;
 import com.entry.entrydsm.info.dto.ClassificationDTO;
+import com.entry.entrydsm.user.domain.tempuser.TempUser;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Builder;
 import lombok.Getter;
@@ -21,6 +24,8 @@ import org.hibernate.annotations.SortComparator;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import javax.persistence.*;
+import javax.validation.constraints.AssertTrue;
+import javax.validation.constraints.NotNull;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -42,37 +47,39 @@ public class User extends BaseTimeEntity {
     @Column(nullable = false, length = 100)
     private String password;
 
+    @Setter
     @Column(nullable = false)
     @Enumerated(EnumType.STRING)
-    @Setter
+    @NotNull
     private GraduateType graduateType;
 
+    @Setter
     @Column(nullable = false)
     @Enumerated(EnumType.STRING)
-    @Setter
+    @NotNull
     private Admission admission;
 
+    @Setter
     @Column(nullable = false)
     @Enumerated(EnumType.STRING)
-    @Setter
+    @NotNull
     private AdmissionDetail admissionDetail;
 
-    @Column(nullable = false)
     @Setter
+    @Column(nullable = false)
+    @NotNull
     private Boolean region;
 
+    @Setter
     @Column(nullable = false)
     @Enumerated(EnumType.STRING)
-    @Setter
+    @NotNull
     private AdditionalType additionalType;
 
     @JsonIgnore
-    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL, optional = false, fetch = FetchType.LAZY)
+    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL, optional = false, fetch = FetchType.EAGER)
     private Info info;
 
-    @JsonIgnore
-    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL, optional = false, fetch = FetchType.LAZY)
-    private GraduateInfo graduateInfo;
 
     @JsonIgnore
     @OneToOne(mappedBy = "user", cascade = CascadeType.ALL, optional = false, fetch = FetchType.LAZY)
@@ -84,7 +91,15 @@ public class User extends BaseTimeEntity {
 
     @JsonIgnore
     @OneToOne(mappedBy = "user", cascade = CascadeType.ALL, optional = false, fetch = FetchType.LAZY)
+    private ApplyStatus applyStatus;
+
+    @JsonIgnore
+    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL, optional = false, fetch = FetchType.LAZY)
     private Document document;
+
+    @JsonIgnore
+    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL, optional = false, fetch = FetchType.EAGER)
+    private GraduateInfo graduateInfo;
 
     @JsonIgnore
     @OneToMany(mappedBy = "id.user", cascade = CascadeType.ALL)
@@ -166,5 +181,11 @@ public class User extends BaseTimeEntity {
         this.graduateScore = new GraduateScore(this);
         this.gedScore = new GedScore(this);
         this.document = new Document(this);
+        this.applyStatus = new ApplyStatus(this);
+    }
+
+    @AssertTrue
+    private boolean isValidAdmissionDetail() {
+        return (admission.isSocial()) == (!admissionDetail.isNone());
     }
 }

@@ -6,5 +6,9 @@ public enum Grade {
     C,
     D,
     E,
-    X
+    X;
+
+    public boolean isSkiped() {
+        return this != X;
+    }
 }

@@ -1,6 +1,7 @@
-package com.entry.entrydsm.user.domain;
+package com.entry.entrydsm.user.domain.tempuser;
 
 import com.entry.entrydsm.common.domain.BaseTimeEntity;
+import com.entry.entrydsm.user.domain.User;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;

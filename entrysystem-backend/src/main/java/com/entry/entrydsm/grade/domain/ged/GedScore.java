@@ -8,12 +8,16 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
 
 @Entity
 @NoArgsConstructor
 @Getter
 public class GedScore extends Score {
     @Column(nullable = false)
+    @Max(100)
+    @Min(0)
     private Double grade;
 
     public GedScore(User user) {

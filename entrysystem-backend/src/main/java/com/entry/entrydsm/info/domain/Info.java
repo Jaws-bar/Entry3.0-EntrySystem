@@ -8,6 +8,9 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
 import java.time.LocalDate;
 import java.util.Objects;
 
@@ -15,6 +18,10 @@ import java.util.Objects;
 @Entity
 @Getter
 public class Info extends BaseTimeEntity {
+
+    private static final String PHONE_NUMBER_PATTERN = "^\\d{11}$";
+    private static final String ZIP_CODE_PATTERN = "^\\d{5}$";
+
     @Id
     @Column(length = 32)
     @JsonIgnore
@@ -26,9 +33,11 @@ public class Info extends BaseTimeEntity {
     @JsonIgnore
     private User user;
 
+    @NotBlank
     @Column(length = 20, nullable = false)
     private String name;
 
+    @NotNull
     @Column
     @Enumerated(EnumType.STRING)
     private Sex sex;
@@ -36,24 +45,32 @@ public class Info extends BaseTimeEntity {
     @Column(nullable = false)
     private LocalDate birth;
 
+    @Pattern(regexp = PHONE_NUMBER_PATTERN)
     @Column(length = 15, nullable = false)
     private String myTel;
 
+    @NotBlank
     @Column(length = 20, nullable = false)
     private String parentName;
 
+    @Pattern(regexp = PHONE_NUMBER_PATTERN)
     @Column(length = 15, nullable = false)
     private String parentTel;
 
+    @NotBlank
     @Column(length = 100, nullable = false)
     private String addressBase;
 
+    @NotBlank
     @Column(length = 50, nullable = false)
     private String addressDetail;
 
+    @NotNull
+    @Pattern(regexp = ZIP_CODE_PATTERN)
     @Column(length = 5, nullable = false)
     private String zipCode;
 
+    @NotBlank
     @Column(length = 50)
     private String imgPath;
 
