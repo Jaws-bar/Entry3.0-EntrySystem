@@ -1,21 +1,18 @@
 package com.entry.entrydsm.grade.domain;
 
 import com.entry.entrydsm.common.domain.BaseTimeEntity;
-import com.entry.entrydsm.grade.domain.ged.GedScore;
-import com.entry.entrydsm.grade.domain.graduate.GraduateScore;
 import com.entry.entrydsm.user.domain.User;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonSubTypes;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 
 @Getter
-@JsonSubTypes({
-        @JsonSubTypes.Type(value = GedScore.class, name = "GED"),
-        @JsonSubTypes.Type(value = GraduateScore.class, name = "GRADUATE"),
-})
+//@JsonSubTypes({
+//        @JsonSubTypes.Type(value = GedScore.class, name = "GED"),
+//        @JsonSubTypes.Type(value = GraduateScore.class, name = "GRADUATE"),
+//})
 @MappedSuperclass
 @NoArgsConstructor
 public abstract class Score extends BaseTimeEntity {

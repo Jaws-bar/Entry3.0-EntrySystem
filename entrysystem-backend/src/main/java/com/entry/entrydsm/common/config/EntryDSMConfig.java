@@ -54,7 +54,7 @@ public class EntryDSMConfig implements WebMvcConfigurer {
         registry.addMapping("/api/**")
                 .allowedOrigins("*")
                 .allowedMethods("*")
-                .allowedHeaders("Authorization")
+                .allowedHeaders("*")
                 .maxAge(3600);
     }
 }
