@@ -64,6 +64,9 @@ export default {
             this.$store.commit('updateClassify', {
               token: res.data.data.accessToken,
             });
+            this.$store.commit('updateInfo', {
+              token: res.data.data.accessToken,
+            });
             this.$store.commit('updateaccessToken', {
               accessToken: res.data.data.accessToken,
             });

@@ -222,6 +222,50 @@ export const mutations = {
       }
     });
   },
+  updateInfo: (state, payload) => {
+    axios.get('http://10.156.145.173:8080/api/me/info',
+      { headers: { Authorization: `JWT ${payload.token}` } },
+    ).then((res) => {
+      const {
+        addressBase,
+        addressDetail,
+        birth,
+        graduateYear,
+        imgPath,
+        myTel,
+        name,
+        parentName,
+        parentTel,
+        school,
+        schoolTel,
+        sex,
+        studentClass,
+        studentGrade,
+        studentNumber,
+        zipCode,
+      } = res.data.data;
+
+      state.PersonInfo.addressBase = addressBase;
+      state.PersonInfo.addressDetail = addressDetail;
+      state.PersonInfo.year = birth.split('-')[0];
+      state.PersonInfo.month = birth.split('-')[1];
+      state.PersonInfo.day = birth.split('-')[2];
+      state.PersonInfo.graduateYear = graduateYear;
+      state.PersonInfo.schoolName = (school != null) ? school.name : '';
+      state.PersonInfo.schoolCode = (school != null) ? school.code : '';
+      state.PersonInfo.schoolTel = schoolTel;
+      state.PersonInfo.sex = sex;
+      state.PersonInfo.studentClass = studentClass;
+      state.PersonInfo.studentGrade = studentGrade;
+      state.PersonInfo.studentNumber = studentNumber;
+      state.PersonInfo.zipCode = zipCode;
+      state.PersonInfo.name = name;
+      state.PersonInfo.imgPath = imgPath;
+      state.PersonInfo.myTel = myTel;
+      state.PersonInfo.parentTel = parentTel;
+      state.PersonInfo.parentName = parentName;
+    });
+  },
   updateaccessToken: (state, payload) => {
     state.accessToken = payload.data;
   },

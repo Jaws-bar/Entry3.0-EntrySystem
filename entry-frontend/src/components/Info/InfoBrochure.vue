@@ -14,7 +14,7 @@
 import Navigation from '../common/Navigation';
 import Headline from '../common/Headline';
 import EntryFooter from '../common/EntryFooter';
-// import pdf from '../../assets/pdf/brochure.pdf';
+import pdf from '../../assets/pdf/brochure.pdf';
 
 export default {
   name: 'info-brochure',
