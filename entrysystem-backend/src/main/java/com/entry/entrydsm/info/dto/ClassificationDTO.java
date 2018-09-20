@@ -52,9 +52,4 @@ public class ClassificationDTO {
 
         return true;
     }
-
-    @AssertTrue
-    private boolean isValidAdmissionDetail() {
-        return (admission == Admission.SOCIAL) == (admissionDetail != AdmissionDetail.NONE);
-    }
 }

@@ -24,20 +24,20 @@ public class InfoService {
     private com.entry.entrydsm.school.domain.SchoolRepository schoolRepository;
 
     public InfoResponse getInfo(User user) {
-        if (user.getGraduateType() == GraduateType.GED) {
-            return new InfoResponse(user.getGraduateType(), user.getInfo());
-        }
+//        if (user.getGraduateType() == GraduateType.GED) {
+//            return new InfoResponse(user.getGraduateType(), user.getInfo());
+//        }
         return new InfoResponse(user.getGraduateType(), user.getInfo(), user.getGraduateInfo());
     }
 
     @Transactional
     public InfoResponse putInfo(User user, InfoDTO infoDTO) {
         Info info = user.getInfo();
+        GraduateInfo graduateInfo = user.getGraduateInfo();
         info.update(infoDTO);
         if (user.getGraduateType() == GraduateType.GED) {
-            return new InfoResponse(user.getGraduateType(), info);
+            return new InfoResponse(user.getGraduateType(), info, graduateInfo);
         }
-        GraduateInfo graduateInfo = user.getGraduateInfo();
         graduateInfo.update(infoDTO, findSchool(infoDTO));
         return new InfoResponse(user.getGraduateType(), info, graduateInfo);
     }

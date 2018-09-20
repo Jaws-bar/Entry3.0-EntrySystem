@@ -6,17 +6,17 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import javax.validation.constraints.Min;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
+import javax.validation.constraints.*;
 import java.util.List;
+import java.util.Objects;
 
 @NoArgsConstructor
 @Getter
 @Setter
 public class GradeDTO {
     @NotNull(groups = Ged.class)
-    @Size(max = 100, groups = Ged.class)
+    @Max(value = 100, groups = Ged.class)
+    @Min(value = 0, groups = Ged.class)
     private Double grade;
 
     @NotNull(groups = Graduate.class)
@@ -43,4 +43,9 @@ public class GradeDTO {
     @NotNull(groups = Graduate.class)
     @Min(value = 0, groups = Graduate.class)
     private Integer earlyLeave;
+
+    @AssertTrue(groups = Graduate.Will.class)
+    public boolean isGradesItemShouldNotBeNull() {
+        return grades.stream().noneMatch(Objects::isNull);
+    }
 }

@@ -2,6 +2,7 @@ package com.entry.entrydsm.grade.domain.graduate;
 
 import com.entry.entrydsm.common.domain.BaseTimeEntity;
 import com.entry.entrydsm.grade.dto.GraduateGradeDTO;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonUnwrapped;
 import lombok.Builder;
 import lombok.Getter;
@@ -58,6 +59,7 @@ public class GraduateGrade extends BaseTimeEntity {
         this.english = graduateGradeDTO.getEnglish();
     }
 
+    @JsonIgnore
     public boolean isInput() {
         return korean != null &&
                 social != null &&
@@ -68,6 +70,7 @@ public class GraduateGrade extends BaseTimeEntity {
                 english != null;
     }
 
+    @JsonIgnore
     public boolean isSkipped() {
         if (!isInput()) {
             return true;

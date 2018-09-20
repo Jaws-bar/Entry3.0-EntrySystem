@@ -4,7 +4,6 @@ import com.entry.entrydsm.common.response.WrappedResponse;
 import com.entry.entrydsm.grade.domain.ged.GedScore;
 import com.entry.entrydsm.grade.domain.graduate.GraduateGrade;
 import com.entry.entrydsm.grade.domain.graduate.GraduateScore;
-import com.entry.entrydsm.user.domain.GraduateType;
 import com.entry.entrydsm.user.domain.User;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Getter;
@@ -22,11 +21,22 @@ public class GradeResponse extends WrappedResponse {
     private final Integer late;
     private final Integer earlyLeave;
 
+    public GradeResponse(User user, List<GraduateGrade> grades, GraduateScore graduateScore, GedScore gedScore) {
+        super(user.getGraduateType());
+        this.grade = gedScore.getGrade();
+        this.volunteerTime = graduateScore.getVolunteerTime();
+        this.grades = grades;
+        this.periodCut = graduateScore.getPeriodCut();
+        this.fullCut = graduateScore.getFullCut();
+        this.late = graduateScore.getLate();
+        this.earlyLeave = graduateScore.getEarlyLeave();
+    }
+
     public GradeResponse(User user, List<GraduateGrade> grades, GraduateScore graduateScore) {
         super(user.getGraduateType());
         this.grade = null;
         this.volunteerTime = graduateScore.getVolunteerTime();
-        this.grades = user.getGraduateType() == GraduateType.WILL ? grades.subList(0, 5) : grades;
+        this.grades = grades;
         this.periodCut = graduateScore.getPeriodCut();
         this.fullCut = graduateScore.getFullCut();
         this.late = graduateScore.getLate();

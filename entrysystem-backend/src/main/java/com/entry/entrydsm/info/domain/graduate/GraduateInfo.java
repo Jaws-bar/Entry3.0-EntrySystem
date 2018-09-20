@@ -81,6 +81,7 @@ public class GraduateInfo extends BaseTimeEntity {
 
 
     @AssertTrue
+    @JsonIgnore
     public boolean isValidSchoolForRegion() {
 
         if (school == null) {

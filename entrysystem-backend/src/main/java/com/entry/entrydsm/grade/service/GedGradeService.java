@@ -11,10 +11,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class GedGradeService implements GradeService {
-    @Override
-    public GradeResponse get(User user) {
-        return new GradeResponse(user, user.getGedScore());
-    }
 
     @Override
     @Transactional
@@ -24,6 +20,6 @@ public class GedGradeService implements GradeService {
         gedScore.update(dto);
 
         // TODO: calculate
-        return new GradeResponse(user, gedScore);
+        return new GradeResponse(user, user.getGrades(), user.getGraduateScore(), gedScore);
     }
 }

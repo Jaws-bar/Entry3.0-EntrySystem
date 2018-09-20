@@ -15,10 +15,6 @@ import java.util.List;
 
 @Service
 public class GraduateGradeService implements GradeService {
-    @Override
-    public GradeResponse get(User user) {
-        return new GradeResponse(user, user.getGrades(), user.getGraduateScore());
-    }
 
     @Override
     @Transactional
@@ -33,6 +29,6 @@ public class GraduateGradeService implements GradeService {
         }
 
         graduateScore.update(dto);
-        return new GradeResponse(user, grades, graduateScore);
+        return new GradeResponse(user, grades, graduateScore, user.getGedScore());
     }
 }

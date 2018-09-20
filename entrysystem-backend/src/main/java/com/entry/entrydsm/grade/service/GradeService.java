@@ -7,7 +7,9 @@ import com.entry.entrydsm.user.domain.User;
 
 public interface GradeService {
 
-    GradeResponse get(User user);
+    default GradeResponse get(User user) {
+        return new GradeResponse(user, user.getGrades(), user.getGraduateScore(), user.getGedScore());
+    }
 
     GradeResponse put(User user, GradeDTO dto) throws ValidationException;
 }
