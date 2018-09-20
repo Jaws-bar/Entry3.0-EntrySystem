@@ -12,6 +12,7 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import javax.validation.constraints.AssertTrue;
+import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 
@@ -47,9 +48,11 @@ public class GraduateInfo extends BaseTimeEntity {
     @Column(length = 1, nullable = false, updatable = false)
     private Integer studentGrade;
 
+    @Min(1)
     @Column(length = 2, nullable = false)
     private Integer studentClass;
 
+    @Min(1)
     @Column(length = 2, nullable = false)
     private Integer studentNumber;
 
