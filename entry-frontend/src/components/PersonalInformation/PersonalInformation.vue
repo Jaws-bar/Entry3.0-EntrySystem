@@ -521,14 +521,14 @@ export default {
     },
     sendServer() {
       const token = this.$cookies.get('accessToken');
-      const data = {...this.$store.state.PersonInfo};
+      const data = { ...this.$store.state.PersonInfo };
       data.birth = `${data.year}-${data.month}-${data.day}`;
-    
+      data.schoolCode = (data.schoolCode === null || data.schoolCode.trim() === '') ? null : data.schoolCode;
       this.$axios({
         method: 'put',
-        url: 'http://192.168.1.101:8080/api/me/info',
+        url: 'http://10.156.145.173:8080/api/me/info',
         headers: { Authorization: `JWT ${token}` },
-        data
+        data,
       }).then((res) => {
         if (res.status === 200) {
           this.$toastr.s('서버에 임시저장 되었습니다.');
