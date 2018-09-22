@@ -366,102 +366,39 @@ export default {
         graduateYear,
       } = this.$store.state.classify;
       const admissionDetail = this.$store.state.classify.admissionDetail.value;
-      if (graduateType !== 'GED') {
-        this.$axios({
-          method: 'put',
-          url: 'http://192.168.1.101:8080/api/me/classification',
-          headers: { Authorization: `JWT ${token}` },
-          data: {
-            graduateType,
-            admission,
-            admissionDetail,
-            additionalType,
-            region,
-            graduateYear,
-            admissionDetail,
-          },
-        }).then(function process(res) {
-          if (res.status === 200) {
-            this.$toastr.s('서버에 임시저장 되었습니다.');
-          } else if (res.status === 400) {
-            res.data.errors(function (error) {
-              return this.$toastr.e(`${error.field}-${error.message}`);
-            });
-          } else {
-            this.$toastr.e('서버와 통신이 불안정합니다.<br/> 재연결이 필요합니다.');
-          }
-        });
-      } else if (graduateType === 'GED' && admission === 'SOCIAL') {
-        this.$axios({
-          method: 'put',
-          url: 'http://192.168.1.101:8080/api/me/classification',
-          headers: { Authorization: `JWT ${token}` },
-          data: {
-            graduateType,
-            admissionDetail,
-            admission,
-            additionalType,
-            region,
-          },
-        }).then(function process(res) {
-          if (res.status === 200) {
-            this.$toastr.s('서버에 임시저장 되었습니다.');
-          } else if (res.status === 400) {
-            res.data.errors(function (error) {
-              return this.$toastr.e(`${error.field}-${error.message}`);
-            });
-          } else {
-            this.$toastr.e('서버와 통신이 불안정합니다.<br/> 재연결이 필요합니다.');
-          }
-        });
-      } else if (admission === 'SOCIAL') {
-        this.$axios({
-          method: 'put',
-          url: 'http://192.168.1.101:8080/api/me/classification',
-          headers: { Authorization: `JWT ${token}` },
-          data: {
-            graduateType,
-            admissionDetail,
-            admission,
-            additionalType,
-            region,
-            graduateYear,
-          },
-        }).then(function process(res) {
-          if (res.status === 200) {
-            this.$toastr.s('서버에 임시저장 되었습니다.');
-          } else if (res.status === 400) {
-            res.data.errors(function (error) {
-              return this.$toastr.e(`${error.field}-${error.message}`);
-            });
-          } else {
-            this.$toastr.e('서버와 통신이 불안정합니다.<br/> 재연결이 필요합니다.');
-          }
-        });
-      } else {
-        this.$axios({
-          method: 'put',
-          url: 'http://192.168.1.101:8080/api/me/classification',
-          headers: { Authorization: `JWT ${token}` },
-          data: {
-            graduateType,
-            admission,
-            additionalType,
-            admissionDetail,
-            region,
-          },
-        }).then(function process(res) {
-          if (res.status === 200) {
-            this.$toastr.s('서버에 임시저장 되었습니다.');
-          } else if (res.status === 400) {
-            res.data.errors(function (error) {
-              return this.$toastr.e(`${error.field}-${error.message}`);
-            });
-          } else {
-            this.$toastr.e('서버와 통신이 불안정합니다.<br/> 재연결이 필요합니다.');
-          }
-        });
+      let data = {
+        graduateType,
+        admission,
+        admissionDetail,
+        additionalType,
+        region,
+        graduateYear,
+      };
+      if (graduateType === 'GED') {
+        data = {
+          graduateType,
+          admissionDetail,
+          admission,
+          additionalType,
+          region,
+        };
       }
+      this.$axios({
+        method: 'put',
+        url: 'http://192.168.1.101:8080/api/me/classification',
+        headers: { Authorization: `JWT ${token}` },
+        data,
+      }).then(function bar(res) {
+        if (res.status === 200) {
+          this.$toastr.s('서버에 임시저장 되었습니다.');
+        } else if (res.status === 400) {
+          res.data.errors(function bar(error) {
+            return this.$toastr.e(`${error.field}-${error.message}`);
+          });
+        } else {
+          this.$toastr.e('서버와 통신이 불안정합니다.<br/> 재연결이 필요합니다.');
+        }
+      });
     },
   },
 };
