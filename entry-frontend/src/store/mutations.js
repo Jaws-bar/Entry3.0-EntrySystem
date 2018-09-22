@@ -170,7 +170,7 @@ export const mutations = {
     state.PersonInfo.imgPath = payload.data;
   },
   updateClassify: (state, payload) => {
-    axios.get('http://192.168.1.101:8080/api/me/classification',
+    axios.get('http://10.156.145.173:8080/api/me/classification',
       { headers: { Authorization: `JWT ${payload.token}` } },
     ).then((res) => {
       if (res.status === 200) {
@@ -223,7 +223,7 @@ export const mutations = {
     });
   },
   updateInfo: (state, payload) => {
-    axios.get('http://192.168.1.101:8080/api/me/info',
+    axios.get('http://10.156.145.173:8080/api/me/info',
       { headers: { Authorization: `JWT ${payload.token}` } },
     ).then((res) => {
       const {
