@@ -116,7 +116,7 @@ td {
 /* school name */
 #recommendation-school {
   font-size: 22px;
-  margin-top: 42px; 
+  margin-top: 42px;
 }
 
 /* row_1, content(특별전형 추천분야~) */

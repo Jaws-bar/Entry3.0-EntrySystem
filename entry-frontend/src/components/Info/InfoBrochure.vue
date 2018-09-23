@@ -28,7 +28,7 @@ export default {
       title: '2019 신입생 전형요강',
       subText: '대덕소프트웨어마이스터고등학교',
       pdfId: 'pdf-target',
-      // brochureInfoSrc: pdf,
+      brochureInfoSrc: pdf,
       pageNumber: 1,
       zoom: 80,
       height: 1055,

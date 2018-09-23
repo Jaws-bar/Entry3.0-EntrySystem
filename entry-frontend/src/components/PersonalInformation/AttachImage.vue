@@ -7,7 +7,7 @@
     <label class="attach-image__label"
       for="image">
       <div class="attach-image__label__preview"
-        :style="{backgroundImage: `url(${this.imageURL})`}">
+        :style="{backgroundImage: `url(${this.imgPath})`}">
       </div>
     </label>
   </div>
@@ -16,10 +16,17 @@
 <script>
 export default {
   name: 'attach-image',
-  data() {
-    return {
-      imageURL: '',
-    };
+  computed: {
+    imgPath: {
+      get() {
+        return this.$store.state.PersonInfo.imgPath;
+      },
+      set(data) {
+        this.$store.commit('updateImgPath', {
+          data,
+        });
+      },
+    },
   },
   methods: {
     onFileChange(e) {

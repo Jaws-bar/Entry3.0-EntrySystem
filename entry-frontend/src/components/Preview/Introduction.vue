@@ -108,7 +108,7 @@ td {
   font-size: 12px;
   height: 100%;
   float: left;
-  margin-right: 6px; 
+  margin-right: 6px;
 }
 
 #preview-text {

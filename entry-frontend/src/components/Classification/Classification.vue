@@ -369,15 +369,30 @@ export default {
       let data = {
         graduateType,
         admission,
-        admissionDetail,
         additionalType,
         region,
         graduateYear,
       };
-      if (graduateType === 'GED') {
+      if (graduateType === 'GED' && admission === 'SOCIAL') {
         data = {
           graduateType,
+          admission,
+          additionalType,
           admissionDetail,
+          region,
+        };
+      } else if (admission === 'SOCIAL') {
+        data = {
+          graduateType,
+          admission,
+          additionalType,
+          region,
+          graduateYear,
+          admissionDetail,
+        };
+      } else if (graduateType === 'GED') {
+        data = {
+          graduateType,
           admission,
           additionalType,
           region,
@@ -388,11 +403,11 @@ export default {
         url: 'http://192.168.1.101:8080/api/me/classification',
         headers: { Authorization: `JWT ${token}` },
         data,
-      }).then(function bar(res) {
+      }).then((res) => {
         if (res.status === 200) {
           this.$toastr.s('서버에 임시저장 되었습니다.');
         } else if (res.status === 400) {
-          res.data.errors(function bar(error) {
+          res.data.errors.map(function foo(error) {
             return this.$toastr.e(`${error.field}-${error.message}`);
           });
         } else {
