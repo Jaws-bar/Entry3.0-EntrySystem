@@ -2,14 +2,15 @@ package com.entry.entrydsm.user.service;
 
 import com.entry.entrydsm.common.exception.BadRequestException;
 import com.entry.entrydsm.common.exception.ConflictException;
-import com.entry.entrydsm.info.domain.graduate.GraduateInfoRepository;
+import com.entry.entrydsm.common.exception.UnauthorizedException;
+import com.entry.entrydsm.common.security.jwt.Jwt;
 import com.entry.entrydsm.mail.EmailService;
 import com.entry.entrydsm.user.domain.User;
 import com.entry.entrydsm.user.domain.UserRepository;
 import com.entry.entrydsm.user.domain.tempuser.TempUser;
 import com.entry.entrydsm.user.domain.tempuser.TempUserRepository;
+import com.entry.entrydsm.user.dto.SigninDTO;
 import com.entry.entrydsm.user.dto.SignupDTO;
-import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -40,9 +41,6 @@ public class AuthServiceTest {
     private AuthService authService;
 
     @Mock
-    private GraduateInfoRepository repository;
-
-    @Mock
     private PasswordEncoder passwordEncoder;
     @Mock
     private TempUserRepository tempUserRepository;
@@ -50,12 +48,16 @@ public class AuthServiceTest {
     private UserRepository userRepository;
     @Mock
     private EmailService emailService;
+    @Mock
+    private Jwt jwt;
 
-    private TempUser tempUser;
+    //    private TempUser tempUser;
+    private SigninDTO signinDTO;
 
     @Before
     public void setUp() throws Exception {
-        tempUser = new TempUser(DEFAULT_EMAIL, DEFAULT_PASSWORD);
+//        tempUser = new TempUser(DEFAULT_EMAIL, DEFAULT_PASSWORD);
+        signinDTO = new SigninDTO(DEFAULT_EMAIL, DEFAULT_PASSWORD);
         when(passwordEncoder.encode(anyString())).then(returnsFirstArg());
         when(tempUserRepository.save(any())).then(returnsFirstArg());
         when(passwordEncoder.matches(anyString(), anyString())).then(invocation -> invocation.getArgument(0).equals(invocation.getArgument(1)));
@@ -91,9 +93,24 @@ public class AuthServiceTest {
         authService.confirm(DEFAULT_CODE);
     }
 
-    @After
-    public void tearDown() {
-        tempUserRepository.deleteAll();
-        userRepository.deleteAll();
+    @Test
+    public void 로그인() throws Exception {
+        when(userRepository.findByEmail(signinDTO.getEmail())).thenReturn(Optional.of(new User()));
+        when(passwordEncoder.matches(signinDTO.getPassword(), null)).thenReturn(true);
+        authService.signin(signinDTO);
     }
+
+    @Test(expected = UnauthorizedException.class)
+    public void 로그인_실패_이메일_존재하지_않음() throws Exception {
+        when(userRepository.findByEmail(signinDTO.getEmail())).thenReturn(Optional.empty());
+        authService.signin(signinDTO);
+    }
+
+    @Test(expected = UnauthorizedException.class)
+    public void 로그인_실패_비밀번호_불일치() throws Exception {
+        when(userRepository.findByEmail(signinDTO.getEmail())).thenReturn(Optional.of(new User()));
+        when(passwordEncoder.matches(signinDTO.getPassword(), null)).thenReturn(false);
+        authService.signin(signinDTO);
+    }
+
 }

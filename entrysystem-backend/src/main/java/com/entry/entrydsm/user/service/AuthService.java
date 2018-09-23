@@ -5,7 +5,6 @@ import com.entry.entrydsm.common.exception.ConflictException;
 import com.entry.entrydsm.common.exception.UnauthorizedException;
 import com.entry.entrydsm.common.response.JwtToken;
 import com.entry.entrydsm.common.security.jwt.Jwt;
-import com.entry.entrydsm.info.domain.graduate.GraduateInfoRepository;
 import com.entry.entrydsm.mail.EmailService;
 import com.entry.entrydsm.user.domain.User;
 import com.entry.entrydsm.user.domain.UserRepository;
@@ -32,9 +31,6 @@ public class AuthService {
     private TempUserRepository tempUserRepository;
 
     @Autowired
-    private GraduateInfoRepository graduateInfoRepository;
-
-    @Autowired
     private EmailService emailService;
 
     @Autowired
@@ -42,7 +38,6 @@ public class AuthService {
 
     @Autowired
     private UserRepository userRepository;
-
 
     @Autowired
     private PasswordEncoder passwordEncoder;
