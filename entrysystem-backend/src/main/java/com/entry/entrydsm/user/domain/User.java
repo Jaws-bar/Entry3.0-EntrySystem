@@ -108,13 +108,8 @@ public class User extends BaseTimeEntity {
 
 
     public User(TempUser tempUser) {
-        this.email = tempUser.getEmail();
-        this.password = tempUser.getPassword();
-        this.graduateType = GraduateType.WILL;
-        this.region = false;
-        this.admission = Admission.NORMAL;
-        this.admissionDetail = AdmissionDetail.NONE;
-        this.additionalType = AdditionalType.NONE;
+        this(tempUser.getEmail(), tempUser.getPassword(), GraduateType.WILL, Admission.NORMAL,
+                AdmissionDetail.NONE, false, AdditionalType.NONE);
     }
 
     @Builder
@@ -126,6 +121,7 @@ public class User extends BaseTimeEntity {
         this.admission = (admission == null) ? Admission.NORMAL : admission;
         this.admissionDetail = (this.admission == Admission.SOCIAL && admissionDetail != null) ? admissionDetail : AdmissionDetail.NONE;
         this.additionalType = (additionalType == null) ? AdditionalType.NONE : additionalType;
+        initialize();
     }
 
     @Override
@@ -171,7 +167,7 @@ public class User extends BaseTimeEntity {
         }
     }
 
-    public void initialize() {
+    private void initialize() {
         this.info = new Info(this);
         this.graduateInfo = new GraduateInfo(this);
         this.grades = new ArrayList<>();
