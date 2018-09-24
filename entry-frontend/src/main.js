@@ -2,7 +2,7 @@
 // (runtime-only or standalone) has been set in webpack.base.conf with an alias.
 import Vue from 'vue';
 import axios from 'axios';
-import Toastr from 'vue-toastr';
+import toastr from 'vue-toastr';
 import vueCookies from 'vue-cookies';
 import 'vue-toastr/dist/vue-toastr.min.css';
 import store from './store';
@@ -14,7 +14,7 @@ import router from './router';
 Vue.config.productionTip = false;
 Vue.prototype.$axios = axios;
 Vue.use(vueCookies);
-Vue.use(Toastr);
+Vue.use(toastr);
 
 /* eslint-disable no-new */
 new Vue({
