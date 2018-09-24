@@ -170,7 +170,7 @@ export const mutations = {
     state.PersonInfo.imgPath = payload.data;
   },
   updateClassify: (state, payload) => {
-    axios.get('http://10.156.145.173:8080/api/me/classification',
+    axios.get('http://entrydsm.hs.kr/api/me/classification',
       { headers: { Authorization: `JWT ${payload.token}` } },
     ).then((res) => {
       if (res.status === 200) {
@@ -223,7 +223,7 @@ export const mutations = {
     });
   },
   updateInfo: (state, payload) => {
-    axios.get('http://10.156.145.173:8080/api/me/info',
+    axios.get('http://entrydsm.hs.kr/api/me/info',
       { headers: { Authorization: `JWT ${payload.token}` } },
     ).then((res) => {
       const {
@@ -264,6 +264,18 @@ export const mutations = {
       state.PersonInfo.myTel = myTel;
       state.PersonInfo.parentTel = parentTel;
       state.PersonInfo.parentName = parentName;
+    });
+  },
+  updateIntroNPlan: (state, payload) => {
+    axios.get('http://entrydsm.hs.kr/api/me/info',
+      { headers: { Authorization: `JWT ${payload.token}` } },
+    ).then((res) => {
+      const {
+        introduce,
+        studyPlan,
+      } = res.data.data;
+      state.IntroNPlan.introduce = introduce;
+      state.IntroNPlan.plan = studyPlan;
     });
   },
   updateaccessToken: (state, payload) => {

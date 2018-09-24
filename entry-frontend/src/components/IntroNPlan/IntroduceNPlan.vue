@@ -80,7 +80,6 @@ export default {
       target.style.height = '1px';
       target.style.height = `${30 + target.scrollHeight}px`;
     },
-
     updateIntroduce({ target }) {
       this.$store.commit('updateIntroduce', target.value);
     },

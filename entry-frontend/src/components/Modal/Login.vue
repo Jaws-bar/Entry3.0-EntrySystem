@@ -44,6 +44,7 @@ export default {
   methods: {
     login() {
       const { email, password } = this;
+      const { s, e } = this.$toastr;
       if (email === '') {
         this.idwrong = true;
         this.pwwrong = false;
@@ -57,7 +58,7 @@ export default {
           this.pwwrong = false;
         }, 5000);
       } else {
-        this.$axios.post('http://10.156.145.173:8080/api/signin', { email, password }).then((res) => {
+        this.$axios.post('http://entrydsm.hs.kr/api/signin', { email, password }).then((res) => {
           if (res.status === 200) {
             // Promise.all
             this.$cookies.set('accessToken', res.data.data.accessToken, '4d');
@@ -73,6 +74,7 @@ export default {
             this.$store.commit('changeIndex', {
               index: 0,
             });
+            s('로그인 성공.');
           } else {
             this.pw = '';
             this.pwwrong = true;
@@ -81,6 +83,15 @@ export default {
               this.pwwrong = false;
             }, 5000);
           }
+        }).catch((error) => {
+          this.pw = '';
+          this.pwwrong = true;
+          this.idwrong = false;
+          setTimeout(() => {
+            this.pwwrong = false;
+          }, 5000);
+          e('로그인 실패');
+          e(error);
         });
       }
     },

@@ -250,15 +250,24 @@ export default {
         this.$store.commit('updategraduateYear', {
           data: null,
         });
+        this.$store.commit('updateGraduateType', {
+          data: 'GED',
+        });
         return 'GED';
       } else if (!this.isGraduated) {
         this.$store.commit('updategraduateYear', {
           data: 2019,
         });
+        this.$store.commit('updateGraduateType', {
+          data: 'WILL',
+        });
         return 'WILL';
       } else if (this.isGraduated) {
         this.$store.commit('updategraduateYear', {
           data: null,
+        });
+        this.$store.commit('updateGraduateType', {
+          data: 'DONE',
         });
         return 'DONE';
       }
@@ -358,6 +367,7 @@ export default {
     },
     sendServer() {
       const token = this.$cookies.get('accessToken');
+      const { s, e, w } = this.$toastr;
       const {
         graduateType,
         admission,
@@ -369,6 +379,7 @@ export default {
       let data = {
         graduateType,
         admission,
+        admissionDetail,
         additionalType,
         region,
         graduateYear,
@@ -395,23 +406,34 @@ export default {
           graduateType,
           admission,
           additionalType,
+          admissionDetail,
           region,
         };
       }
       this.$axios({
         method: 'put',
-        url: 'http://192.168.1.101:8080/api/me/classification',
+        url: 'http://entrydsm.hs.kr/api/me/classification',
         headers: { Authorization: `JWT ${token}` },
         data,
       }).then((res) => {
         if (res.status === 200) {
-          this.$toastr.s('서버에 임시저장 되었습니다.');
+          s('서버에 임시저장 되었습니다.');
         } else if (res.status === 400) {
-          res.data.errors.map(function foo(error) {
-            return this.$toastr.e(`${error.field}-${error.message}`);
+          res.data.errors.map((error => e(`${error.field}-${error.message}`)));
+        } else {
+          e('서버와 통신이 불안정합니다.<br/>다시 시도해주세요.');
+        }
+      }).catch((error) => {
+        if (error.response.status === 400) {
+          error.response.data.errors.map((msg => w(`${msg.field}-${msg.message}`)));
+        } else if (error.response.status === 401) {
+          e('로그인이 반드시 필요합니다.');
+          this.$router.push('/');
+          this.$store.commit('changeIndex', {
+            index: 1,
           });
         } else {
-          this.$toastr.e('서버와 통신이 불안정합니다.<br/> 재연결이 필요합니다.');
+          e('서버와 통신이 불안정합니다.<br/>다시 시도해주세요.');
         }
       });
     },

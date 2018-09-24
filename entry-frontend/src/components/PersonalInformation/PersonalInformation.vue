@@ -522,18 +522,25 @@ export default {
     sendServer() {
       const token = this.$cookies.get('accessToken');
       const data = { ...this.$store.state.PersonInfo };
+      const { s, e } = this.$toastr;
       data.birth = `${data.year}-${data.month}-${data.day}`;
       data.schoolCode = (data.schoolCode === null || data.schoolCode.trim() === '') ? null : data.schoolCode;
       this.$axios({
         method: 'put',
-        url: 'http://10.156.145.173:8080/api/me/info',
+        url: 'http://entrydsm.hs.kr/api/me/info',
         headers: { Authorization: `JWT ${token}` },
         data,
       }).then((res) => {
         if (res.status === 200) {
-          this.$toastr.s('서버에 임시저장 되었습니다.');
-        } else {
-          this.$toastr.e('서버와 통신이 불안정합니다.<br/> 재연결이 필요합니다.');
+          s('서버에 임시저장 되었습니다.');
+        }
+      }).catch((error) => {
+        if (error.response.status === 401) {
+          e('로그인이 반드시 필요합니다.');
+          this.$router.push('/');
+          this.$store.commit('changeIndex', {
+            index: 1,
+          });
         }
       });
     },
