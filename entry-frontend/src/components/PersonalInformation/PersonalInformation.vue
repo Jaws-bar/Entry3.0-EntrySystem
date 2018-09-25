@@ -523,6 +523,7 @@ export default {
       const token = this.$cookies.get('accessToken');
       const data = { ...this.$store.state.PersonInfo };
       const { s, e } = this.$toastr;
+      data.name = data.personName;
       data.birth = `${data.year}-${data.month}-${data.day}`;
       data.schoolCode = (data.schoolCode === null || data.schoolCode.trim() === '') ? null : data.schoolCode;
       this.$axios({
