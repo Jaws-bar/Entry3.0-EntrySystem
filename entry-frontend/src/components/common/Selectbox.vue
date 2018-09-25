@@ -45,7 +45,6 @@ export default {
   data() {
     return {
       isFocused: false,
-      selected: 0,
     };
   },
   methods: {
@@ -58,8 +57,10 @@ export default {
       this.isFocused = false;
     },
   },
-  created() {
-    this.selected = this.options.findIndex(({ value }) => this.value === value);
+  computed: {
+    selected() {
+      return this.options.findIndex(({ value }) => this.value === value);
+    },
   },
 };
 </script>
