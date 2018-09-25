@@ -90,8 +90,10 @@ export default {
           setTimeout(() => {
             this.pwwrong = false;
           }, 5000);
-          e('로그인 실패');
-          e(error);
+          if (error.response.status !== 401) {
+            e('로그인 실패');
+            e(error);
+          }
         });
       }
     },

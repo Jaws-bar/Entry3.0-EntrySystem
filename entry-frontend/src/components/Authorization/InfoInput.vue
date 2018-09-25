@@ -113,7 +113,7 @@
 
 <script>
 const emailReg = /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$/;
-const pwReg = /^.*(?=^.{8,16}$)(?=.*\\d)(?=.*[a-zA-Z]).*$/;
+const pwReg = /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9]).{8,16}$/;
 export default {
   computed: {
     email: {
@@ -171,7 +171,18 @@ export default {
   },
   methods: {
     moveToNextPage() {
-      this.$emit('toNextPage');
+      const { s, e } = this.$toastr;
+      this.$axios.post('http://entrydsm.hs.kr/api/signup', { email: this.email, password: this.pw }).then(() => {
+        s(`${this.email}로 인증 메일을 보냈습니다.<br/>메일함을 확인해주세요.`);
+        this.$store.commit('updateEmail', '');
+        this.$store.commit('updatePw', '');
+        this.$store.commit('updatePwCheck', '');
+        this.$store.commit('updateAccept', false);
+        this.$router.push('/');
+      }).catch((error) => {
+        e(error);
+        e('잘못된 요청입니다.');
+      });
     },
   },
 };

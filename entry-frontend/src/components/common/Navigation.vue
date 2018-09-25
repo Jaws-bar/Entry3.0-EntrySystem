@@ -92,6 +92,7 @@ export default {
       this.$store.commit('updateaccessToken', {
         data: null,
       });
+      this.$router.push('/');
       window.location.reload();
     },
   },

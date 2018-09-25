@@ -184,6 +184,8 @@ export const mutations = {
         } = res.data.data;
         if (graduateType === 'GED') {
           state.classify.isGED = true;
+        } else if (graduateType === 'DONE') {
+          state.classify.isGraduated = true;
         }
         state.classify.graduateType = graduateType;
         state.classify.admission = admission;
@@ -217,7 +219,7 @@ export const mutations = {
         }
         state.classify.admissionDetail.value = admissionDetail;
         state.classify.region = region;
-        state.classify.graduateYear = graduateYear;
+        state.classify.graduateYear = graduateYear * 1;
         state.classify.additionalType = additionalType;
       }
     });
@@ -250,7 +252,7 @@ export const mutations = {
       state.PersonInfo.year = birth.split('-')[0];
       state.PersonInfo.month = birth.split('-')[1];
       state.PersonInfo.day = birth.split('-')[2];
-      state.PersonInfo.graduateYear = graduateYear;
+      state.classify.graduateYear = graduateYear;
       state.PersonInfo.schoolName = (school != null) ? school.name : '';
       state.PersonInfo.schoolCode = (school != null) ? school.code : '';
       state.PersonInfo.schoolTel = schoolTel;
