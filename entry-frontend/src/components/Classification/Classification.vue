@@ -250,6 +250,9 @@ export default {
         this.$store.commit('updateGraduateType', {
           data: 'GED',
         });
+        this.$store.commit('updateGraduateType', {
+          data: 'GED',
+        });
         return 'GED';
       } else if (!this.isGraduated) {
         this.$store.commit('updategraduateYear', {
@@ -260,6 +263,9 @@ export default {
         });
         return 'WILL';
       } else if (this.isGraduated) {
+        this.$store.commit('updateGraduateType', {
+          data: 'DONE',
+        });
         this.$store.commit('updateGraduateType', {
           data: 'DONE',
         });
@@ -391,9 +397,9 @@ export default {
           graduateType,
           admission,
           additionalType,
+          admissionDetail,
           region,
           graduateYear,
-          admissionDetail,
         };
       } else if (graduateType === 'GED') {
         data = {
