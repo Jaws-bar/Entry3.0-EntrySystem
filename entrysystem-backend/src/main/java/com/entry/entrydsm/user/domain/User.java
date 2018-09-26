@@ -163,7 +163,7 @@ public class User extends BaseTimeEntity {
         this.admission = classificationDTO.getAdmission();
         this.admissionDetail = classificationDTO.getAdmissionDetail();
         if (classificationDTO.getGraduateType() != GraduateType.GED) {
-            this.graduateInfo.updateClassification(classificationDTO);
+            updateGraduateClassification(classificationDTO);
         }
     }
 
@@ -183,5 +183,9 @@ public class User extends BaseTimeEntity {
     @AssertTrue
     private boolean isValidAdmissionDetail() {
         return (admission.isSocial()) == (!admissionDetail.isNone());
+    }
+
+    public void updateGraduateClassification(ClassificationDTO dto) {
+        this.graduateInfo.updateClassification(dto);
     }
 }

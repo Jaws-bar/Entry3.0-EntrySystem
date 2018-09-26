@@ -78,8 +78,24 @@ public abstract class AcceptanceTest {
         return template().exchange(url, HttpMethod.POST, new HttpEntity<>(dto), typeRef);
     }
 
+    protected <T, R> ResponseEntity<RestResponse<R>> putRequest(String url, T dto, ParameterizedTypeReference<RestResponse<R>> typeRef) {
+        return template().exchange(url, HttpMethod.PUT, new HttpEntity<>(dto), typeRef);
+    }
+
     protected <T> ResponseEntity<RestResponse<T>> getRequest(String url, ParameterizedTypeReference<RestResponse<T>> typeRef) {
         return template().exchange(url, HttpMethod.GET, null, typeRef);
+    }
+
+    protected <T, R> ResponseEntity<RestResponse<R>> postRequestWithAuth(String url, T dto, ParameterizedTypeReference<RestResponse<R>> typeRef) throws Exception {
+        return template().exchange(url, HttpMethod.POST, new HttpEntity<>(dto, defaultUserAuthorizationHeader()), typeRef);
+    }
+
+    protected <T, R> ResponseEntity<RestResponse<R>> getRequestWithAuth(String url, ParameterizedTypeReference<RestResponse<R>> typeRef) throws Exception {
+        return template().exchange(url, HttpMethod.GET, new HttpEntity<>(defaultUserAuthorizationHeader()), typeRef);
+    }
+
+    protected <T, R> ResponseEntity<RestResponse<R>> putRequestWithAuth(String url, T dto, ParameterizedTypeReference<RestResponse<R>> typeRef) throws Exception {
+        return template().exchange(url, HttpMethod.PUT, new HttpEntity<>(dto, defaultUserAuthorizationHeader()), typeRef);
     }
 
     @After
