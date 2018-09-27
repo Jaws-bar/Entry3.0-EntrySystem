@@ -17,9 +17,14 @@ import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
+import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.test.web.servlet.ResultActions;
+import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
+import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+import org.springframework.web.context.WebApplicationContext;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
@@ -34,6 +39,10 @@ public abstract class AcceptanceTest {
 
     @Autowired
     private UserRepository userRepository;
+
+    @Autowired
+    private WebApplicationContext context;
+
 
     @Autowired
     private Jwt jwt;
@@ -56,15 +65,15 @@ public abstract class AcceptanceTest {
         return template;
     }
 
-    private HttpHeaders defaultUserAuthorizationHeader() throws Exception {
+    protected HttpHeaders defaultUserAuthorizationHeader() throws Exception {
         return prefixedAuthorizationHeader(jwt.createToken(defaultUser()));
     }
 
-    protected HttpHeaders prefixedAuthorizationHeader(JwtToken token) {
+    private HttpHeaders prefixedAuthorizationHeader(JwtToken token) {
         return authorizationHeader(jwtHeaderPrefix + " " + token.getAccessToken());
     }
 
-    protected HttpHeaders authorizationHeader(String token) {
+    private HttpHeaders authorizationHeader(String token) {
         HttpHeaders headers = new HttpHeaders();
         headers.add("Authorization", token);
         return headers;
@@ -97,6 +106,20 @@ public abstract class AcceptanceTest {
     protected <T, R> ResponseEntity<RestResponse<R>> putRequestWithAuth(String url, T dto, ParameterizedTypeReference<RestResponse<R>> typeRef) throws Exception {
         return template().exchange(url, HttpMethod.PUT, new HttpEntity<>(dto, defaultUserAuthorizationHeader()), typeRef);
     }
+
+    protected ResultActions requestFileWithAuth(String url, MockMultipartFile file) throws Exception {
+        return MockMvcBuilders.webAppContextSetup(context).build()
+                .perform(MockMvcRequestBuilders.multipart(url)
+                        .file(file)
+                        .headers(defaultUserAuthorizationHeader()));
+    }
+
+    protected ResultActions requestFile(String url, MockMultipartFile file) throws Exception {
+        return MockMvcBuilders.webAppContextSetup(context).build()
+                .perform(MockMvcRequestBuilders.multipart(url)
+                        .file(file));
+    }
+
 
     @After
     public void tearDown() throws Exception {

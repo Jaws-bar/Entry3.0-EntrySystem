@@ -38,6 +38,7 @@ dependencies {
     compile('org.springframework.boot:spring-boot-starter-web')
     compile('org.springframework.boot:spring-boot-starter-web-services')
     compile('org.projectlombok:lombok')
+    compile group: 'org.apache.commons', name: 'commons-lang3', version: '3.1'
     //compile('org.springframework.boot:spring-boot-starter-security')
     runtime('com.h2database:h2')
     runtime('org.springframework.boot:spring-boot-devtools')
