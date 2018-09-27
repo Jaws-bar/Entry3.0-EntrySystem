@@ -5,18 +5,20 @@
         비밀번호 재설정
       </div>
       <span class="PwReset__text">아래의 이메일로 인증번호를 전송합니다</span>
-      <input type="text" class="modal--input PwReset__input"
-      v-if="!notInput" v-model="email" placeholder="이메일"/>
-      <input type="text" class="modal--input PwReset__input input-shake"
-      v-else v-model="email" placeholder="이메일"/>
-      <div class="PwReset__btns">
-        <div class="modal--btn PwReset__btns__btn" v-on:click="reset">
-          다시 입력
+      <form @submit.prevent="EmailSend()">
+        <input type="text" class="modal--input PwReset__input"
+        v-if="!notInput" v-model="email" placeholder="이메일"/>
+        <input type="text" class="modal--input PwReset__input input-shake"
+        v-else v-model="email" placeholder="이메일"/>
+        <div class="PwReset__btns">
+          <div class="modal--btn PwReset__btns__btn" v-on:click="reset">
+            다시 입력
+          </div>
+          <button type="submit" class="modal--btn PwReset__btns__btn">
+            인증번호 전송
+          </button>
         </div>
-        <div class="modal--btn PwReset__btns__btn" v-on:click="EmailSend">
-          인증번호 전송
-        </div>
-      </div>
+      </form>
     </div>
     <certify-number v-if="index === 3" :email="email"/>
     <change-pw v-if="index === 4" :email="email"/>

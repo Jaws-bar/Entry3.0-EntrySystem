@@ -1,12 +1,15 @@
 <template>
-  <div class="modal" v-if="index !== 0">
-    <div class="modal__background" @dblclick="closeModal"></div>
-    <div class="modal__contants">
-      <div class="modal__contants__close" @click="closeModal"></div>
-      <login v-if="index === 1"/>
-      <reset-pw v-if="index >= 2"/>
+    <div class="modal" v-if="index > 0">
+      <div class="modal__background" @click="closeModal"></div>
+      <div class="modal__contants">
+        <div class="modal__contants__close" @click="closeModal"></div>
+        <login v-if="index === 1"/>
+        <reset-pw v-if="(index >= 2 && index < 6)"/>
+      </div>
+      <div class="modal__contants modal__contants--confirm" v-if="index >= 6">
+        <div class="modal__contants__close" @click="closeModal"></div>
+      </div>
     </div>
-  </div>
 </template>
 
 <script>
@@ -69,6 +72,10 @@ $M-close-color: #dee8e9;
     justify-content: center;
     align-items: center;
     color: $M-modal-color;
+    @include m('confirm') {
+      width: 600px;
+      height: 500px;
+    }
     @include e('close'){
         position: absolute;
         top: 18px;
@@ -124,6 +131,7 @@ $M-close-color: #dee8e9;
   cursor: pointer;
   font-size: 14px;
   transition: 0.5s;
+  border: 0;
   &:hover{
     background-color: #d5edf0;
     transition: 0.5s;

@@ -13,19 +13,21 @@
       비밀번호가 일치하지 않습니다
     </div>
     <div class="ChangePw__Inputbox">
-      <input type="password" class="modal--input ChangePw__input"
-      v-if="Checkpw" v-model="pw" placeholder="비밀번호"/>
-      <input type="password" class="modal--input ChangePw__input input-shake"
-      v-else v-model="pw" placeholder="비밀번호"/>
-      <input type="password" class="modal--input ChangePw__input"
-      v-if="isSame" v-model="pwcheck" placeholder="비밀번호 확인"/>
-      <input type="password" class="modal--input ChangePw__input input-shake"
-      v-else v-model="pwcheck" placeholder="비밀번호 확인"/>
-      <div class="ChangePw__btns">
-        <div class="modal--btn ChangePw__btns__btn" @click="submit">
-          완료
+      <form @submit.prevent="submit()">
+          <input type="password" class="modal--input ChangePw__input"
+          v-if="Checkpw" v-model="pw" placeholder="비밀번호"/>
+          <input type="password" class="modal--input ChangePw__input input-shake"
+          v-else v-model="pw" placeholder="비밀번호"/>
+          <input type="password" class="modal--input ChangePw__input"
+          v-if="isSame" v-model="pwcheck" placeholder="비밀번호 확인"/>
+          <input type="password" class="modal--input ChangePw__input input-shake"
+          v-else v-model="pwcheck" placeholder="비밀번호 확인"/>
+        <div class="ChangePw__btns">
+          <button type="submit" class="modal--btn ChangePw__btns__btn">
+            완료
+          </button>
         </div>
-      </div>
+      </form>
       <span class="ChangePw--hint">비밀번호 생성규칙</span>
       <div class="ChangePw__hover">
         <div class="ChangePw__hover__bubble">

@@ -4,21 +4,23 @@
       비밀번호 재설정
     </div>
     <span class="PwReset__text --title">메일함에 전송된 인증번호를 입력해주세요</span>
-    <input type="text" class="modal--input PwReset__input"
-    v-if="notInput" v-model="certify" placeholder="••••••" maxlength="6"/>
-    <input type="text" class="modal--input PwReset__input input-shake"
-    v-else v-model="certify" placeholder="••••••" maxlength="6"/>
-    <div class="PwReset__btns">
-      <div class="modal--btn PwReset__btns__btn" v-on:click="reset">
-        다시 입력
+    <form @submit.prevent="Verify()">
+      <input type="text" class="modal--input PwReset__input"
+      v-if="notInput" v-model="certify" placeholder="••••••" maxlength="6"/>
+      <input type="text" class="modal--input PwReset__input input-shake"
+      v-else v-model="certify" placeholder="••••••" maxlength="6"/>
+      <div class="PwReset__btns">
+        <div class="modal--btn PwReset__btns__btn" v-on:click="reset">
+          다시 입력
+        </div>
+        <div class="modal--btn PwReset__btns__btn" v-on:click="Resend">
+          재전송
+        </div>
+        <button type="submit" class="modal--btn PwReset__btns__btn --last">
+          확인
+        </button>
       </div>
-      <div class="modal--btn PwReset__btns__btn" v-on:click="Resend">
-        재전송
-      </div>
-      <div class="modal--btn PwReset__btns__btn --last" v-on:click="Verify">
-        확인
-      </div>
-    </div>
+    </form>
     <span class="PwReset__text --hint">이메일이 오지 않습니다</span>
     <div class="PwReset__text--hint">
       <div class="PwReset__text--hint__hover">

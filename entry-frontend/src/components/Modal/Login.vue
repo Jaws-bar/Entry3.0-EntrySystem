@@ -16,15 +16,17 @@
         <span class="error-msg" v-if="(idwrong && pwwrong)">이메일과 비밀번호를 다시 확인해주세요</span>
       </div>
       <div class="login__inputs">
-        <input type="text" class="modal--input input-shake"
-        v-if="idwrong" v-model="email" placeholder="아이디"/>
-        <input type="text" class="modal--input" v-else v-model="email" placeholder="이메일"/>
-        <input type="password" class="modal--input input-shake"
-        v-if="pwwrong" v-model="password" placeholder="비밀번호"/>
-        <input type="password" class="modal--input" v-else v-model="password" placeholder="비밀번호"/>
-        <div class="modal--btn" v-on:click="login">
-          로그인
-        </div>
+        <form @submit.prevent="login()">
+          <input type="text" class="modal--input input-shake" name="id"
+          v-if="idwrong" v-model="email" placeholder="아이디"/>
+          <input type="text" class="modal--input" v-else v-model="email" name="id" placeholder="이메일"/>
+          <input type="password" class="modal--input input-shake" name="password"
+          v-if="pwwrong" v-model="password" placeholder="비밀번호"/>
+          <input type="password" class="modal--input" v-else v-model="password" name="password" placeholder="비밀번호"/>
+          <button type="submit" class="modal--btn">
+            로그인
+          </button>
+        </form>
       </div>
       <div class="login__links">
         <span class="login__links__link" @click="closeModal">아직 원서작성을 시작하지 않으셨나요?</span>
