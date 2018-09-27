@@ -111,8 +111,5 @@ public class Info extends BaseTimeEntity {
         this.addressBase = infoDTO.getAddressBase();
         this.addressDetail = infoDTO.getAddressDetail();
         this.zipCode = infoDTO.getZipCode();
-        this.imgPath = infoDTO.getImgPath();
     }
-
-
 }

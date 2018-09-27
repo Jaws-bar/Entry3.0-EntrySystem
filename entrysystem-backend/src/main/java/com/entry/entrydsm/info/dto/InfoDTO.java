@@ -69,10 +69,8 @@ public class InfoDTO {
     @Size(max = 50, groups = {Graduate.class, Ged.class})
     private String addressDetail;
 
-    private String imgPath;
-
     @Builder
-    public InfoDTO(String name, Sex sex, LocalDate birth, Integer studentClass, Integer studentNumber, String schoolCode, String schoolTel, String parentName, String parentTel, String myTel, String zipCode, String addressBase, String addressDetail, String imgPath) {
+    public InfoDTO(String name, Sex sex, LocalDate birth, Integer studentClass, Integer studentNumber, String schoolCode, String schoolTel, String parentName, String parentTel, String myTel, String zipCode, String addressBase, String addressDetail) {
         this.name = name;
         this.sex = sex;
         this.birth = birth;
@@ -86,6 +84,5 @@ public class InfoDTO {
         this.zipCode = zipCode;
         this.addressBase = addressBase;
         this.addressDetail = addressDetail;
-        this.imgPath = imgPath;
     }
 }
