@@ -30,7 +30,7 @@
         상세하게 기술하십시오.
       </p>
       <textarea class="intro-plan-write"
-                :value="plan"
+                :value="studyPlan"
                 @input="updatePlan"
                 maxlength="1600"
                 ref="planWrite"
@@ -46,7 +46,8 @@
       :nextShow="true"
       :text="btnText"
       :prevLink="prevLink"
-      :nextLink="nextLink"/>
+      :nextLink="nextLink"
+      :onClick="() => updateIntro()"/>
     <entry-footer />
   </div>
 </template>
@@ -71,8 +72,19 @@ export default {
       introLength: 0,
       planLength: 0,
       btnText: '원서 미리보기',
+      prevLink: '/grade',
       nextLink: '/preview',
     };
+  },
+  computed: {
+    ...mapState({
+      introduce: state => state.introNPlan.introduce,
+      studyPlan: state => state.introNPlan.studyPlan,
+    }),
+  },
+  mounted() {
+    const token = this.$cookies.get('accessToken');
+    this.$store.dispatch('getIntro', token);
   },
   methods: {
     resize(t) {
@@ -87,21 +99,16 @@ export default {
     updatePlan({ target }) {
       this.$store.commit('updatePlan', target.value);
     },
-  },
-  computed: {
-    prevLink() {
-      let link;
-      switch (this.$store.state.classify.graduateType) {
-        case 'DONE': link = 'grade-graduated'; break;
-        case 'GED': link = 'grade-ged'; break;
-        default: link = 'grade-scheduled';
-      }
-      return link;
+
+    updateIntro() {
+      const token = this.$cookies.get('accessToken');
+
+      this.$store.dispatch('updateIntro', {
+        token,
+        introduce: this.introduce,
+        studyPlan: this.studyPlan,
+      });
     },
-    ...mapState({
-      introduce: state => state.introNPlan.introduce,
-      plan: state => state.introNPlan.plan,
-    }),
   },
   watch: {
     introduce(val) {
@@ -109,7 +116,7 @@ export default {
       this.resize(intro);
       this.introLength = val.length;
     },
-    plan(val) {
+    studyPlan(val) {
       const plan = this.$refs.planWrite;
       this.resize(plan);
       this.planLength = val.length;

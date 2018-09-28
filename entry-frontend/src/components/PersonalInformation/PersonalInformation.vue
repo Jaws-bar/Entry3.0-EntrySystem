@@ -247,6 +247,7 @@ export default {
       yearOptions: [],
       monthOptions: [],
       prevLink: '/classify',
+      nextLink: '/grade',
     };
   },
   computed: {
@@ -283,15 +284,6 @@ export default {
       get() {
         return this.$store.state.classify.isGED;
       },
-    },
-    nextLink() {
-      let link;
-      switch (this.$store.state.classify.graduateType) {
-        case 'DONE': link = 'grade-graduated'; break;
-        case 'GED': link = 'grade-ged'; break;
-        default: link = 'grade-scheduled';
-      }
-      return link;
     },
     personName: {
       get() {

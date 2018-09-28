@@ -18,7 +18,7 @@ public class ValidationController {
     private ValidationServiceFactory serviceFactory;
 
     @GetMapping
-    @AuthRequired
+    @AuthRequired(allowSubmitted = true)
     public RestResponse<ValidationResult> validate(User user) {
         return RestResponse.success(serviceFactory.getService(user).validate(user));
     }

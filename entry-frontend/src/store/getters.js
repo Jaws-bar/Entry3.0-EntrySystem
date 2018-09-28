@@ -1,76 +1,39 @@
 export const getters = {
   selectType(state) {
-    const { graduateType } = state.classify;
+    // const { graduateType } = state.classify;
     const {
-      gedScore,
+      grade,
       volunteerNAttendance,
-      koreanScores,
-      societyScores,
-      historyScores,
-      mathScores,
-      scienceScores,
-      techAndHomeScores,
-      englishScores,
+      korean,
+      social,
+      history,
+      math,
+      science,
+      tech,
+      english,
     } = state.gradeInput;
 
     // 경우: 검정고시, 졸업, 졸업 예정
-    if (graduateType === 'GED') {
-      return { gedScore };
-    } else if (graduateType === 'DONE') {
-      return {
-        volunteerNAttendance,
-        koreanScores,
-        societyScores,
-        historyScores,
-        mathScores,
-        scienceScores,
-        techAndHomeScores,
-        englishScores,
-        grades: [
-          koreanScores,
-          societyScores,
-          historyScores,
-          mathScores,
-          scienceScores,
-          techAndHomeScores,
-          englishScores,
-        ],
-      };
-    } else if (graduateType === 'WILL') {
-      /*
-      const prop = 'thirdSecondSemester';
-      const filteredSemesters = Object.keys(semesters).reduce((obj, key) => {
-        const semesterObj = obj;
-        if (key !== prop) {
-          semesterObj[key] = semesters[key];
-        }
-
-        return obj;
-      }, {});
-      */
-
-      return {
-        volunteerNAttendance,
-        koreanScores: koreanScores.slice(0, 5),
-        societyScores: societyScores.slice(0, 5),
-        historyScores: historyScores.slice(0, 5),
-        mathScores: mathScores.slice(0, 5),
-        scienceScores: scienceScores.slice(0, 5),
-        techAndHomeScores: techAndHomeScores.slice(0, 5),
-        englishScores: englishScores.slice(0, 5),
-        grades: [
-          koreanScores.slice(0, 5),
-          societyScores.slice(0, 5),
-          historyScores.slice(0, 5),
-          mathScores.slice(0, 5),
-          scienceScores.slice(0, 5),
-          techAndHomeScores.slice(0, 5),
-          englishScores.slice(0, 5),
-        ],
-      };
-    }
-
-    return 'NONE TYPE';
+    return {
+      grade,
+      volunteerNAttendance,
+      korean,
+      social,
+      history,
+      math,
+      science,
+      tech,
+      english,
+      grades: [
+        korean,
+        social,
+        history,
+        math,
+        science,
+        tech,
+        english,
+      ],
+    };
   },
 };
 

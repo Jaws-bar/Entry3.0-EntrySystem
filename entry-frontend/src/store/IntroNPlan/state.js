@@ -1,6 +1,6 @@
 export const IntroNPlan = {
   introduce: '',
-  plan: '',
+  studyPlan: '',
 };
 
 export default IntroNPlan;

@@ -31,7 +31,6 @@ public class InfoDTOTest extends ValidationTest {
                 .studentClass(3)
                 .studentNumber(3)
                 .zipCode("")
-                .imgPath(null)
                 .build();
     }
 

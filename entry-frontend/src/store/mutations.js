@@ -2,7 +2,7 @@ import axios from 'axios';
 
 export const mutations = {
   updateGedScore: (state, payload) => {
-    state.gradeInput.gedScore = payload;
+    state.gradeInput.grade = payload;
   },
   updateVolunteerNAttendance: (state, { field, value }) => {
     state.gradeInput.volunteerNAttendance[field] = parseInt(value, 10);
@@ -19,6 +19,8 @@ export const mutations = {
         resetAll.passed = true;
       }
     }
+
+    window.testGrades = allGrades;
   },
   updateDiscompleteSemester: (state, { grades, target }) => {
     // 학기별 null로 초기화
@@ -62,6 +64,15 @@ export const mutations = {
       default: break;
     }
   },
+  updateIntroAndPlan: (state, { data }) => {
+    const {
+      introduce,
+      studyPlan,
+    } = data;
+
+    state.introNPlan.introduce = introduce;
+    state.introNPlan.studyPlan = studyPlan;
+  },
   updateChangeDecided: (state, { target, val }) => {
     const v = val;
 
@@ -69,11 +80,37 @@ export const mutations = {
     v.passed = target.innerText === 'X' ? false : !v.passed;
     v.score = v.decided ? v.score : '';
   },
+  getGrades: (state, payload) => {
+    const { gradeInput } = state;
+    const subjects = [
+      'korean',
+      'social',
+      'history',
+      'math',
+      'science',
+      'tech',
+      'english',
+    ];
+
+    gradeInput.grade = payload.grade;
+    gradeInput.volunteerNAttendance = {
+      earlyLeave: payload.earlyLeave,
+      fullCut: payload.fullCut,
+      late: payload.late,
+      periodCut: payload.periodCut,
+      volunteerTime: payload.volunteerTime,
+    };
+    
+    for (let sub = 0; sub < subjects.length; sub += 1) {
+      // 각각의 subject에 대해 성적 적용
+      gradeInput[subjects[sub]] = payload.grades[sub];
+    }
+  },
   updateIntroduce: (state, payload) => {
     state.introNPlan.introduce = payload;
   },
   updatePlan: (state, payload) => {
-    state.introNPlan.plan = payload;
+    state.introNPlan.studyPlan = payload;
   },
   changeIndex: (state, payload) => {
     state.modal.index = payload.index;
@@ -266,18 +303,6 @@ export const mutations = {
       state.PersonInfo.myTel = myTel;
       state.PersonInfo.parentTel = parentTel;
       state.PersonInfo.parentName = parentName;
-    });
-  },
-  updateIntroNPlan: (state, payload) => {
-    axios.get('http://entrydsm.hs.kr/api/me/info',
-      { headers: { Authorization: `JWT ${payload.token}` } },
-    ).then((res) => {
-      const {
-        introduce,
-        studyPlan,
-      } = res.data.data;
-      state.IntroNPlan.introduce = introduce;
-      state.IntroNPlan.plan = studyPlan;
     });
   },
   updateaccessToken: (state, payload) => {

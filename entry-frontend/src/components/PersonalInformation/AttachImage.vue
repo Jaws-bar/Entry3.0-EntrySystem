@@ -21,18 +21,26 @@ export default {
       get() {
         return this.$store.state.PersonInfo.imgPath;
       },
-      set(data) {
-        this.$store.commit('updateImgPath', {
-          data,
-        });
-      },
     },
   },
   methods: {
     onFileChange(e) {
+      const token = this.$cookies.get('accessToken');
       const file = e.target.files[0];
-      this.imageURL = URL.createObjectURL(file);
-      this.$emit('upload', this.imageURL);
+      console.log(file),
+      this.$axios.post('http://entrydsm.hs.kr/api/me/profile/image',file,{
+          headers: {
+            'Authorization': `JWT ${token}`,
+            'Content-Type':'multipart/form-data'
+          },
+        }).then(res => {
+          console.log(res);
+          this.$store.commit('updateImgPath', {
+            data: `http://entrydsm.hs.kr/images/${res.data.data}`
+          });
+          this.imageURL = this.$store.state.PersonInfo.imgPath;
+          this.$emit('upload', this.$store.state.PersonInfo.imgPath);
+      });
     },
   },
 };

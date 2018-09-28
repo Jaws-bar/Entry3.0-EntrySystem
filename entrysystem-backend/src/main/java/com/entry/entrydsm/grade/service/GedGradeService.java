@@ -1,6 +1,6 @@
 package com.entry.entrydsm.grade.service;
 
-import com.entry.entrydsm.common.exception.ValidationException;
+import com.entry.entrydsm.common.exception.RequestValidationException;
 import com.entry.entrydsm.common.validate.ValidationUtil;
 import com.entry.entrydsm.grade.domain.ged.GedScore;
 import com.entry.entrydsm.grade.dto.GradeDTO;
@@ -14,7 +14,7 @@ public class GedGradeService implements GradeService {
 
     @Override
     @Transactional
-    public GradeResponse put(User user, GradeDTO dto) throws ValidationException {
+    public GradeResponse put(User user, GradeDTO dto) throws RequestValidationException {
         ValidationUtil.validate(dto, user);
         GedScore gedScore = user.getGedScore();
         gedScore.update(dto);

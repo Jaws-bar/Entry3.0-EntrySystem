@@ -15,7 +15,7 @@ import javax.validation.Valid;
 public class DocumentController {
 
     @GetMapping
-    @AuthRequired
+    @AuthRequired(allowSubmitted = true)
     public RestResponse<Document> get(User user) {
         return RestResponse.success(user.getDocument());
     }

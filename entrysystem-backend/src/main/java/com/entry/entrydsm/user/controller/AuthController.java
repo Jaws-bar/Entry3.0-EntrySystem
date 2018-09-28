@@ -38,8 +38,8 @@ public class AuthController {
         return RestResponse.success(authService.signin(dto));
     }
 
-    @AuthRequired
     @GetMapping("/auth-required")
+    @AuthRequired(allowSubmitted = true)
     public RestResponse<User> authTest(User user) {
         return RestResponse.success(user);
     }

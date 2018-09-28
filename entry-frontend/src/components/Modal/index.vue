@@ -1,6 +1,6 @@
 <template>
     <div class="modal" v-if="index > 0">
-      <div class="modal__background" @click="closeModal"></div>
+      <div class="modal__background" @click="changeModal"></div>
       <div class="modal__contants">
         <div class="modal__contants__close" @click="closeModal"></div>
         <login v-if="index === 1"/>
@@ -13,6 +13,7 @@
 </template>
 
 <script>
+// div class="modal__background" @click="changeModal"></div>  고치기
 import Login from './Login';
 import ResetPw from './ResetPw';
 
@@ -31,6 +32,11 @@ export default {
     closeModal() {
       this.$store.commit('changeIndex', {
         index: 0,
+      });
+    },
+    changeModal() {
+      this.$store.commit('changeIndex', {
+        index: 6,
       });
     },
   },
