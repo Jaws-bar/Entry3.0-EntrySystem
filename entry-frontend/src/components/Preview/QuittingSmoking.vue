@@ -8,19 +8,19 @@
         <tr>
           <td rowspan="3">서약서</td>
           <td><pre>성   명</pre></td>
-          <td></td>
+          <td>{{personName}}</td>
           <td>수 험 번 호</td>
           <td></td>
         </tr>
         <tr>
           <td>연락처</td>
-          <td></td>
+          <td>{{myTel}}</td>
           <td>출신 중학교</td>
-          <td></td>
+          <td>{{schoolName}}</td>
         </tr>
         <tr>
           <td><pre>주   소</pre></td>
-          <td colspan="3"></td>
+          <td colspan="3">{{addressBase}} ({{addressDetail}})</td>
         </tr>
         <tr>
           <td id="quitting-smoking-content" colspan="5">
@@ -48,7 +48,14 @@
 
 <script>
 export default {
-  name: 'academic-plan',
+  name: 'quitting-smoking',
+  computed: {
+    personName() { return this.$store.state.PersonInfo.personName; },
+    schoolName() { return this.$store.state.PersonInfo.schoolName; },
+    myTel() { return this.$store.state.PersonInfo.myTel; },
+    addressBase() { return this.$store.state.PersonInfo.addressBase; },
+    addressDetail() { return this.$store.state.PersonInfo.addressDetail; },
+  },
 };
 </script>
 
@@ -83,9 +90,6 @@ td {
 #preview-container {
   width: 595px;
   height: 842px;
-  margin: auto;
-  margin-top: 20px;
-  margin-bottom: 20px;
   padding: 30px;
   border: 1px solid #000;
 }

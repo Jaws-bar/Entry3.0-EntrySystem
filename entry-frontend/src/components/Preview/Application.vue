@@ -12,7 +12,7 @@
             <td>중학교 코드</td>
             <td></td>
             <td>반</td>
-            <td></td>
+            <td>{{studentClass}}</td>
             <td>수험번호</td>
             <td></td>
           </tr>
@@ -23,20 +23,20 @@
           <tr>
             <td rowspan="2">지원자<br />인적사항</td>
             <td>성명</td>
-            <td></td>
+            <td>{{personName}}</td>
             <td>생년월일</td>
-            <td></td>
+            <td>{{year}}.{{month}}.{{day}}</td>
             <td>성별</td>
             <td class="application-info-textalign-left">
-              <input type="checkbox" onclick="return false" />남
+              <input :checked="sex === 'MALE'" type="checkbox" onclick="return false" />남
             </td>
             <td class="application-info-textalign-left">
-              <input type="checkbox" onclick="return false" />여
+              <input :checked="sex === 'FEMALE'" type="checkbox" onclick="return false" />여
             </td>
           </tr>
           <tr>
             <td>주소</td>
-            <td colspan="6"></td>
+            <td colspan="6">{{addressBase}}({{addressDetail}})</td>
           </tr>
         </tbody>
       </table>
@@ -45,27 +45,25 @@
           <tr>
             <td rowspan="3">전화<br />연락처</td>
             <td>보호자</td>
-            <td></td>
+            <td>{{parentTel}}</td>
             <td rowspan="3">졸업<br />구분</td>
             <td class="application-info-textalign-left">
-              <input type="checkbox" onclick="return false" />2019년 2월 중학교 졸업예정
+              <input :checked="graduateType === 'WILL'" type="checkbox" onclick="return false" />2019년 2월 중학교 졸업예정
             </td>
           </tr>
           <tr>
             <td>학교</td>
-            <td></td>
+            <td>{{schoolTel}}</td>
             <td class="application-info-textalign-left">
-              <input type="checkbox" onclick="return false" /> 201
-              <div class="application-info-blank"></div>
-              년 2월 중학교 졸업</td>
+              <input :checked="graduateType === 'DONE'" type="checkbox" onclick="return false" />{{graduationYear}}년 2월 중학교 졸업</td>
           </tr>
           <tr>
             <td>학생</td>
-            <td></td>
+            <td>{{myTel}}</td>
             <td class="application-info-textalign-left">
-              <input type="checkbox" onclick="return false" /> 201
-              <div class="application-info-blank"></div>년
-              <div class="application-info-blank"></div>월 고입 검정고시 합격
+              <input :checked="graduateType === 'GED'" type="checkbox" onclick="return false" />
+              <div style="display: inline; padding-left:20px"></div>년
+              <div style="display: inline; padding-left:20px"></div>월 고입 검정고시 합격
             </td>
           </tr>
         </tbody>
@@ -75,35 +73,35 @@
           <tr>
             <td rowspan="6">전형유형</td>
             <td class="application-info-textalign-left" rowspan="2" colspan="2">
-              <input type="checkbox" onclick="return false" /> 일반전형
+              <input :checked="admission === 'NORMAL'" type="checkbox" onclick="return false" /> 일반전형
             </td>
             <td rowspan="6">지원자<br/> 특기<br />사항</td>
             <td class="application-info-textalign-left" rowspan="3">
-              <input type="checkbox" onclick="return false" /> 국가유공자 자녀
+              <input :checked="additionalType === 'NATIONAL_MERIT'" type="checkbox" onclick="return false" /> 국가유공자 자녀
             </td>
             <td rowspan="6">지역</td>
             <td class="application-info-textalign-left" rowspan="3">
-              <input type="checkbox" onclick="return false" /> 대전
+              <input :checked="region" type="checkbox" onclick="return false" /> 대전
             </td>
           </tr>
           <tr></tr>
           <tr>
             <td class="application-info-textalign-left" rowspan="2">
-              <input type="checkbox" onclick="return false" /> 마이스터인재전형
+              <input :checked="admission === 'MEISTER'" type="checkbox" onclick="return false" /> 마이스터인재전형
             </td>
             <td rowspan="4">특별<br /> 전형</td>
           </tr>
           <tr>
             <td class="application-info-textalign-left" rowspan="2">
-              <input type="checkbox" onclick="return false" /> 특례입학대상자
+              <input :checked="additionalType === 'SPECIAL_ADMISSION'" type="checkbox" onclick="return false" /> 특례입학대상자
             </td>
             <td class="application-info-textalign-left" rowspan="3">
-              <input type="checkbox" onclick="return false" /> 전국
+              <input :checked="!region" type="checkbox" onclick="return false" /> 전국
             </td>
           </tr>
           <tr>
             <td class="application-info-textalign-left" rowspan="2">
-              <input type="checkbox" onclick="return false" /> 사회통합전형
+              <input :checked="admission === 'SOCIAL'" type="checkbox" onclick="return false" /> 사회통합전형
             </td>
           </tr>
           <tr></tr>
@@ -125,13 +123,13 @@
             <td>교과성적<br /> 환산점수</td>
           </tr>
           <tr>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
+            <td>{{firstGrade}}</td>
+            <td>{{secondGrade}}</td>
+            <td>{{thirdGrade}}</td>
+            <td>{{conversionScore}}</td>
+            <td>{{attendanceScore}}</td>
+            <td>{{volunteerScore}}</td>
+            <td>{{finalScore}}</td>
           </tr>
         </tbody>
       </table>
@@ -194,6 +192,68 @@
 <script>
 export default {
   name: 'application',
+  data() {
+    return {
+      firstGrade: 0,
+      secondGrade: 0,
+      thirdGrade: 0,
+      conversionScore: 0,
+      attendanceScore: 0,
+      volunteerScore: 0,
+      finalScore: 0,
+    };
+  },
+  computed: {
+    admission() { return this.$store.state.classify.admission; },
+    admissionDetail() { return this.$store.state.classify.admissionDetail; },
+    region() { return this.$store.state.classify.region; },
+    isGraduated() { return this.$store.state.classify.isGraduated; },
+    graduationYear() { return this.$store.state.classify.graduationYear; },
+    additionalType() { return this.$store.state.classify.additionalType; },
+    graduateType() { return this.$store.state.classify.graduateType; },
+    personName() { return this.$store.state.PersonInfo.personName; },
+    sex() { return this.$store.state.PersonInfo.sex; },
+    year() { return this.$store.state.PersonInfo.year; },
+    month() { return this.$store.state.PersonInfo.month; },
+    day() { return this.$store.state.PersonInfo.day; },
+    studentClass() { return this.$store.state.PersonInfo.studentClass; },
+    studentNumber() { return this.$store.state.PersonInfo.studentNumber; },
+    schoolName() { return this.$store.state.PersonInfo.schoolName; },
+    parentName() { return this.$store.state.PersonInfo.parentName; },
+    schoolTel() { return this.$store.state.PersonInfo.schoolTel; },
+    parentTel() { return this.$store.state.PersonInfo.parentTel; },
+    myTel() { return this.$store.state.PersonInfo.myTel; },
+    zipCode() { return this.$store.state.PersonInfo.zipCode; },
+    addressBase() { return this.$store.state.PersonInfo.addressBase; },
+    addressDetail() { return this.$store.state.PersonInfo.addressDetail; },
+    imgPath() { return this.$store.state.PersonInfo.imgPath; },
+  },
+  created() {
+    this.$axios.get('http://entrydsm.hs.kr/api/me/score',
+      { headers: { Authorization: `JWT ${this.$cookies.get('accessToken')}` },
+      }).then((res) => {
+      if (res.status === 200) {
+        const {
+          firstGrade,
+          secondGrade,
+          thirdGrade,
+          conversionScore,
+          attendanceScore,
+          volunteerScore,
+          finalScore,
+        } = res.data.data;
+        this.firstGrade = firstGrade;
+        this.secondGrade = secondGrade;
+        this.thirdGrade = thirdGrade;
+        this.conversionScore = conversionScore;
+        this.attendanceScore = attendanceScore;
+        this.volunteerScore = volunteerScore;
+        this.finalScore = finalScore;
+      } else {
+        this.$toastr.e('서버와 통신이 불안정합니다.<br/> 재연결이 필요합니다.');
+      }
+    });
+  },
 };
 </script>
 
@@ -230,9 +290,6 @@ input[type="checkbox"] {
 #preview-container {
   width: 595px;
   height: 842px;
-  margin: auto;
-  margin-top: 20px;
-  margin-bottom: 20px;
   padding: 30px;
   border: 1px solid #000;
 }
@@ -267,7 +324,7 @@ input[type="checkbox"] {
 /* number blank */
 .application-info-blank {
   display: inline-block;
-  width: 6px;
+  min-width: 6px;
 }
 
 /* long number blank */
