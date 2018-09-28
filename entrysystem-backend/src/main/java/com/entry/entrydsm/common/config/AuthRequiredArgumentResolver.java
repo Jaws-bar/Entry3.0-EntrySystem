@@ -1,8 +1,10 @@
 package com.entry.entrydsm.common.config;
 
+import com.entry.entrydsm.common.exception.AlreadySubmittedException;
 import com.entry.entrydsm.common.exception.UnauthorizedException;
 import com.entry.entrydsm.user.domain.User;
 import com.entry.entrydsm.user.service.AuthService;
+import org.apache.commons.lang3.ObjectUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.MethodParameter;
 import org.springframework.web.bind.support.WebDataBinderFactory;
@@ -27,7 +29,22 @@ public class AuthRequiredArgumentResolver implements HandlerMethodArgumentResolv
 
     @Override
     public Object resolveArgument(MethodParameter parameter, ModelAndViewContainer mavContainer, NativeWebRequest webRequest, WebDataBinderFactory binderFactory) throws Exception {
-        return validateToken(webRequest).orElseThrow(UnauthorizedException::new);
+        AuthRequired authRequired = getAuthRequired(parameter);
+        return validateToken(webRequest).filter(user -> {
+            if (!authRequired.allowSubmitted() && user.isSubmitted()) {
+                throw new AlreadySubmittedException();
+            }
+            return true;
+        }).orElseThrow(UnauthorizedException::new);
+    }
+
+    protected AuthRequired getAuthRequired(MethodParameter parameter) {
+        return ObjectUtils.firstNonNull(getMethodLevelAuthRequired(parameter),
+                getClassLevelAuthRequired(parameter));
+    }
+
+    private AuthRequired getMethodLevelAuthRequired(MethodParameter parameter) {
+        return parameter.getMethodAnnotation(AuthRequired.class);
     }
 
     protected Optional<User> validateToken(NativeWebRequest webRequest) {
@@ -36,6 +53,10 @@ public class AuthRequiredArgumentResolver implements HandlerMethodArgumentResolv
 
     private String getAuthorizationHeaderString(NativeWebRequest webRequest) {
         return ((HttpServletRequest) webRequest.getNativeRequest()).getHeader("Authorization");
+    }
+
+    private AuthRequired getClassLevelAuthRequired(MethodParameter parameter) {
+        return parameter.getMethod().getDeclaringClass().getAnnotation(AuthRequired.class);
     }
 
     protected boolean isAnnotatedAuthRequiredAtMethod(MethodParameter parameter) {

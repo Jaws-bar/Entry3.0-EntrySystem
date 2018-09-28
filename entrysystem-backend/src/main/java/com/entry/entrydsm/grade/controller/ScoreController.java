@@ -18,7 +18,7 @@ public class ScoreController {
     private ScoreService scoreService;
 
     @GetMapping
-    @AuthRequired
+    @AuthRequired(allowSubmitted = true)
     public RestResponse<ScoreResponse> getScore(User user) {
         return RestResponse.success(scoreService.getScore(user));
     }

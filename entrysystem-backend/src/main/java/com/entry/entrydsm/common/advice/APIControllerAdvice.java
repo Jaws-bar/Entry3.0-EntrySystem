@@ -1,9 +1,7 @@
 package com.entry.entrydsm.common.advice;
 
-import com.entry.entrydsm.common.exception.BadRequestException;
-import com.entry.entrydsm.common.exception.ConflictException;
-import com.entry.entrydsm.common.exception.UnauthorizedException;
-import com.entry.entrydsm.common.exception.ValidationException;
+import com.entry.entrydsm.apply.dto.ValidationResult;
+import com.entry.entrydsm.common.exception.*;
 import com.entry.entrydsm.common.response.RestResponse;
 import com.entry.entrydsm.common.validate.ValidationUtil;
 import lombok.extern.slf4j.Slf4j;
@@ -29,7 +27,7 @@ public class APIControllerAdvice {
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
-    public RestResponse<?> handleValidationException(MethodArgumentNotValidException exception) {
+    public RestResponse<?> handleRequestValidationException(MethodArgumentNotValidException exception) {
         List<ObjectError> errors = exception.getBindingResult().getAllErrors();
         return buildErrorResponse(errors, err -> {
             FieldError fieldError = (FieldError) err;
@@ -75,9 +73,21 @@ public class APIControllerAdvice {
         return RestResponse.error("로그인이 필요합니다.").build();
     }
 
-    @ExceptionHandler(ValidationException.class)
+    @ExceptionHandler(AlreadySubmittedException.class)
+    @ResponseStatus(HttpStatus.FORBIDDEN)
+    public RestResponse<?> handleAlreadySubmittedException(AlreadySubmittedException e) {
+        return RestResponse.error("이미 원서를 제출하셨습니다.").build();
+    }
+
+    @ExceptionHandler(SubmitValidationException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
-    public RestResponse<?> handleValidationException(ValidationException e) {
+    public RestResponse<ValidationResult> handleSubmitValidationException(SubmitValidationException e) {
+        return RestResponse.success(e.getValidationResult());
+    }
+
+    @ExceptionHandler(RequestValidationException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public RestResponse<?> handleRequestValidationException(RequestValidationException e) {
         return buildErrorResponse(e.getValidationErrors(), ValidationUtil::toError);
     }
 
