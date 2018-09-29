@@ -1,7 +1,7 @@
 <template>
   <div>
     <navigation />
-    <headline :subText="'2019 입학원서 작성'" title="자기소개서&학업계획서" />
+    <headline :subText="'2019 입학원서 작성'" title="자기소개서 & 학업계획서" />
     <div class="intro-plan-cover">
       <h3>자기소개서</h3>
       <div class="underline"></div>
@@ -69,8 +69,6 @@ export default {
   },
   data() {
     return {
-      introLength: 0,
-      planLength: 0,
       btnText: '원서 미리보기',
       prevLink: '/grade',
       nextLink: '/preview',
@@ -80,6 +78,8 @@ export default {
     ...mapState({
       introduce: state => state.introNPlan.introduce,
       studyPlan: state => state.introNPlan.studyPlan,
+      introLength: state => state.introNPlan.introLength,
+      planLength: state => state.introNPlan.planLength,
     }),
   },
   mounted() {
@@ -87,17 +87,27 @@ export default {
     this.$store.dispatch('getIntro', token);
   },
   methods: {
+    /*
     resize(t) {
       const target = t;
       target.style.height = '1px';
       target.style.height = `${30 + target.scrollHeight}px`;
     },
+    */
     updateIntroduce({ target }) {
-      this.$store.commit('updateIntroduce', target.value);
+      const { value } = target;
+      this.$store.commit('updateIntroduce', {
+        text: value,
+        leng: value.length,
+      });
     },
 
     updatePlan({ target }) {
-      this.$store.commit('updatePlan', target.value);
+      const { value } = target;
+      this.$store.commit('updatePlan', {
+        text: value,
+        leng: value.length,
+      });
     },
 
     updateIntro() {
@@ -110,18 +120,18 @@ export default {
       });
     },
   },
+  /*
   watch: {
-    introduce(val) {
+    introduce() {
       const intro = this.$refs.introWrite;
       this.resize(intro);
-      this.introLength = val.length;
     },
-    studyPlan(val) {
+    studyPlan() {
       const plan = this.$refs.planWrite;
       this.resize(plan);
-      this.planLength = val.length;
     },
   },
+  */
 };
 </script>
 
@@ -166,7 +176,7 @@ $intro-plan: #5f8a90;
 
   .intro-plan-write {
     width: 100%;
-    min-height: 390px;
+    height: 600px;
     resize: vertical;
     border-radius: 10px;
     line-height: 1.3;

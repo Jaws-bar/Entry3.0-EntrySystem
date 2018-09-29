@@ -69,9 +69,17 @@ export const mutations = {
       introduce,
       studyPlan,
     } = data;
+    const introLength = introduce.length;
+    const planLength = studyPlan.length;
 
     state.introNPlan.introduce = introduce;
     state.introNPlan.studyPlan = studyPlan;
+    state.introNPlan = {
+      introduce,
+      studyPlan,
+      introLength,
+      planLength,
+    };
   },
   updateChangeDecided: (state, { target, val }) => {
     const v = val;
@@ -100,17 +108,19 @@ export const mutations = {
       periodCut: payload.periodCut,
       volunteerTime: payload.volunteerTime,
     };
-    
+
     for (let sub = 0; sub < subjects.length; sub += 1) {
       // 각각의 subject에 대해 성적 적용
       gradeInput[subjects[sub]] = payload.grades[sub];
     }
   },
   updateIntroduce: (state, payload) => {
-    state.introNPlan.introduce = payload;
+    state.introNPlan.introduce = payload.text;
+    state.introNPlan.introLength = payload.leng;
   },
   updatePlan: (state, payload) => {
-    state.introNPlan.studyPlan = payload;
+    state.introNPlan.studyPlan = payload.text;
+    state.introNPlan.planLength = payload.leng;
   },
   changeIndex: (state, payload) => {
     state.modal.index = payload.index;
