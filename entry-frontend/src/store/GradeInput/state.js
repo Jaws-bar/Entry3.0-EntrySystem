@@ -1,20 +1,20 @@
 export const GradeInput = {
   /* 검정고시 관련 */
-  gedScore: 0,
+  grade: 0,
 
   /* 졸업 예정, 졸업자 관련 */
 
   // 봉사 및 출석
   volunteerNAttendance: {
-    volunteer: 0,
-    absence: 0,
+    volunteerTime: 0,
+    periodCut: 0,
+    fullCut: 0,
+    late: 0,
     earlyLeave: 0,
-    lateness: 0,
-    missingClass: 0,
   },
 
   // 국어
-  koreanScores: [
+  korean: [
     { score: '', decided: false, passed: false },
     { score: '', decided: false, passed: false },
     { score: '', decided: false, passed: false },
@@ -24,7 +24,7 @@ export const GradeInput = {
   ],
 
   // 사회
-  societyScores: [
+  social: [
     { score: '', decided: false, passed: false },
     { score: '', decided: false, passed: false },
     { score: '', decided: false, passed: false },
@@ -34,7 +34,7 @@ export const GradeInput = {
   ],
 
   // 역사
-  historyScores: [
+  history: [
     { score: '', decided: false, passed: false },
     { score: '', decided: false, passed: false },
     { score: '', decided: false, passed: false },
@@ -44,7 +44,7 @@ export const GradeInput = {
   ],
 
   // 수학
-  mathScores: [
+  math: [
     { score: '', decided: false, passed: false },
     { score: '', decided: false, passed: false },
     { score: '', decided: false, passed: false },
@@ -54,7 +54,7 @@ export const GradeInput = {
   ],
 
   // 과학
-  scienceScores: [
+  science: [
     { score: '', decided: false, passed: false },
     { score: '', decided: false, passed: false },
     { score: '', decided: false, passed: false },
@@ -64,7 +64,7 @@ export const GradeInput = {
   ],
 
   // 기술 - 가정
-  techAndHomeScores: [
+  tech: [
     { score: '', decided: false, passed: false },
     { score: '', decided: false, passed: false },
     { score: '', decided: false, passed: false },
@@ -74,7 +74,7 @@ export const GradeInput = {
   ],
 
   // 영어
-  englishScores: [
+  english: [
     { score: '', decided: false, passed: false },
     { score: '', decided: false, passed: false },
     { score: '', decided: false, passed: false },

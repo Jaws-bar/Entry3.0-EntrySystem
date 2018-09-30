@@ -22,7 +22,7 @@ public class ClassificationController {
     private ClassificationService classificationService;
 
     @GetMapping
-    @AuthRequired
+    @AuthRequired(allowSubmitted = true)
     public RestResponse<ClassificationResponse> getClassification(User user) {
         return RestResponse.success(classificationService.getInfo(user));
     }

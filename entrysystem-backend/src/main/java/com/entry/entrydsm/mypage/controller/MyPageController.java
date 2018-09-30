@@ -18,7 +18,7 @@ public class MyPageController {
     private ValidationServiceFactory validationServiceFactory;
 
     @GetMapping
-    @AuthRequired
+    @AuthRequired(allowSubmitted = true)
     public RestResponse<MyPageResponse> getMyPage(User user) {
         return RestResponse.success(new MyPageResponse(user.getGraduateType(),
                 validationServiceFactory.getService(user).validate(user),

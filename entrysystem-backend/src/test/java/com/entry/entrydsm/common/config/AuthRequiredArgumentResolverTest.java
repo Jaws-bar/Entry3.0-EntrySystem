@@ -8,6 +8,7 @@ import org.mockito.junit.MockitoJUnitRunner;
 import org.springframework.core.MethodParameter;
 import org.springframework.web.context.request.NativeWebRequest;
 
+import java.lang.annotation.Annotation;
 import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -37,12 +38,12 @@ public class AuthRequiredArgumentResolverTest {
 
     @Test(expected = UnauthorizedException.class)
     public void 토큰이_유효하지_않음() throws Exception {
-        callResolveArgument(mockArgumentResolver(false));
+        callResolveArgument(mockArgumentResolver(false, true));
     }
 
     @Test
     public void 토큰이_유효함() throws Exception {
-        assertThat(callResolveArgument(mockArgumentResolver(true))).isEqualTo(new User());
+        assertThat(callResolveArgument(mockArgumentResolver(true, true))).isEqualTo(new User());
     }
 
     private boolean callSupportsParameter(AuthRequiredArgumentResolver argumentResolver) {
@@ -53,11 +54,27 @@ public class AuthRequiredArgumentResolverTest {
         return argumentResolver.resolveArgument(null, null, null, null);
     }
 
-    private AuthRequiredArgumentResolver mockArgumentResolver(boolean isValid) {
+    private AuthRequiredArgumentResolver mockArgumentResolver(boolean isValid, boolean allowSubmitted) {
         return new AuthRequiredArgumentResolver() {
             @Override
             protected Optional<User> validateToken(NativeWebRequest webRequest) {
                 return isValid ? Optional.of(new User()) : Optional.empty();
+            }
+
+            @Override
+            protected AuthRequired getAuthRequired(MethodParameter parameter) {
+                return new AuthRequired() {
+
+                    @Override
+                    public Class<? extends Annotation> annotationType() {
+                        return AuthRequired.class;
+                    }
+
+                    @Override
+                    public boolean allowSubmitted() {
+                        return allowSubmitted;
+                    }
+                };
             }
         };
     }

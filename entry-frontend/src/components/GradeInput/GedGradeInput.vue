@@ -1,54 +1,27 @@
 <template>
-  <div>
-    <navigation />
-    <headline :subText="'2019 입학원서 작성'" title="성적 입력" />
-    <div class="grade-input-cover">
-      <h3>검정고시 평균</h3>
-      <div class="total-score-cover">
-        <div class="total-text-part">
-          평균
-        </div>
-        <div class="total-input-part">
-          <input type="number"
-                 v-model.number="gedScore"
-                 @keydown="onlyNumber"
-                 min="0"
-                 max="100"
-                 class="total-input-part--score"
-          >
-          <span class="total-input-part--text">점</span>
-        </div>
+  <div class="grade-input-cover">
+    <h3>검정고시 평균</h3>
+    <div class="total-score-cover">
+      <div class="total-text-part">
+        평균
+      </div>
+      <div class="total-input-part">
+        <input type="number"
+                v-model.number="grade"
+                @keydown="onlyNumber"
+                min="0"
+                max="100"
+                class="total-input-part--score"
+        >
+        <span class="total-input-part--text">점</span>
       </div>
     </div>
-    <prev-next-btn
-      :prevShow="true"
-      :nextShow="true"
-      :prevLink="prevLink"
-      :nextLink="nextLink"/>
-    <entry-footer />
   </div>
 </template>
 
 <script>
-import Navigation from '../common/Navigation';
-import Headline from '../common/Headline';
-import PrevNextBtn from '../common/PrevNextBtn';
-import EntryFooter from '../common/EntryFooter';
-
 export default {
   name: 'ged-grade-input',
-  components: {
-    Navigation,
-    Headline,
-    PrevNextBtn,
-    EntryFooter,
-  },
-  data() {
-    return {
-      prevLink: '/personal',
-      nextLink: '/intro',
-    };
-  },
   methods: {
     onlyNumber(e) {
       if (!(e.keyCode >= 48 && e.keyCode <= 57)) {
@@ -63,9 +36,9 @@ export default {
     },
   },
   computed: {
-    gedScore: {
+    grade: {
       get() {
-        return this.$store.getters.selectType.gedScore;
+        return this.$store.getters.selectType.grade;
       },
       set(val) {
         this.$store.commit('updateGedScore', val);
@@ -73,8 +46,8 @@ export default {
     },
   },
   watch: {
-    gedScore(val) {
-      if (val > 100) this.gedScore = 100;
+    grade(val) {
+      if (val > 100) this.grade = 100;
     },
   },
 };

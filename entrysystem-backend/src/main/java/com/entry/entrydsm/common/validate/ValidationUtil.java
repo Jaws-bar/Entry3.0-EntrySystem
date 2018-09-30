@@ -1,6 +1,6 @@
 package com.entry.entrydsm.common.validate;
 
-import com.entry.entrydsm.common.exception.ValidationException;
+import com.entry.entrydsm.common.exception.RequestValidationException;
 import com.entry.entrydsm.common.response.RestResponse;
 import com.entry.entrydsm.user.domain.GraduateType;
 import com.entry.entrydsm.user.domain.User;
@@ -18,14 +18,14 @@ public class ValidationUtil {
 
     private static Validator validator = Validation.buildDefaultValidatorFactory().getValidator();
 
-    public static <T> void validate(T dto, Class<?>... groups) throws ValidationException {
+    public static <T> void validate(T dto, Class<?>... groups) throws RequestValidationException {
         Set<ConstraintViolation<Object>> validationErrors = validator.validate(dto, groups);
         if (!validationErrors.isEmpty()) {
-            throw new ValidationException(validationErrors);
+            throw new RequestValidationException(validationErrors);
         }
     }
 
-    public static <T> void validate(T dto, User user) throws ValidationException {
+    public static <T> void validate(T dto, User user) throws RequestValidationException {
         if (user.getGraduateType() == GraduateType.GED) {
             validate(dto, Ged.class);
             return;

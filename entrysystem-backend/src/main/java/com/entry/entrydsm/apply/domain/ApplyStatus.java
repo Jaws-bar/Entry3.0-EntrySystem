@@ -42,4 +42,8 @@ public class ApplyStatus extends BaseTimeEntity {
         this.payment = false;
         this.receipt = false;
     }
+
+    public void submit() {
+        this.finalSubmit = true;
+    }
 }

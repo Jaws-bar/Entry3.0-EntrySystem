@@ -1,8 +1,10 @@
 package com.entry.entrydsm.common.config;
 
+import com.entry.entrydsm.common.exception.AlreadySubmittedException;
 import com.entry.entrydsm.common.exception.UnauthorizedException;
 import com.entry.entrydsm.user.domain.User;
 import com.entry.entrydsm.user.service.AuthService;
+import org.apache.commons.lang3.ObjectUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.HandlerInterceptor;
@@ -24,8 +26,11 @@ public class AuthRequiredInterceptor implements HandlerInterceptor {
 
         HandlerMethod handlerMethod = (HandlerMethod) handler;
 
-        if (!handlerMethod.hasMethodAnnotation(AuthRequired.class)
-                && !isAnnotatedAuthRequiredAtClass(handlerMethod)) {
+        AuthRequired authRequired = ObjectUtils.firstNonNull(
+                handlerMethod.getMethodAnnotation(AuthRequired.class),
+                getClassLevelAuthRequired(handlerMethod));
+
+        if (authRequired == null) {
             return true;
         }
 
@@ -37,14 +42,23 @@ public class AuthRequiredInterceptor implements HandlerInterceptor {
             return true;
         }
 
-        throw new UnauthorizedException();
+        authService.validateToken(request.getHeader("Authorization"))
+                .filter(user -> {
+                    if (!authRequired.allowSubmitted() && user.isSubmitted()) {
+                        throw new AlreadySubmittedException();
+                    }
+                    return true;
+                })
+                .orElseThrow(UnauthorizedException::new);
+
+        return true;
     }
 
     protected boolean anyParameterTypeIsUser(HandlerMethod handlerMethod) {
         return Stream.of(handlerMethod.getMethodParameters()).anyMatch(param -> param.getParameterType().isAssignableFrom(User.class));
     }
 
-    protected boolean isAnnotatedAuthRequiredAtClass(HandlerMethod handlerMethod) {
-        return handlerMethod.getMethod().getDeclaringClass().isAnnotationPresent(AuthRequired.class);
+    protected AuthRequired getClassLevelAuthRequired(HandlerMethod handlerMethod) {
+        return handlerMethod.getMethod().getDeclaringClass().getAnnotation(AuthRequired.class);
     }
 }

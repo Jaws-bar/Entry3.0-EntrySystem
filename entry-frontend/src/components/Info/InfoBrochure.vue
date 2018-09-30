@@ -2,10 +2,10 @@
   <div class="info-brochure">
     <navigation />
     <headline :title="title" :subText="subText" />
-    <!-- <embed class="info-brochure__pdf"
+    <embed class="info-brochure__pdf"
       type='application/pdf'
       :src="`${brochureInfoSrc}#page=${pageNumber}&zoom=${zoom}`"
-      :height="height"> -->
+      :height="height">
     <entry-footer />
   </div>
 </template>

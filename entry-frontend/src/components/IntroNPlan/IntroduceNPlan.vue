@@ -1,7 +1,7 @@
 <template>
   <div>
     <navigation />
-    <headline :subText="'2019 입학원서 작성'" title="자기소개서&학업계획서" />
+    <headline :subText="'2019 입학원서 작성'" title="자기소개서 & 학업계획서" />
     <div class="intro-plan-cover">
       <h3>자기소개서</h3>
       <div class="underline"></div>
@@ -30,7 +30,7 @@
         상세하게 기술하십시오.
       </p>
       <textarea class="intro-plan-write"
-                :value="plan"
+                :value="studyPlan"
                 @input="updatePlan"
                 maxlength="1600"
                 ref="planWrite"
@@ -46,7 +46,8 @@
       :nextShow="true"
       :text="btnText"
       :prevLink="prevLink"
-      :nextLink="nextLink"/>
+      :nextLink="nextLink"
+      :onClick="() => updateIntro()"/>
     <entry-footer />
   </div>
 </template>
@@ -68,53 +69,69 @@ export default {
   },
   data() {
     return {
-      introLength: 0,
-      planLength: 0,
       btnText: '원서 미리보기',
+      prevLink: '/grade',
       nextLink: '/preview',
     };
   },
+  computed: {
+    ...mapState({
+      introduce: state => state.introNPlan.introduce,
+      studyPlan: state => state.introNPlan.studyPlan,
+      introLength: state => state.introNPlan.introLength,
+      planLength: state => state.introNPlan.planLength,
+    }),
+  },
+  mounted() {
+    const token = this.$cookies.get('accessToken');
+    this.$store.dispatch('getIntro', token);
+  },
   methods: {
+    /*
     resize(t) {
       const target = t;
       target.style.height = '1px';
       target.style.height = `${30 + target.scrollHeight}px`;
     },
+    */
     updateIntroduce({ target }) {
-      this.$store.commit('updateIntroduce', target.value);
+      const { value } = target;
+      this.$store.commit('updateIntroduce', {
+        text: value,
+        leng: value.length,
+      });
     },
 
     updatePlan({ target }) {
-      this.$store.commit('updatePlan', target.value);
+      const { value } = target;
+      this.$store.commit('updatePlan', {
+        text: value,
+        leng: value.length,
+      });
+    },
+
+    updateIntro() {
+      const token = this.$cookies.get('accessToken');
+
+      this.$store.dispatch('updateIntro', {
+        token,
+        introduce: this.introduce,
+        studyPlan: this.studyPlan,
+      });
     },
   },
-  computed: {
-    prevLink() {
-      let link;
-      switch (this.$store.state.classify.graduateType) {
-        case 'DONE': link = 'grade-graduated'; break;
-        case 'GED': link = 'grade-ged'; break;
-        default: link = 'grade-scheduled';
-      }
-      return link;
-    },
-    ...mapState({
-      introduce: state => state.introNPlan.introduce,
-      plan: state => state.introNPlan.plan,
-    }),
-  },
+  /*
   watch: {
-    introduce(val) {
+    introduce() {
       const intro = this.$refs.introWrite;
       this.resize(intro);
-      this.introLength = val.length;
     },
-    plan(val) {
+    studyPlan() {
       const plan = this.$refs.planWrite;
       this.resize(plan);
-      this.planLength = val.length;
     },
   },
+  */
 };
 </script>
 
@@ -159,7 +176,7 @@ $intro-plan: #5f8a90;
 
   .intro-plan-write {
     width: 100%;
-    min-height: 390px;
+    height: 600px;
     resize: vertical;
     border-radius: 10px;
     line-height: 1.3;

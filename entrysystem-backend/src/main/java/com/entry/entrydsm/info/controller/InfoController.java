@@ -1,7 +1,7 @@
 package com.entry.entrydsm.info.controller;
 
 import com.entry.entrydsm.common.config.AuthRequired;
-import com.entry.entrydsm.common.exception.ValidationException;
+import com.entry.entrydsm.common.exception.RequestValidationException;
 import com.entry.entrydsm.common.response.RestResponse;
 import com.entry.entrydsm.common.validate.ValidationUtil;
 import com.entry.entrydsm.info.dto.InfoDTO;
@@ -20,13 +20,13 @@ public class InfoController {
 
     @PutMapping
     @AuthRequired
-    public RestResponse<InfoResponse> putInfo(User user, @RequestBody InfoDTO infoDTO) throws ValidationException {
+    public RestResponse<InfoResponse> putInfo(User user, @RequestBody InfoDTO infoDTO) throws RequestValidationException {
         ValidationUtil.validate(infoDTO, user);
         return RestResponse.success(infoService.putInfo(user, infoDTO));
     }
 
     @GetMapping
-    @AuthRequired
+    @AuthRequired(allowSubmitted = true)
     public RestResponse<InfoResponse> getInfo(User user) {
         return RestResponse.success(infoService.getInfo(user));
     }

@@ -90,7 +90,7 @@ public class User extends BaseTimeEntity {
     private GedScore gedScore;
 
     @JsonIgnore
-    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL, optional = false, fetch = FetchType.LAZY)
+    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL, optional = false, fetch = FetchType.EAGER)
     private ApplyStatus applyStatus;
 
     @JsonIgnore
@@ -163,7 +163,7 @@ public class User extends BaseTimeEntity {
         this.admission = classificationDTO.getAdmission();
         this.admissionDetail = classificationDTO.getAdmissionDetail();
         if (classificationDTO.getGraduateType() != GraduateType.GED) {
-            this.graduateInfo.updateClassification(classificationDTO);
+            updateGraduateClassification(classificationDTO);
         }
     }
 
@@ -183,5 +183,19 @@ public class User extends BaseTimeEntity {
     @AssertTrue
     private boolean isValidAdmissionDetail() {
         return (admission.isSocial()) == (!admissionDetail.isNone());
+    }
+
+    public void updateGraduateClassification(ClassificationDTO dto) {
+        this.graduateInfo.updateClassification(dto);
+    }
+
+    public boolean isSubmitted() {
+        if (this.applyStatus == null) return false;
+        return applyStatus.getFinalSubmit();
+    }
+
+    public void submit() {
+        if (this.applyStatus == null) return;
+        this.applyStatus.submit();
     }
 }

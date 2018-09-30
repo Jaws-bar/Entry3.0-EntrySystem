@@ -85,9 +85,6 @@ td {
 #preview-container {
   width: 595px;
   height: 842px;
-  margin: auto;
-  margin-top: 20px;
-  margin-bottom: 20px;
   padding: 30px;
   border: 1px solid #000;
 }

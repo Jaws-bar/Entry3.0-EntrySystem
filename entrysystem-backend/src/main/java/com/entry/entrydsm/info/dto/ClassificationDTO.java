@@ -4,6 +4,7 @@ import com.entry.entrydsm.info.domain.Admission;
 import com.entry.entrydsm.info.domain.AdmissionDetail;
 import com.entry.entrydsm.user.domain.AdditionalType;
 import com.entry.entrydsm.user.domain.GraduateType;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -42,7 +43,7 @@ public class ClassificationDTO {
             return false;
         }
 
-        if ((graduateType == GraduateType.WILL) && (graduateYear == null || graduateYear != 2019)) {
+        if (graduateType == GraduateType.WILL && graduateYear != 2019) {
             return false;
         }
 
@@ -51,5 +52,24 @@ public class ClassificationDTO {
         }
 
         return true;
+    }
+
+    @AssertTrue
+    private boolean isValidAdmissionDetail() {
+        if (admission != Admission.SOCIAL && admissionDetail != AdmissionDetail.NONE) {
+            return false;
+        }
+
+        return true;
+    }
+
+    @Builder
+    public ClassificationDTO(@NotNull GraduateType graduateType, @NotNull Boolean region, @NotNull Admission admission, @NotNull AdmissionDetail admissionDetail, @NotNull AdditionalType additionalType, Integer graduateYear) {
+        this.graduateType = graduateType;
+        this.region = region;
+        this.admission = admission;
+        this.admissionDetail = admissionDetail;
+        this.additionalType = additionalType;
+        this.graduateYear = graduateYear;
     }
 }

@@ -1,7 +1,7 @@
 package com.entry.entrydsm.apply.service.validation;
 
 import com.entry.entrydsm.apply.dto.ValidationResult;
-import com.entry.entrydsm.common.exception.ValidationException;
+import com.entry.entrydsm.common.exception.RequestValidationException;
 import com.entry.entrydsm.common.response.RestResponse;
 import com.entry.entrydsm.common.validate.ValidationUtil;
 import com.entry.entrydsm.grade.domain.graduate.GraduateGrade;
@@ -43,7 +43,7 @@ public class GraduateValidationService extends BaseValidationService implements 
         GraduateScore graduateScore = user.getGraduateScore();
         try {
             ValidationUtil.validate(graduateScore);
-        } catch (ValidationException e) {
+        } catch (RequestValidationException e) {
             return ValidationUtil.toErrors(e.getValidationErrors());
         }
         return new ArrayList<>();
@@ -91,7 +91,7 @@ public class GraduateValidationService extends BaseValidationService implements 
 
         try {
             ValidationUtil.validate(graduateInfo);
-        } catch (ValidationException e) {
+        } catch (RequestValidationException e) {
             errors.addAll(ValidationUtil.toErrors(e.getValidationErrors()));
         }
 

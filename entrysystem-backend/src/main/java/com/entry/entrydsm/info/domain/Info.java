@@ -6,6 +6,7 @@ import com.entry.entrydsm.user.domain.User;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
@@ -70,6 +71,7 @@ public class Info extends BaseTimeEntity {
     @Column(length = 5, nullable = false)
     private String zipCode;
 
+    @Setter
     @NotBlank
     @Column(length = 50)
     private String imgPath;
@@ -109,6 +111,5 @@ public class Info extends BaseTimeEntity {
         this.addressBase = infoDTO.getAddressBase();
         this.addressDetail = infoDTO.getAddressDetail();
         this.zipCode = infoDTO.getZipCode();
-        this.imgPath = infoDTO.getImgPath();
     }
 }

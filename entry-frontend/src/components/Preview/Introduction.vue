@@ -9,11 +9,11 @@
         <tbody>
           <tr>
             <td><pre>성       명</pre></td>
-            <td></td>
+            <td>{{personName}}</td>
           </tr>
           <tr>
             <td>출신중학교</td>
-            <td></td>
+            <td>{{schoolName}}</td>
           </tr>
         </tbody>
       </table>
@@ -23,7 +23,7 @@
             <td><div id="tag-icon">◎</div> <span id="introduction-info-main-text">자기소개서</span> 내용은 특별한 형식은 없으며 개인의 특성 및 성장 과정, 취미·특기, 학교생활, 가족 안에서의 역할, 남들보다 뛰어나다고 생각하는 자신의 장점(특성 혹은 능력)과 보완·발전시켜야 할 단점에대하여 기술하십시오.</td>
           </tr>
           <tr>
-            <td>(1,600자 이내)<div id="preview-text"></div></td>
+            <td>(1,600자 이내)<div id="preview-text">{{introduce}}</div></td>
           </tr>
         </tbody>
       </table>
@@ -32,17 +32,22 @@
 </template>
 
 <script>
+import { mapState } from 'vuex';
+
 export default {
   name: 'introduction',
+  computed: {
+    personName() { return this.$store.state.PersonInfo.personName; },
+    schoolName() { return this.$store.state.PersonInfo.schoolName; },
+    ...mapState({
+      introduce: state => state.introNPlan.introduce,
+      plan: state => state.introNPlan.plan,
+    }),
+  },
 };
 </script>
 
 <style scoped>
-html, body {
-  margin: 0;
-  padding: 0;
-}
-
 div {
   box-sizing: border-box;
 }
@@ -73,9 +78,6 @@ td {
 #preview-container {
   width: 595px;
   height: 842px;
-  margin: auto;
-  margin-top: 20px;
-  margin-bottom: 20px;
   padding: 30px;
   border: 1px solid #000;
 }

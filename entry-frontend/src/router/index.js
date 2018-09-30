@@ -5,9 +5,7 @@ import InfoSummary from '../components/Info/InfoSummary';
 import MainPage from '../components/MainPage/MainPage';
 import IntroduceNPlan from '../components/IntroNPlan/IntroduceNPlan';
 import Classification from '../components/Classification/Classification';
-import NormalGradeInputScheduled from '../components/GradeInput/NormalGradeInputScheduled';
-import NormalGradeInputGraduated from '../components/GradeInput/NormalGradeInputGraduated';
-import GedGradeInput from '../components/GradeInput/GedGradeInput';
+import GradeInput from '../components/GradeInput/GradeInput';
 import PersonalInformation from '../components/PersonalInformation/PersonalInformation';
 import Authorization from './../components/Authorization/Authorization';
 import Preview from './../components/Preview/Preview';
@@ -43,18 +41,6 @@ export default new Router({
     name: 'personal-information',
     component: PersonalInformation,
   }, {
-    path: '/grade-scheduled',
-    name: 'normal-grade-input-scheduled',
-    component: NormalGradeInputScheduled,
-  }, {
-    path: '/grade-graduated',
-    name: 'normal-grade-input-graduated',
-    component: NormalGradeInputGraduated,
-  }, {
-    path: '/grade-ged',
-    name: 'ged-grade-input',
-    component: GedGradeInput,
-  }, {
     path: '/intro',
     name: 'introduce',
     component: IntroduceNPlan,
@@ -62,5 +48,9 @@ export default new Router({
     path: '/preview',
     name: 'preview',
     component: Preview,
+  }, {
+    path: '/grade',
+    name: 'grade-input',
+    component: GradeInput,
   }],
 });
