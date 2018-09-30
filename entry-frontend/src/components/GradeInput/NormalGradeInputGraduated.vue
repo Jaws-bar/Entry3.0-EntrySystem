@@ -147,7 +147,7 @@
       </tr>
     </table>
 
-    <h3>성적입력 (해당 학기 미이수 과목은 X 선택)</h3>
+    <h3>성적입력(해당 학기 미이수 과목은 X 선택)</h3>
     <table class="grade-input-table" ref="grade-table">
       <div class="all-grade-reset-cover">
         <div class="all-grade-reset-cover__box" :class="allHoverCheck()">
@@ -1737,7 +1737,7 @@ $button-color: #edf5f6;
   button {
     width: 20px;
     height: 20px;
-    font-size: 16px;
+    font-size: 14px;
   }
 
   .input-grade-label {
@@ -1750,18 +1750,18 @@ $button-color: #edf5f6;
     align-items: center;
     justify-content: center;
     position: absolute;
-    left: 10px;
+    left: 14px;
     transition: 0.35s ease-in-out;
     border-style: solid;
     border-color: #cfdee0;
 
     @for $i from 1 through 4 {
       &:nth-of-type(#{$i + 1}) {
-        left: calc(10px + (22px * #{$i}));
+        left: calc(14px + (22px * #{$i}));
       }
     }
     &:nth-of-type(6) {
-      left: 126px;
+      left: 128px;
     }
   }
 
@@ -1920,16 +1920,16 @@ $button-color: #edf5f6;
     height: 675px;
 
     .all-grade-reset-cover {
-      width: 250px;
+      width: 200px;
       height: 60px;
       box-sizing: border-box;
       position: absolute;
       right: 0;
-      margin-top: -76px;
+      margin-top: -64px;
 
       @include e('box') {
-        width: 200px;
-        height: 30px;
+        width: 175px;
+        height: 24px;
         border: 1px solid $input-color;
         border-radius: 5px;
         display: flex;
@@ -1941,7 +1941,7 @@ $button-color: #edf5f6;
         transition: opacity .4s;
 
         @include e('text') {
-          font-size: 12px;
+          font-size: 10px;
           color: #26484c;
         }
       }
@@ -1959,7 +1959,7 @@ $button-color: #edf5f6;
         float: right;
 
         @include e('text') {
-          font-size: 16px;
+          font-size: 10px;
         }
 
         button {
@@ -2076,7 +2076,7 @@ $button-color: #edf5f6;
         top: 50%;
         margin-top: -1px;
         transform: translateY(-50%);
-        right: 35px;
+        right: 33px;
       }
 
       // 점수 선택되었을 시의 애니메이션

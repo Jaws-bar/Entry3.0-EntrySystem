@@ -8,6 +8,7 @@
       </div>
       <div class="modal__contants modal__contants--confirm" v-if="index >= 6">
         <div class="modal__contants__close" @click="closeModal"></div>
+        <not-access v-if="index === 6"/>
       </div>
     </div>
 </template>
@@ -16,12 +17,14 @@
 // div class="modal__background" @click="changeModal"></div>  고치기
 import Login from './Login';
 import ResetPw from './ResetPw';
+import NotAccess from './Verify/NotAccess';
 
 export default {
   name: 'Modal',
   components: {
     Login,
     ResetPw,
+    NotAccess,
   },
   computed: {
     index() {
@@ -80,7 +83,7 @@ $M-close-color: #dee8e9;
     color: $M-modal-color;
     @include m('confirm') {
       width: 600px;
-      height: 500px;
+      height: 550px;
     }
     @include e('close'){
         position: absolute;
