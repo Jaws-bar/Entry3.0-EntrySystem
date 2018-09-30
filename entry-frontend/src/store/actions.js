@@ -47,9 +47,6 @@ export const actions = {
         studyPlan: payload.studyPlan,
       },
     })
-    .then((response) => {
-      console.log(response);
-    })
     .catch(err => Promise.reject(err.response));
   },
 
@@ -81,9 +78,6 @@ export const actions = {
       method: 'put',
       headers: { Authorization: `JWT ${payload.token}` },
       data: payload.sendData,
-    })
-    .then((response) => {
-      console.log(response);
     })
     .catch(err => Promise.reject(err.response));
   },

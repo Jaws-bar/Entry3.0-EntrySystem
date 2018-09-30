@@ -7,7 +7,7 @@
     <label class="attach-image__label"
       for="image">
       <div class="attach-image__label__preview"
-        :style="{backgroundImage: `url(${this.imgPath})`}">
+        :style="{backgroundImage: `url(http://entrydsm.hs.kr/images/${this.imgPath})`}">
       </div>
     </label>
   </div>
@@ -29,10 +29,26 @@ export default {
     },
   },
   methods: {
-    onFileChange(e) {
-      const file = e.target.files[0];
-      this.imageURL = URL.createObjectURL(file);
-      this.$emit('upload', this.imageURL);
+    onFileChange(event) {
+      const token = this.$cookies.get('accessToken');
+      const { s, e } = this.$toastr;
+      const file = event.target.files[0];
+      const formData = new FormData();
+      formData.append('file', file);
+      this.$axios.post('http://entrydsm.hs.kr/api/me/profile/image',
+        formData,
+        {
+          headers: {
+              'Content-Type': 'multipart/form-data',
+              Authorization: `JWT ${token}`,
+          },
+        },
+      ).then((res) => {
+        s('사진이 성공적으로 업로드 되었습니다');
+        this.$emit('upload', `${res.data.data}`);
+      }).catch(() => {
+        e('사진 업로드가 실패하였습니다. 다른 사진으로 다시 업로드 해주세요.');
+      });
     },
   },
 };
