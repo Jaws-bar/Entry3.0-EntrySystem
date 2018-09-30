@@ -470,6 +470,16 @@ export default {
       };
     }
     this.monthOptions = monthArray;
+    // 로그인 안하면 메인으로 내쫓기
+    const token = this.$cookies.get('accessToken');
+    const { e } = this.$toastr;
+    if (token !== undefined || token !== null || token !== '') {
+      this.$router.push('/');
+      e('로그인이 되지 않은 사용자입니다.');
+      this.$store.commit('changeIndex', {
+        index: 1,
+      });
+    }
   },
   methods: {
     // 숫자, 백스페이스가 아닐 경우 이벤트 막기

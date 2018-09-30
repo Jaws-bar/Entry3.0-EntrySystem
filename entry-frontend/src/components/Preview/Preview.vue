@@ -67,6 +67,17 @@ export default {
       nextLink: '/submit',
     };
   },
+  created() {
+    const token = this.$cookies.get('accessToken');
+    const { e } = this.$toastr;
+    if (token !== undefined || token !== null || token !== '') {
+      this.$router.push('/');
+      e('로그인이 되지 않은 사용자입니다.');
+      this.$store.commit('changeIndex', {
+        index: 1,
+      });
+    }
+  },
   computed: {
     admission() {
       return this.$store.state.classify.admission;
