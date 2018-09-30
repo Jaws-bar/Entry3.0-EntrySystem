@@ -1587,6 +1587,17 @@ export default {
       },
     },
   },
+  created() {
+    const token = this.$cookies.get('accessToken');
+    const { e } = this.$toastr;
+    if (token === undefined || token === null || token === '') {
+      this.$router.push('/');
+      e('해당 페이지는 로그인이 필요합니다.');
+      this.$store.commit('changeIndex', {
+        index: 1,
+      });
+    }
+  },
   methods: {
     // 봉사 및 출석 Commit - 완료
     updateVolunteerNAttendance(field, value) {
