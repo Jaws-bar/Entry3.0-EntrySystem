@@ -72,7 +72,7 @@ export default {
           this.$store.commit('updateaccessToken', {
             data: token,
           });
-          this.$store.commit('updateClassify', {
+          this.$store.commit('updateUserInfo', {
             token,
           });
           return true;
