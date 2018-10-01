@@ -8,7 +8,7 @@ import com.entry.entrydsm.user.domain.User;
 import java.util.ArrayList;
 import java.util.List;
 
-public class BaseValidationService {
+public abstract class BaseValidationService {
 
     protected List<RestResponse.Error> validateClassification(User user) {
         try {
