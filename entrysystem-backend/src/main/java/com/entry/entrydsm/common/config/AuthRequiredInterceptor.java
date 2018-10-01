@@ -3,7 +3,7 @@ package com.entry.entrydsm.common.config;
 import com.entry.entrydsm.common.exception.AlreadySubmittedException;
 import com.entry.entrydsm.common.exception.UnauthorizedException;
 import com.entry.entrydsm.user.domain.User;
-import com.entry.entrydsm.user.service.AuthService;
+import com.entry.entrydsm.user.service.RealAuthService;
 import org.apache.commons.lang3.ObjectUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.method.HandlerMethod;
@@ -16,7 +16,7 @@ import java.util.stream.Stream;
 public class AuthRequiredInterceptor implements HandlerInterceptor {
 
     @Autowired
-    private AuthService authService;
+    private RealAuthService authService;
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {

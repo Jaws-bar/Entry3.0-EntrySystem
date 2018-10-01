@@ -3,7 +3,7 @@ package com.entry.entrydsm.common.config;
 import com.entry.entrydsm.common.exception.AlreadySubmittedException;
 import com.entry.entrydsm.common.exception.UnauthorizedException;
 import com.entry.entrydsm.user.domain.User;
-import com.entry.entrydsm.user.service.AuthService;
+import com.entry.entrydsm.user.service.RealAuthService;
 import org.apache.commons.lang3.ObjectUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.MethodParameter;
@@ -18,7 +18,7 @@ import java.util.Optional;
 public class AuthRequiredArgumentResolver implements HandlerMethodArgumentResolver {
 
     @Autowired
-    private AuthService authService;
+    private RealAuthService authService;
 
     @Override
     public boolean supportsParameter(MethodParameter parameter) {
