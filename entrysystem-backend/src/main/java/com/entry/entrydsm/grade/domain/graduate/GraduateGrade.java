@@ -12,6 +12,7 @@ import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import java.util.stream.Stream;
 
 @Entity
 @NoArgsConstructor
@@ -76,12 +77,20 @@ public class GraduateGrade extends BaseTimeEntity {
             return true;
         }
 
-        return !(korean.isSkiped() &&
-                social.isSkiped() &&
-                history.isSkiped() &&
-                math.isSkiped() &&
-                science.isSkiped() &&
-                tech.isSkiped() &&
-                english.isSkiped());
+        return !korean.isPassed() &&
+                !social.isPassed() &&
+                !history.isPassed() &&
+                !math.isPassed() &&
+                !science.isPassed() &&
+                !tech.isPassed() &&
+                !english.isPassed();
+    }
+
+    public double calculateScore() {
+        return Stream.of(korean, social, history, math, science, tech, english)
+                .filter(Grade::isPassed)
+                .mapToInt(Grade::getValue)
+                .average()
+                .orElse(0);
     }
 }

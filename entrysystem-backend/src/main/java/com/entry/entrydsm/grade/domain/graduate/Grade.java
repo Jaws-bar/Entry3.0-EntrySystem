@@ -1,14 +1,24 @@
 package com.entry.entrydsm.grade.domain.graduate;
 
 public enum Grade {
-    A,
-    B,
-    C,
-    D,
-    E,
-    X;
+    A(5),
+    B(4),
+    C(3),
+    D(2),
+    E(1),
+    X(-1);
 
-    public boolean isSkiped() {
+    private final int value;
+
+    Grade(int value) {
+        this.value = value;
+    }
+
+    public int getValue() {
+        return value;
+    }
+
+    public boolean isPassed() {
         return this != X;
     }
 }

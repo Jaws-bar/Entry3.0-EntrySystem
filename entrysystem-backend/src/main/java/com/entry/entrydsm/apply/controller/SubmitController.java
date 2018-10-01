@@ -6,6 +6,7 @@ import com.entry.entrydsm.apply.service.validation.ValidationServiceFactory;
 import com.entry.entrydsm.common.config.AuthRequired;
 import com.entry.entrydsm.common.exception.SubmitValidationException;
 import com.entry.entrydsm.common.response.RestResponse;
+import com.entry.entrydsm.common.service.CalculationServiceFactory;
 import com.entry.entrydsm.user.domain.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
@@ -20,6 +21,9 @@ public class SubmitController {
     @Autowired
     private ValidationServiceFactory serviceFactory;
 
+    @Autowired
+    private CalculationServiceFactory calculationServiceFactory;
+
     @PostMapping
     @AuthRequired
     @Transactional
@@ -28,6 +32,7 @@ public class SubmitController {
         if (!validationResult.isValid()) {
             throw new SubmitValidationException(validationResult);
         }
+        calculationServiceFactory.getService(user).calculate(user);
         user.submit();
         return RestResponse.success(user.getApplyStatus());
     }

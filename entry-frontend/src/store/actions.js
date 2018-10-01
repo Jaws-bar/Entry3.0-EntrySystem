@@ -1,4 +1,4 @@
-import axios from 'axios';
+import contact from '../api/contact';
 import utils from '../utils';
 
 export const actions = {
@@ -38,22 +38,12 @@ export const actions = {
   updateDetailedAddress: context => context.commit('updateDetailedAddress'),
   updateImgPath: context => context.commit('updateImgPath'),
   updateIntro: (state, payload) => {
-    axios({
-      url: 'http://entrydsm.hs.kr/api/me/document',
-      method: 'put',
-      headers: { Authorization: `JWT ${payload.token}` },
-      data: {
-        introduce: payload.introduce,
-        studyPlan: payload.studyPlan,
-      },
-    })
+    contact.updateDocument('document', payload)
     .catch(err => Promise.reject(err.response));
   },
 
   getIntro: ({ commit }, payload) => {
-    axios.get('http://entrydsm.hs.kr/api/me/document', {
-      headers: { Authorization: `JWT ${payload}` },
-    })
+    contact.getDocument('document', payload)
     .then((response) => {
       const { data } = response;
       commit('updateIntroAndPlan', data);
@@ -62,9 +52,7 @@ export const actions = {
   },
 
   getGrades: ({ commit }, payload) => {
-    axios.get('http://entrydsm.hs.kr/api/me/grade', {
-      headers: { Authorization: `JWT ${payload}` },
-    })
+    contact.getGrades('grade', payload)
     .then((response) => {
       const { data } = response.data;
       commit('getGrades', utils.getGrade(data));
@@ -73,12 +61,7 @@ export const actions = {
   },
 
   updateGrade: (store, payload) => {
-    axios({
-      url: 'http://entrydsm.hs.kr/api/me/grade',
-      method: 'put',
-      headers: { Authorization: `JWT ${payload.token}` },
-      data: payload.sendData,
-    })
+    contact.updateGrades('grade', payload)
     .catch(err => Promise.reject(err.response));
   },
 };

@@ -7,11 +7,15 @@ import org.springframework.stereotype.Component;
 @Component
 public class ValidationServiceFactory {
 
-    @Autowired
-    private GedValidationService gedValidationService;
+    private final GedValidationService gedValidationService;
+
+    private final GraduateValidationService graduateValidationService;
 
     @Autowired
-    private GraduateValidationService graduateValidationService;
+    public ValidationServiceFactory(GedValidationService gedValidationService, GraduateValidationService graduateValidationService) {
+        this.gedValidationService = gedValidationService;
+        this.graduateValidationService = graduateValidationService;
+    }
 
     public ValidationService getService(User user) {
         if (user.getGraduateType().isGed()) {

@@ -70,4 +70,23 @@ public class GraduateScore extends Score {
         this.periodCut = dto.getPeriodCut();
         this.volunteerTime = dto.getVolunteerTime();
     }
+
+    public void setFirstGrade(double firstGrade) {
+        this.firstGrade = firstGrade;
+        syncConversionScore();
+    }
+
+    private void syncConversionScore() {
+        setConversionScore(firstGrade + secondGrade + thirdGrade);
+    }
+
+    public void setSecondGrade(double secondGrade) {
+        this.secondGrade = secondGrade;
+        syncConversionScore();
+    }
+
+    public void setThirdGrade(double thirdGrade) {
+        this.thirdGrade = thirdGrade;
+        syncConversionScore();
+    }
 }
