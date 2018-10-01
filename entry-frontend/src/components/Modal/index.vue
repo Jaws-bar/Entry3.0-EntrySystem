@@ -117,6 +117,7 @@ $M-close-color: #dee8e9;
   height: 40px;
   border-radius: 5px;
   background-color: $M-btn-background;
+  border: 0;
   color: $M-btn-color;
   text-align: center;
   line-height: 40px;

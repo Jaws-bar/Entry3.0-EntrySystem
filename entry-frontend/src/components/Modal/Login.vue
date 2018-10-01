@@ -15,17 +15,17 @@
         <span class="error-msg" v-if="(!idwrong && pwwrong)">비밀번호를 다시 확인해주세요</span>
         <span class="error-msg" v-if="(idwrong && pwwrong)">이메일과 비밀번호를 다시 확인해주세요</span>
       </div>
-      <div class="login__inputs">
+      <form class="login__inputs" @submit="login">
         <input type="text" class="modal--input input-shake"
-        v-if="idwrong" v-model="email" placeholder="아이디"/>
-        <input type="text" class="modal--input" v-else v-model="email" placeholder="이메일"/>
+        v-if="idwrong" v-model="email" placeholder="아이디" autofocus/>
+        <input type="text" class="modal--input" v-else v-model="email" placeholder="이메일" autofocus/>
         <input type="password" class="modal--input input-shake"
         v-if="pwwrong" v-model="password" placeholder="비밀번호"/>
         <input type="password" class="modal--input" v-else v-model="password" placeholder="비밀번호"/>
-        <div class="modal--btn" v-on:click="login">
+        <button type="submit" class="modal--btn">
           로그인
-        </div>
-      </div>
+        </button>
+      </form>
       <div class="login__links">
         <span class="login__links__link" @click="closeModal">아직 원서작성을 시작하지 않으셨나요?</span>
         <span class="login__links__link" @click="changeIndex">비밀번호 재설정</span>
@@ -62,10 +62,7 @@ export default {
           if (res.status === 200) {
             // Promise.all
             this.$cookies.set('accessToken', res.data.data.accessToken, '4d');
-            this.$store.commit('updateClassify', {
-              token: res.data.data.accessToken,
-            });
-            this.$store.commit('updateInfo', {
+            this.$store.commit('updateUserInfo', {
               token: res.data.data.accessToken,
             });
             this.$store.commit('updateaccessToken', {

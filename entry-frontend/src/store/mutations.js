@@ -216,7 +216,7 @@ export const mutations = {
   updateImgPath: (state, payload) => {
     state.PersonInfo.imgPath = payload.data;
   },
-  updateClassify: (state, payload) => {
+  updateUserInfo: (state, payload) => {
     axios.get('http://entrydsm.hs.kr/api/me/classification',
       { headers: { Authorization: `JWT ${payload.token}` } },
     ).then((res) => {
@@ -268,18 +268,13 @@ export const mutations = {
         state.classify.region = region;
         state.classify.graduateYear = graduateYear * 1;
         state.classify.additionalType = additionalType;
-      }
-    });
-  },
-  updateInfo: (state, payload) => {
-    axios.get('http://entrydsm.hs.kr/api/me/info',
+        axios.get('http://entrydsm.hs.kr/api/me/info',
       { headers: { Authorization: `JWT ${payload.token}` } },
-    ).then((res) => {
+    ).then((response) => {
       const {
         addressBase,
         addressDetail,
         birth,
-        graduateYear,
         imgPath,
         myTel,
         name,
@@ -292,7 +287,7 @@ export const mutations = {
         studentGrade,
         studentNumber,
         zipCode,
-      } = res.data.data;
+      } = response.data.data;
 
       state.PersonInfo.addressBase = addressBase;
       state.PersonInfo.addressDetail = addressDetail;
@@ -313,6 +308,8 @@ export const mutations = {
       state.PersonInfo.myTel = myTel;
       state.PersonInfo.parentTel = parentTel;
       state.PersonInfo.parentName = parentName;
+    });
+      }
     });
   },
   updateaccessToken: (state, payload) => {
