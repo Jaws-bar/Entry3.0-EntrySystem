@@ -22,13 +22,13 @@ public class School {
     private String name;
 
     @Column(nullable = false)
-    private String schoolRegion;
+    private String fullName;
 
     @Builder
-    public School(String code, String government, String name, String schoolRegion) {
+    public School(String code, String government, String name, String fullName) {
         this.code = code;
         this.government = government;
         this.name = name;
-        this.schoolRegion = schoolRegion;
+        this.fullName = fullName;
     }
 }
