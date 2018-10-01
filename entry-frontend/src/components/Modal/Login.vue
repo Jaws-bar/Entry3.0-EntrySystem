@@ -62,9 +62,8 @@ export default {
           if (res.status === 200) {
             // Promise.all
             this.$cookies.set('accessToken', res.data.data.accessToken, '4d');
-            this.$store.commit('updateUserInfo', {
-              token: res.data.data.accessToken,
-            });
+            this.$store.dispatch('getClassify', res.data.data.accessToken);
+            this.$store.dispatch('getInfo', res.data.data.accessToken);
             this.$store.commit('updateaccessToken', {
               accessToken: res.data.data.accessToken,
             });

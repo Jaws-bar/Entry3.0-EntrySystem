@@ -45,4 +45,16 @@ export default {
       headers: { Authorization: `JWT ${token}` },
     });
   },
+
+  getClassify(uri, token) {
+    return axios.get(CONSTANT.BASE_URI + uri,
+      { headers: { Authorization: `JWT ${token}` } },
+    );
+  },
+
+  getInfo(uri, token) {
+    return axios.get(CONSTANT.BASE_URI + uri,
+      { headers: { Authorization: `JWT ${token}` } },
+    );
+  },
 };

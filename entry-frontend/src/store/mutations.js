@@ -1,5 +1,3 @@
-import axios from 'axios';
-
 export const mutations = {
   updateGedScore: (state, payload) => {
     state.gradeInput.grade = payload;
@@ -167,6 +165,55 @@ export const mutations = {
   updateGraduateType: (state, payload) => {
     state.classify.graduateType = payload.data;
   },
+  updateClassify: (state, { data }) => {
+    const {
+      graduateType,
+      admission,
+      admissionDetail,
+      region,
+      graduateYear,
+      additionalType,
+    } = data;
+    if (graduateType === 'GED') {
+      state.classify.isGED = true;
+    } else if (graduateType === 'DONE') {
+      state.classify.isGraduated = true;
+    }
+    state.classify.graduateType = graduateType;
+    state.classify.admission = admission;
+    switch (admissionDetail) {
+      case 'BENEFICIARY' :
+        state.classify.admissionDetail = { text: '기초생활수급권자', value: admissionDetail };
+        break;
+      case 'ONE_PARENT' :
+        state.classify.admissionDetail = { text: '한부모가족 보호대상자', value: admissionDetail };
+        break;
+      case 'CHA_UPPER':
+        state.classify.admissionDetail = { text: '차상위 계층', value: admissionDetail };
+        break;
+      case 'CHACHA_UPPER' :
+        state.classify.admissionDetail = { text: '차차상위 계층', value: admissionDetail };
+        break;
+      case 'FROM_NORTH' :
+        state.classify.admissionDetail = { text: '북한이탈주민', value: admissionDetail };
+        break;
+      case 'MULTI_CULTURE' :
+        state.classify.admissionDetail = { text: '다문화 가정', value: admissionDetail };
+        break;
+      case 'ETC' :
+        state.classify.admissionDetail = { text: '그 외 대상자', value: admissionDetail };
+        break;
+      case 'NONE':
+        state.classify.admissionDetail = { text: '', value: 'NONE' };
+        break;
+      default:
+        state.classify.admissionDetail = { text: '서버에서 오류가 났습니다.', value: 'ERROR' };
+    }
+    state.classify.admissionDetail.value = admissionDetail;
+    state.classify.region = region;
+    state.classify.graduateYear = graduateYear * 1;
+    state.classify.additionalType = additionalType;
+  },
   // PersonalInformation
   updatePersonName: (state, payload) => {
     state.PersonInfo.personName = payload.data;
@@ -216,101 +263,45 @@ export const mutations = {
   updateImgPath: (state, payload) => {
     state.PersonInfo.imgPath = payload.data;
   },
-  updateUserInfo: (state, payload) => {
-    axios.get('http://entrydsm.hs.kr/api/me/classification',
-      { headers: { Authorization: `JWT ${payload.token}` } },
-    ).then((res) => {
-      if (res.status === 200) {
-        const {
-          graduateType,
-          admission,
-          admissionDetail,
-          region,
-          graduateYear,
-          additionalType,
-        } = res.data.data;
-        if (graduateType === 'GED') {
-          state.classify.isGED = true;
-        } else if (graduateType === 'DONE') {
-          state.classify.isGraduated = true;
-        }
-        state.classify.graduateType = graduateType;
-        state.classify.admission = admission;
-        switch (admissionDetail) {
-          case 'BENEFICIARY' :
-            state.classify.admissionDetail = { text: '기초생활수급권자', value: admissionDetail };
-            break;
-          case 'ONE_PARENT' :
-            state.classify.admissionDetail = { text: '한부모가족 보호대상자', value: admissionDetail };
-            break;
-          case 'CHA_UPPER':
-            state.classify.admissionDetail = { text: '차상위 계층', value: admissionDetail };
-            break;
-          case 'CHACHA_UPPER' :
-            state.classify.admissionDetail = { text: '차차상위 계층', value: admissionDetail };
-            break;
-          case 'FROM_NORTH' :
-            state.classify.admissionDetail = { text: '북한이탈주민', value: admissionDetail };
-            break;
-          case 'MULTI_CULTURE' :
-            state.classify.admissionDetail = { text: '다문화 가정', value: admissionDetail };
-            break;
-          case 'ETC' :
-            state.classify.admissionDetail = { text: '그 외 대상자', value: admissionDetail };
-            break;
-          case 'NONE':
-            state.classify.admissionDetail = { text: '', value: 'NONE' };
-            break;
-          default:
-            state.classify.admissionDetail = { text: '서버에서 오류가 났습니다.', value: 'ERROR' };
-        }
-        state.classify.admissionDetail.value = admissionDetail;
-        state.classify.region = region;
-        state.classify.graduateYear = graduateYear * 1;
-        state.classify.additionalType = additionalType;
-        axios.get('http://entrydsm.hs.kr/api/me/info',
-      { headers: { Authorization: `JWT ${payload.token}` } },
-    ).then((response) => {
-      const {
-        addressBase,
-        addressDetail,
-        birth,
-        imgPath,
-        myTel,
-        name,
-        parentName,
-        parentTel,
-        school,
-        schoolTel,
-        sex,
-        studentClass,
-        studentGrade,
-        studentNumber,
-        zipCode,
-      } = response.data.data;
+  updateInfo: (state, { data }) => {
+    const {
+      addressBase,
+      addressDetail,
+      birth,
+      imgPath,
+      myTel,
+      name,
+      graduateYear,
+      parentName,
+      parentTel,
+      school,
+      schoolTel,
+      sex,
+      studentClass,
+      studentGrade,
+      studentNumber,
+      zipCode,
+    } = data;
 
-      state.PersonInfo.addressBase = addressBase;
-      state.PersonInfo.addressDetail = addressDetail;
-      state.PersonInfo.year = birth.split('-')[0];
-      state.PersonInfo.month = birth.split('-')[1];
-      state.PersonInfo.day = birth.split('-')[2];
-      state.classify.graduateYear = graduateYear;
-      state.PersonInfo.schoolName = (school != null) ? school.name : '';
-      state.PersonInfo.schoolCode = (school != null) ? school.code : '';
-      state.PersonInfo.schoolTel = schoolTel;
-      state.PersonInfo.sex = sex;
-      state.PersonInfo.studentClass = studentClass;
-      state.PersonInfo.studentGrade = studentGrade;
-      state.PersonInfo.studentNumber = studentNumber;
-      state.PersonInfo.zipCode = zipCode;
-      state.PersonInfo.personName = name;
-      state.PersonInfo.imgPath = imgPath;
-      state.PersonInfo.myTel = myTel;
-      state.PersonInfo.parentTel = parentTel;
-      state.PersonInfo.parentName = parentName;
-    });
-      }
-    });
+    state.PersonInfo.addressBase = addressBase;
+    state.PersonInfo.addressDetail = addressDetail;
+    state.PersonInfo.year = birth.split('-')[0];
+    state.PersonInfo.month = birth.split('-')[1];
+    state.PersonInfo.day = birth.split('-')[2];
+    state.classify.graduateYear = graduateYear;
+    state.PersonInfo.schoolName = (school != null) ? school.name : '';
+    state.PersonInfo.schoolCode = (school != null) ? school.code : '';
+    state.PersonInfo.schoolTel = schoolTel;
+    state.PersonInfo.sex = sex;
+    state.PersonInfo.studentClass = studentClass;
+    state.PersonInfo.studentGrade = studentGrade;
+    state.PersonInfo.studentNumber = studentNumber;
+    state.PersonInfo.zipCode = zipCode;
+    state.PersonInfo.personName = name;
+    state.PersonInfo.imgPath = imgPath;
+    state.PersonInfo.myTel = myTel;
+    state.PersonInfo.parentTel = parentTel;
+    state.PersonInfo.parentName = parentName;
   },
   updateaccessToken: (state, payload) => {
     state.accessToken = payload.data;

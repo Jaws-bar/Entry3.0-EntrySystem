@@ -64,6 +64,22 @@ export const actions = {
     contact.updateGrades('grade', payload)
     .catch(err => Promise.reject(err.response));
   },
+
+  getClassify: ({ commit }, payload) => {
+    contact.getClassify('classification', payload)
+    .then((response) => {
+      const { data } = response;
+      commit('updateClassify', data);
+    });
+  },
+
+  getInfo: ({ commit }, payload) => {
+    contact.getInfo('info', payload)
+    .then((response) => {
+      const { data } = response;
+      commit('updateInfo', data);
+    });
+  },
 };
 
 export default actions;
