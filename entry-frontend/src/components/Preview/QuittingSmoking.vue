@@ -36,8 +36,8 @@
             </div>
             <div id="quitting-content-footer">
               <p>2018년 <span class="quitting-blank"></span>월 <span class="quitting-blank"></span>일</p>
-              <p>서 약 자 : <span class="quitting-blank"></span>( 서 명 )</p>
-              <p>보 호 자 : <span class="quitting-blank"></span>( 서 명 )</p>
+              <p>서 약 자 : <span class="quitting-blank">{{ personName }}</span>( 서 명 )</p>
+              <p>보 호 자 : <span class="quitting-blank">{{ parentName }}</span>( 서 명 )</p>
             </div>
           </td>
         </tr>
@@ -51,6 +51,7 @@ export default {
   name: 'quitting-smoking',
   computed: {
     personName() { return this.$store.state.PersonInfo.personName; },
+    parentName() { return this.$store.state.PersonInfo.parentName; },
     school() { return this.$store.state.PersonInfo.school; },
     myTel() { return this.$store.state.PersonInfo.myTel; },
     addressBase() { return this.$store.state.PersonInfo.addressBase; },
@@ -121,6 +122,6 @@ td {
 #quitting-smoking-content #quitting-content-footer p:nth-child(2) {  text-align: right; margin: 0 10px; }
 #quitting-smoking-content #quitting-content-footer p:nth-child(3) {  text-align: right; margin: 0 10px; }
 #quitting-smoking-content #quitting-content-footer p:nth-child(1) .quitting-blank { width: 40px; display: inline-block; }
-#quitting-smoking-content #quitting-content-footer p:nth-child(2) .quitting-blank { width: 120px; display: inline-block; }
-#quitting-smoking-content #quitting-content-footer p:nth-child(3) .quitting-blank { width: 120px; display: inline-block; }
+#quitting-smoking-content #quitting-content-footer p:nth-child(2) .quitting-blank { width: 120px; display: inline-block; text-align: left; }
+#quitting-smoking-content #quitting-content-footer p:nth-child(3) .quitting-blank { width: 120px; display: inline-block; text-align: left; }
 </style>
