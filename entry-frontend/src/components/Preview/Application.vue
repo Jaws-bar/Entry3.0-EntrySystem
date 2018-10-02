@@ -135,7 +135,10 @@
       <table>
         <tbody>
           <tr>
-            <td><pre>사     진<br /><br />(3cm×4cm)</pre></td>
+            <td class="img-cover">
+              <div class="img" :style="imgBgStyle"></div>
+              <pre>사     진<br /><br />(3cm×4cm)</pre>
+            </td>
             <td>
               <pre>본인의 귀 고등학교에 입학하고자 소정의 서류를 갖추어<br />지원합니다.                                              </pre>
               <p>2018년 10 월 <span class="application-info-blank">{{nowDay}}</span>일</p>
@@ -233,6 +236,12 @@ export default {
     addressBase() { return this.$store.state.PersonInfo.addressBase; },
     addressDetail() { return this.$store.state.PersonInfo.addressDetail; },
     imgPath() { return this.$store.state.PersonInfo.imgPath; },
+    imgBgStyle() {
+      return {
+        background: `url(${this.imgPath}) no-repeat center center`,
+        backgroundSize: 'cover',
+      };
+    },
   },
   created() {
     this.$axios.get('http://entrydsm.hs.kr/api/me/score',
@@ -432,4 +441,15 @@ input[type="checkbox"] {
 #foo p:nth-child(4) { font-size: 14px; font-weight: bold; }
 #foo p:nth-child(2) span { text-align: center; }
 #foo p:nth-child(3) span { text-align: center; }
+
+.img-cover {
+  position: relative;
+}
+.img {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  left: 0;
+  top: 0;
+}
 </style>
