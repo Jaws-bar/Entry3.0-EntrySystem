@@ -4,6 +4,7 @@ import com.entry.entrydsm.common.exception.AlreadySubmittedException;
 import com.entry.entrydsm.common.exception.UnauthorizedException;
 import com.entry.entrydsm.user.domain.User;
 import com.entry.entrydsm.user.service.RealAuthService;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.ObjectUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.MethodParameter;
@@ -15,6 +16,7 @@ import org.springframework.web.method.support.ModelAndViewContainer;
 import javax.servlet.http.HttpServletRequest;
 import java.util.Optional;
 
+@Slf4j
 public class AuthRequiredArgumentResolver implements HandlerMethodArgumentResolver {
 
     @Autowired
@@ -32,8 +34,10 @@ public class AuthRequiredArgumentResolver implements HandlerMethodArgumentResolv
         AuthRequired authRequired = getAuthRequired(parameter);
         return validateToken(webRequest).filter(user -> {
             if (!authRequired.allowSubmitted() && user.isSubmitted()) {
+                log.debug("Request Rejected. this url not allowed after submission. {}", user.getId());
                 throw new AlreadySubmittedException();
             }
+            log.debug("Request Accepted. {}", user.getId());
             return true;
         }).orElseThrow(UnauthorizedException::new);
     }
@@ -52,7 +56,9 @@ public class AuthRequiredArgumentResolver implements HandlerMethodArgumentResolv
     }
 
     private String getAuthorizationHeaderString(NativeWebRequest webRequest) {
-        return ((HttpServletRequest) webRequest.getNativeRequest()).getHeader("Authorization");
+        String headerString = ((HttpServletRequest) webRequest.getNativeRequest()).getHeader("Authorization");
+        log.debug("Authorization: {}", headerString);
+        return headerString;
     }
 
     private AuthRequired getClassLevelAuthRequired(MethodParameter parameter) {
