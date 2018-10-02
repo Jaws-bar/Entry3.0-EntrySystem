@@ -7,7 +7,12 @@ export const PersonInfo = {
   studentClass: null, // 학급 반
   studentNumber: null, //  학급 번호
   schoolCode: null, // 중학교 코드
-  school: null, // 중학교 code, government, name, schoolRegion
+  school: {
+    code: null,
+    government: null,
+    name: null,
+    schoolRegion: null,
+  }, // 중학교 code, government, name, schoolRegion
   parentName: null, // 보호자명
   schoolTel: null, // 학교 연락처
   parentTel: null, // 보호자 연락처

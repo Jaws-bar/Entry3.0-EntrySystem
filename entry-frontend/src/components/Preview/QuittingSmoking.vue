@@ -35,7 +35,7 @@
               <pre>   보호자는 서약자가 금연을 하는데 용기와 도움을 줄 것을 약속합니다.</pre>
             </div>
             <div id="quitting-content-footer">
-              <p>2018년 <span class="quitting-blank"></span>월 <span class="quitting-blank"></span>일</p>
+              <p>2018년 <span class="quitting-blank">{{nowMonth}}</span>월 <span class="quitting-blank">{{nowDay}}</span>일</p>
               <p>서 약 자 : <span class="quitting-blank">{{ personName }}</span>( 서 명 )</p>
               <p>보 호 자 : <span class="quitting-blank">{{ parentName }}</span>( 서 명 )</p>
             </div>
@@ -48,6 +48,11 @@
 
 <script>
 export default {
+  props: {
+    nowYear: Number,
+    nowMonth: Number,
+    nowDay: Number,
+  },
   name: 'quitting-smoking',
   computed: {
     personName() { return this.$store.state.PersonInfo.personName; },

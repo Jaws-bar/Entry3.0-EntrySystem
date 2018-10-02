@@ -25,21 +25,21 @@
           </tr>
           <tr>
             <td>대전시 교육청 관내</td>
-            <td></td>
-            <td></td>
-            <td></td>
+            <td><span class="check" v-show="check === 1">O</span></td>
+            <td><span class="check" v-show="check === 2">O</span></td>
+            <td><span class="check" v-show="check === 3">O</span></td>
           </tr>
           <tr>
             <td>대전시 교육청 관외</td>
-            <td></td>
-            <td></td>
-            <td></td>
+            <td><span class="check" v-show="check === 4">O</span></td>
+            <td><span class="check" v-show="check === 5">O</span></td>
+            <td><span class="check" v-show="check === 6">O</span></td>
           </tr>
         </tbody>
       </table>
       <pre>    위 학생을 2019학년도 대덕소프트웨어마이스터고등학교 특별<br />  전형 대상자로 추천합니다.</pre>
       <div id="recommendation-footer">
-        <p>2018 년 <span class="recommendation-blank"></span>월 <span class="recommendation-blank"></span>일</p>
+        <p>2018 년 <span class="recommendation-blank">{{nowMonth}}</span>월 <span class="recommendation-blank">{{nowDay}}</span>일</p>
         <p>작성자 담임 : <span class="recommendation-blank"></span>(인)</p>
         <p>[<span class="recommendation-blank"></span>] 중학교장</p>
         <div>출신중학교장<br />직인</div>
@@ -51,10 +51,51 @@
 
 <script>
 export default {
-  name: 'academic-plan',
+  props: {
+    nowYear: Number,
+    nowMonth: Number,
+    nowDay: Number,
+  },
+  name: 'recommendation-letter',
   computed: {
+    admission() { return this.$store.state.classify.admission; },
+    admissionDetail() { return this.$store.state.classify.admissionDetail; },
+    region() { return this.$store.state.classify.region; },
     personName() { return this.$store.state.PersonInfo.personName; },
     studentClass() { return this.$store.state.PersonInfo.studentClass; },
+    isOpportunity() {
+      return (
+        this.admissionDetail.value === 'BENEFICIARY' ||
+        this.admissionDetail.value === 'ONE_PARENT' ||
+        this.admissionDetail.value === 'CHA_UPPER' ||
+        this.admissionDetail.value === 'CHACHA_UPPER');
+    },
+    isDiversity() {
+      return (
+        this.admissionDetail.value === 'FROM_NORTH' ||
+        this.admissionDetail.value === 'MULTI_CULTURE');
+    },
+    check() {
+      let value = 0;
+      if (this.region) {
+        if (this.admission === 'MEISTER') {
+          value = 1;
+        } else if (this.isOpportunity) {
+          value = 2;
+        } else if (this.isDiversity) {
+          value = 3;
+        }
+      } else if (!this.region) {
+        if (this.admission === 'MEISTER') {
+          value = 4;
+        } else if (this.isOpportunity) {
+          value = 5;
+        } else if (this.isDiversity) {
+          value = 6;
+        }
+      }
+      return value;
+    },
   },
 };
 </script>
@@ -142,4 +183,8 @@ td {
 #recommendation-footer p:nth-child(1) .recommendation-blank { width: 25px; display: inline-block; }
 #recommendation-footer p:nth-child(2) .recommendation-blank { width: 100px; display: inline-block; }
 #recommendation-footer p:nth-child(3) .recommendation-blank { width: 150px; display: inline-block; }
+
+.check {
+  font-size: 30px;
+}
 </style>

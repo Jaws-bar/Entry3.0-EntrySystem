@@ -135,21 +135,21 @@
       <table>
         <tbody>
           <tr>
-            <td>
-              <p>보훈번호:(<span class="application-info-middle-blank"></span>)</p>
-              <p>위는 국가유공자</p>
-              <p>자녀임을 확인함</p>
-              <p>2018.10. <span class="application-info-middle-blank"></span>.</p>
-              <p>작성자 : <span class="application-info-middle-blank"></span>(인)</p>
-            </td>
+            <td><pre>사     진<br /><br />(3cm×4cm)</pre></td>
             <td>
               <pre>본인의 귀 고등학교에 입학하고자 소정의 서류를 갖추어<br />지원합니다.                                              </pre>
-              <p>2018년 10 월 <span class="application-info-blank"></span>일</p>
+              <p>2018년 10 월 <span class="application-info-blank">{{nowDay}}</span>일</p>
               <p>지원자 : <span class="application-info-long-blank">{{ personName }}</span>(인)   보호자 : <span class="application-info-long-blank">{{parentName}}</span>(인)</p>
               <br />
               <p>대덕소프트웨어마이스터고등학교장 귀하</p>
             </td>
-            <td><pre>사     진<br /><br />(3cm×4cm)</pre></td>
+            <td>
+              <p>보훈번호:(<span class="application-info-middle-blank"></span>)</p>
+              <p>위는 국가유공자</p>
+              <p>자녀임을 확인함</p>
+              <p>2018.10.{{nowDay}}.</p>
+              <p>작성자 : <span class="application-info-middle-blank"></span>(인)</p>
+            </td>
           </tr>
         </tbody>
       </table>
@@ -159,7 +159,7 @@
             <td>
               <pre>추        천        서</pre>
               <pre>본 입학원서의 내용은 사실과 다름이 없으며 상기자는 귀교에 입학 적격자로<br />인정되므로 추천합니다.                                                              </pre>
-              <p>2018년 10 월 <span class="application-info-middle-blank"></span>일</p>
+              <p>2018년 10 월 <span class="application-info-middle-blank">{{nowDay}}</span>일</p>
               <p>작성자 : <span class="application-info-long-blank"></span>(인)<span class="application-info-long-blank"></span><span class="application-info-long-blank"></span>(<span class="application-info-long-blank"></span>)중학교장<span class="application-info-middle-blank"></span>(직인)</p>
             </td>
           </tr>
@@ -192,6 +192,11 @@
 
 <script>
 export default {
+  props: {
+    nowYear: Number,
+    nowMonth: Number,
+    nowDay: Number,
+  },
   name: 'application',
   data() {
     return {
@@ -400,12 +405,12 @@ input[type="checkbox"] {
 #application-info-tables table:nth-child(5) tr:nth-child(1) td:nth-child(5) { width: 13%; }
 
 /* row_7, 사진~ */
-#application-info-tables table:nth-child(6) tr:nth-child(1) td:nth-child(1) { width: 21%; }
-#application-info-tables table:nth-child(6) tr:nth-child(1) td:nth-child(1) p, pre { margin: 10px; }
+#application-info-tables table:nth-child(6) tr:nth-child(1) td:nth-child(1) { width: 3cm; height: 4cm; }
 #application-info-tables table:nth-child(6) tr:nth-child(1) td:nth-child(2) { width: 58%; }
 #application-info-tables table:nth-child(6) tr:nth-child(1) td:nth-child(2) p, pre { margin: 10px; }
 #application-info-tables table:nth-child(6) tr:nth-child(1) td:nth-child(2) p:nth-child(5) { font-size: 11px; font-weight: bold; text-align: left; margin-left: 10px; }
-#application-info-tables table:nth-child(6) tr:nth-child(1) td:nth-child(3) { width: 3cm; height: 4cm; }
+#application-info-tables table:nth-child(6) tr:nth-child(1) td:nth-child(3) { width: 21%; }
+#application-info-tables table:nth-child(6) tr:nth-child(1) td:nth-child(3) p, pre { margin: 10px; }
 
 /* row_8, 추천서~ */
 #application-info-tables table:nth-child(7) tr:nth-child(1) td:nth-child(1) { border: 1px solid #000 }

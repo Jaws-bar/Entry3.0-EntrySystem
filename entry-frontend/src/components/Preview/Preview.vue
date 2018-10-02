@@ -3,11 +3,21 @@
     <navigation />
     <headline :title="title" :subText="subText" />
     <div class="pdf-target a4">
-      <application></application>
-      <introduction class="introduction"></introduction>
-      <academic-plan></academic-plan>
-      <recommendation-letter v-if="admission !== 'NORMAL'"></recommendation-letter>
-      <quitting-smoking></quitting-smoking>
+      <application
+        :nowYear="nowYear"
+        :nowMonth="nowMonth"
+        :nowDay="nowDay"/>
+      <introduction class="introduction"/>
+      <academic-plan/>
+      <recommendation-letter
+        v-if="admission !== 'NORMAL'"
+        :nowYear="nowYear"
+        :nowMonth="nowMonth"
+        :nowDay="nowDay"/>
+      <quitting-smoking
+        :nowYear="nowYear"
+        :nowMonth="nowMonth"
+        :nowDay="nowDay"/>
     </div>
     <div class="btn-cover">
       <button
@@ -55,9 +65,16 @@ export default {
       subText: '대덕소프트웨어마이스터고등학교',
       prevLink: '/intro',
       nextLink: '/submit',
+      nowYear: 0,
+      nowMonth: 0,
+      nowDay: 0,
     };
   },
   created() {
+    const dateObj = (new Date());
+    this.nowYear = dateObj.getFullYear();
+    this.nowMonth = dateObj.getMonth() + 1;
+    this.nowDay = dateObj.getDate();
     const token = this.$cookies.get('accessToken');
     const { e } = this.$toastr;
     if (token === undefined || token === null || token === '') {
