@@ -426,7 +426,7 @@ export default {
       }
       this.$axios({
         method: 'put',
-        url: 'http://entrydsm.hs.kr/api/me/classification',
+        url: 'http://114.108.135.15/api/me/classification',
         headers: { Authorization: `JWT ${token}` },
         data,
       }).then((res) => {

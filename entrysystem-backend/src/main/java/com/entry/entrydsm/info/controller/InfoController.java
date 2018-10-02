@@ -3,7 +3,6 @@ package com.entry.entrydsm.info.controller;
 import com.entry.entrydsm.common.config.AuthRequired;
 import com.entry.entrydsm.common.exception.RequestValidationException;
 import com.entry.entrydsm.common.response.RestResponse;
-import com.entry.entrydsm.common.service.CalculationProxy;
 import com.entry.entrydsm.common.validate.ValidationUtil;
 import com.entry.entrydsm.info.dto.InfoDTO;
 import com.entry.entrydsm.info.dto.InfoResponse;
@@ -25,7 +24,6 @@ public class InfoController {
     @Transactional
     public RestResponse<InfoResponse> putInfo(User user, @RequestBody InfoDTO infoDTO) throws RequestValidationException {
         ValidationUtil.validate(infoDTO, user);
-        CalculationProxy.calculateIfValid(user);
         return RestResponse.success(infoService.putInfo(user, infoDTO));
     }
 

@@ -244,7 +244,7 @@ export default {
     },
   },
   created() {
-    this.$axios.get('http://entrydsm.hs.kr/api/me/score',
+    this.$axios.get('http://114.108.135.15/api/me/score',
       { headers: { Authorization: `JWT ${this.$cookies.get('accessToken')}` },
       }).then((res) => {
       if (res.status === 200) {
@@ -351,7 +351,7 @@ input[type="checkbox"] {
 /* middle number blank */
 .application-info-middle-blank {
   display: inline-block;
-  width: 34px;
+  width: 15px;
 }
 
 #application-terms-info-box {

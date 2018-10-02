@@ -12,6 +12,7 @@ import com.entry.entrydsm.user.domain.tempuser.TempUser;
 import com.entry.entrydsm.user.domain.tempuser.TempUserRepository;
 import com.entry.entrydsm.user.dto.SigninDTO;
 import com.entry.entrydsm.user.dto.SignupDTO;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -25,6 +26,7 @@ import javax.validation.Valid;
 import java.util.Optional;
 
 @Service("test-auth-service")
+@Slf4j
 public class RealAuthService implements AuthService {
 
     @Autowired
@@ -74,11 +76,13 @@ public class RealAuthService implements AuthService {
 
     public Optional<User> validateToken(String authorizationHeader) {
         if (authorizationHeader == null || !authorizationHeader.startsWith(prefix)) {
+            log.debug("Token Validation Failed. authorizationHeader: {}", authorizationHeader);
             return Optional.empty();
         }
         try {
             return userRepository.findById(jwt.getUserId(authorizationHeader.substring(prefix.length())));
         } catch (Exception e) {
+            log.debug("Exception has occurred. {}", e);
             return Optional.empty();
         }
     }

@@ -30,7 +30,7 @@
       <div class="ChangePw__hover">
         <div class="ChangePw__hover__bubble">
           <span class="ChangePw__hover__bubble__contents">
-              영문(대소문자 구분), 숫자 포함 8자리 이상 특수기호 가능
+              영문(대소문자 포함), 숫자 포함 8자리 이상 특수기호 가능
           </span>
         </div>
       </div>

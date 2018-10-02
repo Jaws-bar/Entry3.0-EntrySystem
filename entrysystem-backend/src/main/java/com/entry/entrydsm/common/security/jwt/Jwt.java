@@ -6,6 +6,7 @@ import com.auth0.jwt.JWTVerifier;
 import com.auth0.jwt.internal.org.apache.commons.codec.binary.Base64;
 import com.entry.entrydsm.common.response.JwtToken;
 import com.entry.entrydsm.user.domain.User;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
@@ -14,6 +15,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 @Component
+@Slf4j
 public class Jwt {
 
     @Value("${jwt.issuer}")
@@ -83,6 +85,9 @@ public class Jwt {
     }
 
     public String getUserId(String token) throws Exception {
-        return (String) jwtVerifier.verify(token).get("userId");
+        log.debug("jwtVerifier verifying token [{}]", token);
+        String userId = (String) jwtVerifier.verify(token).get("userId");
+        log.debug("Verifying succeed. userId : {}", userId);
+        return userId;
     }
 }

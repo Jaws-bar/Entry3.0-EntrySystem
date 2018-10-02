@@ -530,7 +530,7 @@ export default {
       data.birth = `${data.year}-${data.month}-${data.day}`;
       this.$axios({
         method: 'put',
-        url: 'http://entrydsm.hs.kr/api/me/info',
+        url: 'http://114.108.135.15/api/me/info',
         headers: { Authorization: `JWT ${token}` },
         data,
       }).then((res) => {

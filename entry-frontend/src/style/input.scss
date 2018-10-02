@@ -89,7 +89,6 @@ $input-pseudo: #608a8e;
 }
 
 .input-radio + .input-radio-label {
-  display: inline-flex;
   position: relative;
   width: 16px;
   height: 16px;
@@ -109,4 +108,8 @@ $input-pseudo: #608a8e;
 .input-radio:checked + .input-radio-label .input-radio-span {
   background-color: $input-background;
   border: solid 1px $input-border;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
 }
