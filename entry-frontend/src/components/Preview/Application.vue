@@ -55,7 +55,8 @@
             <td>학교</td>
             <td>{{schoolTel}}</td>
             <td class="application-info-textalign-left">
-              <input :checked="graduateType === 'DONE'" type="checkbox" onclick="return false" /><span :style="{paddingRight: graduateType === 'DONE' ? '0' : '7px'}">{{graduateType === 'DONE' ? graduationYear : '201'}}</span>년 2월 중학교 졸업</td>
+              <input :checked="graduateType === 'DONE'" type="checkbox" onclick="return false" />
+              <span :style="{paddingRight: graduateType === 'DONE' ? '0' : '7px'}">{{graduateType === 'DONE' ? graduateYear : '201'}}</span>년 2월 중학교 졸업</td>
           </tr>
           <tr>
             <td>학생</td>
@@ -208,7 +209,7 @@ export default {
     admissionDetail() { return this.$store.state.classify.admissionDetail; },
     region() { return this.$store.state.classify.region; },
     isGraduated() { return this.$store.state.classify.isGraduated; },
-    graduationYear() { return this.$store.state.classify.graduationYear; },
+    graduateYear() { return this.$store.state.classify.graduateYear; },
     additionalType() { return this.$store.state.classify.additionalType; },
     graduateType() { return this.$store.state.classify.graduateType; },
     personName() { return this.$store.state.PersonInfo.personName; },
