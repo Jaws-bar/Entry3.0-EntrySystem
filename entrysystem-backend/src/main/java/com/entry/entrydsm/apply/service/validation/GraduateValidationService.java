@@ -29,7 +29,7 @@ public class GraduateValidationService extends BaseValidationService implements 
                 .build();
     }
 
-    private List<RestResponse.Error> validateGrade(User user) {
+    public List<RestResponse.Error> validateGrade(User user) {
         List<RestResponse.Error> errors = validateScore(user);
         if (user.getGraduateType() == GraduateType.WILL) {
             errors.addAll(validateGradeWill(user));

@@ -22,7 +22,7 @@ public class GedValidationService extends BaseValidationService implements Valid
                 .build();
     }
 
-    private List<RestResponse.Error> validateGrade(User user) {
+    public List<RestResponse.Error> validateGrade(User user) {
         try {
             ValidationUtil.validate(user.getGedScore());
         } catch (RequestValidationException e) {

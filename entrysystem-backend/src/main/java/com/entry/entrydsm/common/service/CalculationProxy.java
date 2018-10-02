@@ -8,7 +8,6 @@ import com.entry.entrydsm.user.domain.User;
 
 public class CalculationProxy {
 
-
     public static void calculateIfValid(User user) {
         CalculationService calculationService =
                 new CalculationServiceFactory(new GedCalculationService(), new GraduateCalculationService())
@@ -16,7 +15,7 @@ public class CalculationProxy {
         ValidationService validationService =
                 new ValidationServiceFactory(new GedValidationService(), new GraduateValidationService())
                         .getService(user);
-        if (validationService.validate(user).isValid()) {
+        if (validationService.validateGrade(user).isEmpty()) {
             calculationService.calculate(user);
         }
     }
