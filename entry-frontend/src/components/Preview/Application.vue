@@ -425,4 +425,6 @@ input[type="checkbox"] {
 #foo p:nth-child(2) { font-size: 10px; text-align: right; line-height: 2}
 #foo p:nth-child(3) { font-size: 10px; text-align: right; }
 #foo p:nth-child(4) { font-size: 14px; font-weight: bold; }
+#foo p:nth-child(2) span { text-align: center; }
+#foo p:nth-child(3) span { text-align: center; }
 </style>
