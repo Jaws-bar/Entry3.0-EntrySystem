@@ -79,11 +79,9 @@ export default {
     },
     getSchools() {
       const token = this.$cookies.get('accessToken');
-      console.log(`${CONSTANT.SCHOOL_URI}/search?name=${this.keyword}&government=${this.office}`);
       this.$axios.get(`${CONSTANT.SCHOOL_URI}/search?name=${this.keyword}&government=${this.office}`,
         { headers: { Authorization: `JWT ${token}` } })
         .then(({ data }) => {
-          console.log(data);
           this.schools = data.data;
         })
         .catch(err => Promise.reject(err.response));
