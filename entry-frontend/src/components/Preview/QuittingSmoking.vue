@@ -16,7 +16,7 @@
           <td>연락처</td>
           <td>{{myTel}}</td>
           <td>출신 중학교</td>
-          <td>{{schoolName}}</td>
+          <td>{{school.name}}</td>
         </tr>
         <tr>
           <td><pre>주   소</pre></td>
@@ -51,7 +51,7 @@ export default {
   name: 'quitting-smoking',
   computed: {
     personName() { return this.$store.state.PersonInfo.personName; },
-    schoolName() { return this.$store.state.PersonInfo.schoolName; },
+    school() { return this.$store.state.PersonInfo.school; },
     myTel() { return this.$store.state.PersonInfo.myTel; },
     addressBase() { return this.$store.state.PersonInfo.addressBase; },
     addressDetail() { return this.$store.state.PersonInfo.addressDetail; },
