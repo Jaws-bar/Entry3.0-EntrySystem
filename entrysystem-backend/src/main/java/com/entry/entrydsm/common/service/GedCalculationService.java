@@ -18,16 +18,24 @@ public class GedCalculationService implements CalculationService {
         GedScore score = user.getGedScore();
         score.setVolunteerScore(calculateVolunteerScore(score));
         score.setAttendanceScore(GED_ATTENDANCE_SCORE);
-        score.setConversionScore(calculateConversionScore(score) * (user.getAdmission() == Admission.MEISTER ? 90 : 150));
+        score.setConversionScore(calculateConversionScore(score, user.getAdmission()));
         return score;
     }
 
-    private double calculateConversionScore(GedScore score) {
-        return (score.getGrade() - 50) / 50;
+    private double calculateConversionScore(GedScore score, Admission admission) {
+        double grade = score.getGrade();
+        if (grade < 50) {
+            return 0;
+        }
+        return (grade - 50) / 50 * (admission == Admission.MEISTER ? 90 : 150);
     }
 
     private double calculateVolunteerScore(GedScore score) {
-        return 3 + (score.getGrade() - 40) / 60 * 12;
+        double grade = score.getGrade();
+        if (grade < 40) {
+            return 0;
+        }
+        return 3 + (grade - 40) / 60 * 12;
     }
 
 

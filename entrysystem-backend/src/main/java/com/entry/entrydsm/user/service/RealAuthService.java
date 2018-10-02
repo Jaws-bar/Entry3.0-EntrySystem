@@ -80,7 +80,13 @@ public class RealAuthService implements AuthService {
             return Optional.empty();
         }
         try {
-            return userRepository.findById(jwt.getUserId(authorizationHeader.substring(prefix.length())));
+            String token = authorizationHeader.substring(prefix.length());
+            log.debug("After Substring Token : {}", token);
+            String userId = jwt.getUserId(token);
+            log.debug("After Verifying. userId : {}", userId);
+            Optional<User> user = userRepository.findById(userId);
+            log.debug("User present : {}", user.isPresent());
+            return user;
         } catch (Exception e) {
             log.debug("Exception has occurred. {}", e);
             return Optional.empty();
