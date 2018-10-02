@@ -86,6 +86,8 @@ public class Jwt {
 
     public String getUserId(String token) throws Exception {
         log.debug("jwtVerifier verifying token [{}]", token);
-        return (String) jwtVerifier.verify(token).get("userId");
+        String userId = (String) jwtVerifier.verify(token).get("userId");
+        log.debug("Verifying succeed. userId : {}", userId);
+        return userId;
     }
 }
