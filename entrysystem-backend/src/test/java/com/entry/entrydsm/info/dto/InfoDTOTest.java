@@ -111,7 +111,7 @@ public class InfoDTOTest extends ValidationTest {
     }
 
     @Test
-    public void 학교_번호_11자_아님() {
+    public void 학교_번호_10자_아님() {
         infoDto.setSchoolTel(StringUtils.repeat("0", 6));
         assertConstraintViolations(infoDto, 0, Ged.class);
         assertConstraintViolations(infoDto, 1, Graduate.class);
