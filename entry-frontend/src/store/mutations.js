@@ -304,6 +304,18 @@ export const mutations = {
     state.PersonInfo.parentTel = parentTel;
     state.PersonInfo.parentName = parentName;
   },
+
+  updateMypage: (state, { data }) => {
+    const {
+      graduateType,
+      validationResult,
+      applyStatus,
+    } = data;
+    state.mypage.graduateType = graduateType;
+    state.mypage.validationResult = validationResult;
+    state.mypage.applyStatus = applyStatus;
+  },
+
   updateaccessToken: (state, payload) => {
     state.accessToken = payload.data;
   },

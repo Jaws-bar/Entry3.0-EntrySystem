@@ -1,6 +1,6 @@
 <template>
     <div class="modal" v-if="index > 0">
-      <div class="modal__background" @click="changeModal"></div>
+      <div class="modal__background" @click="closeModal"></div>
       <div class="modal__contants">
         <div class="modal__contants__close" @click="closeModal"></div>
         <login v-if="index === 1"/>
@@ -35,11 +35,6 @@ export default {
     closeModal() {
       this.$store.commit('changeIndex', {
         index: 0,
-      });
-    },
-    changeModal() {
-      this.$store.commit('changeIndex', {
-        index: 6,
       });
     },
   },
@@ -82,8 +77,8 @@ $M-close-color: #dee8e9;
     align-items: center;
     color: $M-modal-color;
     @include m('confirm') {
-      width: 600px;
-      height: 550px;
+      width: 700px;
+      height: 600px;
     }
     @include e('close'){
         position: absolute;

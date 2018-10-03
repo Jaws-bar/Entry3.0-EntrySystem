@@ -88,6 +88,14 @@ export const actions = {
       commit('updateInfo', data);
     });
   },
+
+  getMypage: ({ commit }, payload) => {
+    contact.getMypage('mypage', payload.token)
+    .then((response) => {
+      const { data } = response;
+      commit('updateMypage', data);
+    });
+  },
 };
 
 export default actions;

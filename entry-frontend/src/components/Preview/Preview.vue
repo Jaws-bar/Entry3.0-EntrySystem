@@ -30,7 +30,8 @@
       :prevShow="true"
       :nextShow="true"
       :prevLink="prevLink"
-      :nextLink="nextLink"/>
+      :disablePrevClick="true"
+      :onClick="() => confirm()"/>
     <entry-footer />
   </div>
 </template>
@@ -64,7 +65,6 @@ export default {
       title: '원서 미리보기',
       subText: '대덕소프트웨어마이스터고등학교',
       prevLink: '/intro',
-      nextLink: '/submit',
       nowYear: 0,
       nowMonth: 0,
       nowDay: 0,
@@ -105,6 +105,11 @@ export default {
         document.body.removeChild(pdfForPrint);
       };
       window.print();
+    },
+    confirm() {
+      this.$store.commit('changeIndex', {
+        index: 6,
+      });
     },
   },
 };

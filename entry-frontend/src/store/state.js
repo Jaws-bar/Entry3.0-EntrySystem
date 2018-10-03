@@ -4,6 +4,7 @@ import { classify } from './classify/state';
 import { PersonInfo } from './PersonInfo/state';
 import { GradeInput as gradeInput } from './GradeInput/state';
 import { IntroNPlan as introNPlan } from './IntroNPlan/state';
+import { mypage } from './mypage/mypage';
 
 export const state = {
   modal,
@@ -12,6 +13,7 @@ export const state = {
   PersonInfo,
   gradeInput,
   introNPlan,
+  mypage,
   accessToken: null,
 };
 

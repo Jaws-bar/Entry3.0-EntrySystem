@@ -4,7 +4,7 @@
       type="button"
       class="input-btn input-btn--prev"
       v-if="prevShow"
-      @click="toPrevious">
+      @click="gotoPrev">
       <span class="input-btn__arrow input-btn__arrow--left">〈</span>
       <span class="input-btn__text input-btn__text--prev">이전</span>
     </a>
@@ -40,16 +40,20 @@ export default {
     },
     nextLink: {
       type: String,
-      required: true,
+      required: false,
     },
     onClick: {
       type: Function,
       required: false,
     },
+    disablePrevClick: {
+      type: Boolean,
+      required: false,
+    },
   },
   methods: {
-    toPrevious() {
-      if (typeof this.onClick === 'function') {
+    gotoPrev() {
+      if (typeof this.onClick === 'function' && this.disablePrevClick !== true) {
         this.onClick();
       }
       this.$router.push(this.prevLink);

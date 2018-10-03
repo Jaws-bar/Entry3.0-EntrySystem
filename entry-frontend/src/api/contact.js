@@ -57,4 +57,10 @@ export default {
       { headers: { Authorization: `JWT ${token}` } },
     );
   },
+
+  getMypage(uri, token) {
+    return axios.get(CONSTANT.BASE_URI + uri,
+      { headers: { Authorization: `JWT ${token}` } },
+    );
+  },
 };
