@@ -123,11 +123,13 @@ export default {
 
     updateIntro() {
       const token = this.$cookies.get('accessToken');
-
+      const { s, e } = this.$toastr;
       this.$store.dispatch('updateIntro', {
         token,
         introduce: this.introduce,
         studyPlan: this.studyPlan,
+        s,
+        e,
       });
     },
   },

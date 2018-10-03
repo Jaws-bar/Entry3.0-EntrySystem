@@ -136,7 +136,7 @@
         <tbody>
           <tr>
             <td class="img-cover">
-              <div class="img" :style="imgBgStyle"></div>
+              <img class="img" :src="`http://114.108.135.15/images/${this.imgPath}`">
               <pre>사     진<br /><br />(3cm×4cm)</pre>
             </td>
             <td>
@@ -162,8 +162,8 @@
             <td>
               <pre>추        천        서</pre>
               <pre>본 입학원서의 내용은 사실과 다름이 없으며 상기자는 귀교에 입학 적격자로<br />인정되므로 추천합니다.                                                              </pre>
-              <p>2018년 10 월 <span class="application-info-middle-blank">{{nowDay}}</span>일</p>
-              <p>작성자 : <span class="application-info-long-blank"></span>(인)<span class="application-info-long-blank"></span><span class="application-info-long-blank"></span>(<span class="application-info-long-blank"></span>)중학교장<span class="application-info-middle-blank"></span>(직인)</p>
+              <p>2018년 10 월 <span class="application-info-middle-blank"></span>일</p>
+              <p>작성자 : <span class="application-info-long-blank"></span>(인)<span class="application-info-long-blank"></span><span class="application-info-long-blank"></span>{{school.name}}장<span class="application-info-middle-blank"></span>(직인)</p>
             </td>
           </tr>
         </tbody>
@@ -194,6 +194,7 @@
 </template>
 
 <script>
+const phoneReg = /(^02.{0}|^01.{1}|[0-9]{3})([0-9]+)([0-9]{4})/;
 export default {
   props: {
     nowYear: Number,
@@ -229,16 +230,16 @@ export default {
     studentNumber() { return this.$store.state.PersonInfo.studentNumber; },
     school() { return this.$store.state.PersonInfo.school; },
     parentName() { return this.$store.state.PersonInfo.parentName; },
-    schoolTel() { return this.$store.state.PersonInfo.schoolTel; },
-    parentTel() { return this.$store.state.PersonInfo.parentTel; },
-    myTel() { return this.$store.state.PersonInfo.myTel; },
+    schoolTel() { return this.$store.state.PersonInfo.schoolTel.replace(phoneReg, '$1-$2-$3'); },
+    parentTel() { return this.$store.state.PersonInfo.parentTel.replace(phoneReg, '$1-$2-$3'); },
+    myTel() { return this.$store.state.PersonInfo.myTel.replace(phoneReg, '$1-$2-$3'); },
     zipCode() { return this.$store.state.PersonInfo.zipCode; },
     addressBase() { return this.$store.state.PersonInfo.addressBase; },
     addressDetail() { return this.$store.state.PersonInfo.addressDetail; },
     imgPath() { return this.$store.state.PersonInfo.imgPath; },
     imgBgStyle() {
       return {
-        background: `url(${this.imgPath}) no-repeat center center`,
+        background: `url(http://114.108.135.15/images/${this.imgPath}) no-repeat center center`,
         backgroundSize: 'cover',
       };
     },

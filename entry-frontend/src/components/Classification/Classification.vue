@@ -431,11 +431,7 @@ export default {
         data,
       }).then((res) => {
         if (res.status === 200) {
-          s('서버에 임시저장 되었습니다.');
-        } else if (res.status === 400) {
-          res.data.errors.map((error => e(`${error.field}-${error.message}`)));
-        } else {
-          e('서버와 통신이 불안정합니다.<br/>다시 시도해주세요.');
+          s('전형 구분이 임시저장 되었습니다.');
         }
       }).catch((error) => {
         if (error.response.status === 400) {
@@ -447,7 +443,7 @@ export default {
             index: 1,
           });
         } else {
-          e('서버와 통신이 불안정합니다.<br/>다시 시도해주세요.');
+          e('전형 구분 임시저장에 실패하였습니다.');
         }
       });
     },

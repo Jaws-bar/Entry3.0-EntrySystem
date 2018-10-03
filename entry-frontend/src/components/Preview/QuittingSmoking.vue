@@ -127,6 +127,6 @@ td {
 #quitting-smoking-content #quitting-content-footer p:nth-child(2) {  text-align: right; margin: 0 10px; }
 #quitting-smoking-content #quitting-content-footer p:nth-child(3) {  text-align: right; margin: 0 10px; }
 #quitting-smoking-content #quitting-content-footer p:nth-child(1) .quitting-blank { width: 40px; display: inline-block; }
-#quitting-smoking-content #quitting-content-footer p:nth-child(2) .quitting-blank { width: 120px; display: inline-block; text-align: left; }
-#quitting-smoking-content #quitting-content-footer p:nth-child(3) .quitting-blank { width: 120px; display: inline-block; text-align: left; }
+#quitting-smoking-content #quitting-content-footer p:nth-child(2) .quitting-blank { width: 120px; display: inline-block; text-align: center; }
+#quitting-smoking-content #quitting-content-footer p:nth-child(3) .quitting-blank { width: 120px; display: inline-block; text-align: center; }
 </style>

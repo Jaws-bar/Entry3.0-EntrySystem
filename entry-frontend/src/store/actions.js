@@ -39,7 +39,11 @@ export const actions = {
   updateImgPath: context => context.commit('updateImgPath'),
   updateIntro: (state, payload) => {
     contact.updateDocument('document', payload)
-    .catch(err => Promise.reject(err.response));
+    .then(() => payload.s('자기소개서 및 학업계획서 정보가<br/>임시저장 되었습니다.'))
+    .catch((err) => {
+      payload.e('자기소개서와 학업계획서 정보저장을 실패하였습니다..');
+      Promise.reject(err.response);
+    });
   },
 
   getIntro: ({ commit }, payload) => {
@@ -62,7 +66,11 @@ export const actions = {
 
   updateGrade: (store, payload) => {
     contact.updateGrades('grade', payload)
-    .catch(err => Promise.reject(err.response));
+    .then(() => payload.s('성적 정보가 임시저장 되었습니다.'))
+    .catch((err) => {
+      payload.e('성적 정보를 임시저장하지 못하였습니다..');
+      Promise.reject(err.response);
+    });
   },
 
   getClassify: ({ commit }, payload) => {

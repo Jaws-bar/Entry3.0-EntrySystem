@@ -99,6 +99,7 @@
         <span class="input-btn__text input-btn__text--next">인증하기</span>
       </button>
       <button type="button"
+            @click="warning"
             class="input-btn input-btn--next input-btn input-btn--next--false"
             v-else
       >
@@ -170,6 +171,21 @@ export default {
     },
   },
   methods: {
+    warning() {
+      const { w } = this.$toastr;
+      if (!this.isAccept) {
+        w('약관에 동의해주세요');
+      }
+      if (!this.verify[0]) {
+        w('이메일이 바른 형식이 아닙니다.');
+      }
+      if (!this.verify[1]) {
+        w('비밀번호 규칙을 확인하시고 다시 입력해주세요.');
+      }
+      if (!this.verify[2]) {
+        w('비밀번호를 똑같이 입력해주세요.');
+      }
+    },
     moveToNextPage() {
       const { s, e } = this.$toastr;
       this.$axios.post('http://114.108.135.15/api/signup', { email: this.email, password: this.pw }).then(() => {
@@ -180,8 +196,9 @@ export default {
         this.$store.commit('updateAccept', false);
         this.$router.push('/');
       }).catch((error) => {
-        e(error);
-        e('잘못된 요청입니다.');
+        if (error.response.status === 400) {
+          e('이미 사용하고 있는 이메일입니다.');
+        }
       });
     },
   },

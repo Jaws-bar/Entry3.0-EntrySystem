@@ -15,7 +15,7 @@
         <span class="error-msg" v-if="(!idwrong && pwwrong)">비밀번호를 다시 확인해주세요</span>
         <span class="error-msg" v-if="(idwrong && pwwrong)">이메일과 비밀번호를 다시 확인해주세요</span>
       </div>
-      <form class="login__inputs" @submit="login">
+      <form class="login__inputs" @submit.prevent="login">
         <input type="text" class="modal--input input-shake"
         v-if="idwrong" v-model="email" placeholder="아이디" autofocus/>
         <input type="text" class="modal--input" v-else v-model="email" placeholder="이메일" autofocus/>
