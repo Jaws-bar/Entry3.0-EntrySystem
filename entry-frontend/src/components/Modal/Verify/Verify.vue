@@ -226,6 +226,7 @@ export default {
     @include e('btn'){
       width: 295px;
       height: 40px;
+      margin: 25px auto 0 auto;
     }
   }
 }
