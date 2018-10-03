@@ -20,7 +20,7 @@ import javax.validation.constraints.Pattern;
 @Getter
 @NoArgsConstructor
 public class GraduateInfo extends BaseTimeEntity {
-    private static final String PHONE_NUMBER_PATTERN = "^\\d{11}$";
+    private static final String SCHOOL_NUMBER_PATTERN = "^(\\d{10})?$";
 
     @Id
     @Column(length = 32)
@@ -41,7 +41,7 @@ public class GraduateInfo extends BaseTimeEntity {
     @JoinColumn(name = "school_code")
     private School school;
 
-    @Pattern(regexp = PHONE_NUMBER_PATTERN)
+    @Pattern(regexp = SCHOOL_NUMBER_PATTERN)
     @Column(length = 15, nullable = false)
     private String schoolTel;
 
