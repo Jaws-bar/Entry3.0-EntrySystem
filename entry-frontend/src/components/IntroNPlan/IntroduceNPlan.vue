@@ -86,6 +86,17 @@ export default {
     const token = this.$cookies.get('accessToken');
     this.$store.dispatch('getIntro', token);
   },
+  created() {
+    const token = this.$cookies.get('accessToken');
+    const { e } = this.$toastr;
+    if (token === undefined || token === null || token === '') {
+      this.$router.push('/');
+      e('해당 페이지는 로그인이 필요합니다.');
+      this.$store.commit('changeIndex', {
+        index: 1,
+      });
+    }
+  },
   methods: {
     /*
     resize(t) {
@@ -176,7 +187,7 @@ $intro-plan: #5f8a90;
 
   .intro-plan-write {
     width: 100%;
-    height: 600px;
+    height: 1000px;
     resize: vertical;
     border-radius: 10px;
     line-height: 1.3;

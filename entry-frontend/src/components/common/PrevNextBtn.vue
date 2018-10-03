@@ -52,7 +52,7 @@ export default {
       if (typeof this.onClick === 'function') {
         this.onClick();
       }
-      window.history.back();
+      this.$router.push(this.prevLink);
     },
     gotoNext() {
       if (typeof this.onClick === 'function') {

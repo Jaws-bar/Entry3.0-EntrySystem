@@ -19,7 +19,7 @@
           placeholder="●●●●●●●●●●●●" v-model="pw" readonly/>
         </div>
         <span class="InfoInput__wapper__inputBox__warning --false">
-            * 영문(대소문자 구분), 숫자 포함 8자리 이상, 특수기호 가능
+            * 영문(대소문자 포함), 숫자 포함 8자리 이상, 특수기호 가능
         </span>
       </div>
       <div class="InfoInput__wapper pwcheck --false">
@@ -69,7 +69,7 @@
           </div>
         </div>
         <span class="InfoInput__wapper__inputBox__warning">
-            * 영문(대소문자 구분), 숫자 포함 8자리 이상, 특수기호 가능
+            * 영문(대소문자 포함), 숫자 포함 8자리 이상, 특수기호 가능
         </span>
       </div>
       <div class="InfoInput__wapper pwcheck">
@@ -172,7 +172,7 @@ export default {
   methods: {
     moveToNextPage() {
       const { s, e } = this.$toastr;
-      this.$axios.post('http://entrydsm.hs.kr/api/signup', { email: this.email, password: this.pw }).then(() => {
+      this.$axios.post('http://114.108.135.15/api/signup', { email: this.email, password: this.pw }).then(() => {
         s(`${this.email}로 인증 메일을 보냈습니다.<br/>메일함을 확인해주세요.`);
         this.$store.commit('updateEmail', '');
         this.$store.commit('updatePw', '');

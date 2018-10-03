@@ -92,10 +92,10 @@ public class GraduateInfo extends BaseTimeEntity {
         }
 
         if (user.getRegion()) {
-            return school.getSchoolRegion().startsWith("대전");
+            return school.getGovernment().startsWith("대전");
         }
 
-        return !school.getSchoolRegion().startsWith("대전");
+        return !school.getGovernment().startsWith("대전");
     }
 
 }

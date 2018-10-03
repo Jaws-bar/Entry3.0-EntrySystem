@@ -31,14 +31,14 @@ import static org.mockito.Mockito.when;
 
 @RunWith(MockitoJUnitRunner.class)
 @SpringBootTest
-public class AuthServiceTest {
+public class RealAuthServiceTest {
 
     private static final String DEFAULT_EMAIL = "test@test.com";
     private static final String DEFAULT_PASSWORD = "password1234";
     private static final String DEFAULT_CODE = "code1234!@#$";
 
     @InjectMocks
-    private AuthService authService;
+    private RealAuthService authService;
 
     @Mock
     private PasswordEncoder passwordEncoder;

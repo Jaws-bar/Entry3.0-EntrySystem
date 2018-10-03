@@ -13,7 +13,7 @@
           </tr>
           <tr>
             <td>출신중학교</td>
-            <td>{{schoolName}}</td>
+            <td>{{school.name}}</td>
           </tr>
         </tbody>
       </table>
@@ -29,7 +29,7 @@
               이루고자 하는 목표를 달성하기 위해 생각하는 학업계획을 상세하게 기술하십시오.</td>
           </tr>
           <tr>
-            <td>(1,600자 이내)<div id="preview-text">{{plan}}</div></td>
+            <td><pre id="preview-text">{{studyPlan}}</pre></td>
           </tr>
         </tbody>
       </table>
@@ -44,10 +44,10 @@ export default {
   name: 'academic-plan',
   computed: {
     personName() { return this.$store.state.PersonInfo.personName; },
-    schoolName() { return this.$store.state.PersonInfo.schoolName; },
+    school() { return this.$store.state.PersonInfo.school; },
     ...mapState({
       introduce: state => state.introNPlan.introduce,
-      plan: state => state.introNPlan.plan,
+      studyPlan: state => state.introNPlan.studyPlan,
     }),
   },
 };
@@ -122,6 +122,8 @@ td {
 #preview-text {
   width: 100%;
   height: 550px;
+  white-space: pre-line;
+  line-height: 1.4;
 }
 
 /* row_1, 성명~ */

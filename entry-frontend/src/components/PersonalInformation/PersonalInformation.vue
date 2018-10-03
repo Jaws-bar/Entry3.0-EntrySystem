@@ -1,9 +1,10 @@
 <template>
   <div class="personal-information form">
     <!-- 학교 검색 모달 -->
-    <search-school-modal v-show="isOpen"
+    <search-school-modal
+      v-if="isOpen"
       @close="isOpen = false"
-      @selectSchool="name => this.schoolName = name"/>
+      @selectSchool="schoolObj => this.school = schoolObj"/>
 
     <navigation />
     <headline :title="title" :subText="subText" />
@@ -119,7 +120,7 @@
           </div>
           <div class="form__cover__form__colums__input-content">
             <input class="input-text input-text-school-name"
-              :value="schoolName"
+              :value="school ? school.name : ''"
               disabled>
             <button class="button button-search" @click="isOpen = true">
               검색
@@ -355,12 +356,12 @@ export default {
         });
       },
     },
-    schoolName: {
+    school: {
       get() {
-        return this.$store.state.PersonInfo.schoolName;
+        return this.$store.state.PersonInfo.school;
       },
       set(data) {
-        this.$store.commit('updateSchoolName', {
+        this.$store.commit('updateSchool', {
           data,
         });
       },
@@ -470,6 +471,16 @@ export default {
       };
     }
     this.monthOptions = monthArray;
+    // 로그인 안하면 메인으로 내쫓기
+    const token = this.$cookies.get('accessToken');
+    const { e } = this.$toastr;
+    if (token === undefined || token === null || token === '') {
+      this.$router.push('/');
+      e('해당 페이지는 로그인이 필요합니다.');
+      this.$store.commit('changeIndex', {
+        index: 1,
+      });
+    }
   },
   methods: {
     // 숫자, 백스페이스가 아닐 경우 이벤트 막기
@@ -517,10 +528,9 @@ export default {
       const { s, e } = this.$toastr;
       data.name = data.personName;
       data.birth = `${data.year}-${data.month}-${data.day}`;
-      data.schoolCode = (data.schoolCode === null || data.schoolCode.trim() === '') ? null : data.schoolCode;
       this.$axios({
         method: 'put',
-        url: 'http://entrydsm.hs.kr/api/me/info',
+        url: 'http://114.108.135.15/api/me/info',
         headers: { Authorization: `JWT ${token}` },
         data,
       }).then((res) => {

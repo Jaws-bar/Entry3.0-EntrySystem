@@ -9,6 +9,7 @@ import com.entry.entrydsm.user.dto.SigninDTO;
 import com.entry.entrydsm.user.dto.SignupDTO;
 import com.entry.entrydsm.user.service.AuthService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
@@ -20,6 +21,7 @@ import javax.validation.Valid;
 public class AuthController {
 
     @Autowired
+    @Qualifier("auth-service")
     private AuthService authService;
 
     @PostMapping("/signup")

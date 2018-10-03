@@ -16,7 +16,7 @@
         <router-link to="/info-system">시스템 소개</router-link>
       </li>
       <li class="nav__wrapper__contants__list__link">
-        <router-link to="/classify">원서작성</router-link>
+        <a @click="writeApplication">원서작성</a>
       </li>
       <li class="nav__wrapper__contants__list__link">
         <router-link to="/info-summary">전형요강</router-link>
@@ -72,9 +72,9 @@ export default {
           this.$store.commit('updateaccessToken', {
             data: token,
           });
-          this.$store.commit('updateClassify', {
-            token,
-          });
+          this.$store.dispatch('getClassify', token);
+          this.$store.dispatch('getInfo', token);
+          this.$store.dispatch('getIntro', token);
           return true;
         }
         return false;
@@ -94,6 +94,18 @@ export default {
       });
       this.$router.push('/');
       window.location.reload();
+    },
+    writeApplication() {
+      const token = this.$cookies.get('accessToken');
+      const { e } = this.$toastr;
+      if (token !== undefined && token !== null && token !== '') {
+        this.$router.push('/classify');
+      } else {
+        e('로그인이 필요한 기능입니다.');
+        this.$store.commit('changeIndex', {
+          index: 1,
+        });
+      }
     },
   },
 };

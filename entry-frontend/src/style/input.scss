@@ -89,9 +89,7 @@ $input-pseudo: #608a8e;
 }
 
 .input-radio + .input-radio-label {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
+  position: relative;
   width: 16px;
   height: 16px;
   border: 1px solid $input-border;
@@ -100,11 +98,18 @@ $input-pseudo: #608a8e;
 .input-radio-span {
   width: 9px;
   height: 9px;
-  display: inline-block;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
   border-radius: 50%;
   background-color: none;
 }
 .input-radio:checked + .input-radio-label .input-radio-span {
   background-color: $input-background;
   border: solid 1px $input-border;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
 }

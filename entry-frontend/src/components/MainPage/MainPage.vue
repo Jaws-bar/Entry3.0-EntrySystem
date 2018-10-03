@@ -15,9 +15,9 @@
               2019 신입생 모집
             </h1>
             <div class="main-page__link-box">
-              <router-link to="/classify" class="main-page__link">
+              <a @click="writeApplication" class="main-page__link">
                 원서작성
-              </router-link>
+              </a>
               <a class="main-page__link"
                 @click="activeSchedulePage = true">
                 모집일정
@@ -39,9 +39,9 @@
             <transition name="appear">
               <template v-if="isAppearSchedule">
                 <div class="main-page__link-box">
-                  <router-link to="/classify" class="main-page__link">
+                  <a @click="writeApplication" class="main-page__link">
                     원서작성
-                  </router-link>
+                  </a>
                   <router-link to="/info-summary" class="main-page__link">
                     전형요강
                   </router-link>
@@ -76,6 +76,20 @@ export default {
       activeSchedulePage: false, // to animate
       isAppearSchedule: false, // to animatell
     };
+  },
+  methods: {
+    writeApplication() {
+      const token = this.$cookies.get('accessToken');
+      const { e } = this.$toastr;
+      if (token !== undefined && token !== null && token !== '') {
+        this.$router.push('/classify');
+      } else {
+        e('로그인이 필요한 기능입니다.');
+        this.$store.commit('changeIndex', {
+          index: 1,
+        });
+      }
+    },
   },
 };
 </script>

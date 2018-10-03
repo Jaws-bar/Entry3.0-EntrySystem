@@ -1,10 +1,10 @@
 <template>
-  <div class="NotAccess">
-    <div class="NotAccess__Icon">
-      <div class="NotAccess__Icon__box NotAccess__Icon__box--info"></div>
-      <div class="NotAccess__Icon__box NotAccess__Icon__box--classify"></div>
-      <div class="NotAccess__Icon__box NotAccess__Icon__box--plan"></div>
-      <div class="NotAccess__Icon__box NotAccess__Icon__box--gradeInput"></div>
+  <div class="Verify">
+    <div class="Verify__Icon">
+      <div class="Verify__Icon__box Verify__Icon__box--info"></div>
+      <div class="Verify__Icon__box Verify__Icon__box--classify"></div>
+      <div class="Verify__Icon__box Verify__Icon__box--plan"></div>
+      <div class="Verify__Icon__box Verify__Icon__box--gradeInput"></div>
     </div>
   </div>
 </template>
@@ -12,12 +12,12 @@
 <script>
 export default {
 
-}
+};
 </script>
 
 <style lang="scss" scoped>
 @import '../../../style/setting';
-.NotAccess{
+.Verify{
   @include e('Icon'){
     width: 240px;
     height: 240px;

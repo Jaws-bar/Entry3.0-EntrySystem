@@ -361,6 +361,17 @@ export default {
       },
     },
   },
+  created() {
+    const token = this.$cookies.get('accessToken');
+    const { e } = this.$toastr;
+    if (token === undefined || token === null || token === '') {
+      this.$router.push('/');
+      e('해당 페이지는 로그인이 필요합니다.');
+      this.$store.commit('changeIndex', {
+        index: 1,
+      });
+    }
+  },
   methods: {
     moveNext() {
       this.$router.push('/');
@@ -415,7 +426,7 @@ export default {
       }
       this.$axios({
         method: 'put',
-        url: 'http://entrydsm.hs.kr/api/me/classification',
+        url: 'http://114.108.135.15/api/me/classification',
         headers: { Authorization: `JWT ${token}` },
         data,
       }).then((res) => {

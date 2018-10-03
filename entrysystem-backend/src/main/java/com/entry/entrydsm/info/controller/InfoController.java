@@ -9,6 +9,7 @@ import com.entry.entrydsm.info.dto.InfoResponse;
 import com.entry.entrydsm.info.service.InfoService;
 import com.entry.entrydsm.user.domain.User;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -20,6 +21,7 @@ public class InfoController {
 
     @PutMapping
     @AuthRequired
+    @Transactional
     public RestResponse<InfoResponse> putInfo(User user, @RequestBody InfoDTO infoDTO) throws RequestValidationException {
         ValidationUtil.validate(infoDTO, user);
         return RestResponse.success(infoService.putInfo(user, infoDTO));

@@ -1,67 +1,74 @@
 <template>
   <div class="school-modal">
-    <button class="school-modal__close-btn"
-      @click="$emit('close')">
-      &times;
-    </button>
-
-    <input type="text"
-      class="school-modal__input"
-      :placeholder="placeholder"
+    <selectbox
+      class="school-modal__select-office"
+      v-model="office"
+      :options="offices"></selectbox>
+    <input
+      type="text"
+      class="input-text school-modal__input"
+      placeholder="중학교 명"
+      v-focus
       v-model="keyword"
-      @keydown.enter="getSchools">
-
+      @keyup.enter="getSchools"
+      @keydown.esc="$emit('close')">
     <ul class="school-modal__list">
-      <li class="
-        school-modal__item
-        school-modal__item--head">
-        <span class="school-modal__item__name">
-          학교 이름
-        </span>
-        <span class="school-modal__item__region">
-          지역
-        </span>
-      </li>
-
-      <li class="
-        school-modal__item
-        school-modal__item--instance"
+      <li
+        class="school-modal__school"
         v-for="school in schools"
-        :key="school.seq">
-        <span class="
-          school-modal__item__name
-          school-modal__item--instance__name"
-          @click="selectSchool(school.schoolName, school.region)">
-          {{ school.schoolName }}
-        </span>
-        <span class="school-modal__item__region">
-          {{ school.region }}
-        </span>
+        :key="school.code"
+        @click="selectSchool(school)">
+        <div class="cover">
+          {{ school.name }}
+        </div>
+        <div class="select">선택</div>
       </li>
     </ul>
-
-    <div class="school-modal__pagination">
-      <div class="school-modal__pagination__number"
-        @click="current > 1 ? prevPage() : ''">이전</div>
-      <div class="school-modal__pagination__number">
-        {{ current }}
-      </div>
-      <div class="school-modal__pagination__number"
-        @click="nextPage">다음</div>
-    </div>
   </div>
 </template>
 
 <script>
-import config from './../../config';
+import CONSTANT from '../../api/constant';
+import Selectbox from '../common/Selectbox';
+
+const focus = {
+  inserted(el) {
+    el.focus();
+  },
+};
+
+const offices = [
+  { text: '충청북도교육청', value: '충청북도교육청' },
+  { text: '충청남도교육청', value: '충청남도교육청' },
+  { text: '제주특별자치도교육청', value: '제주특별자치도교육청' },
+  { text: '제주도교육청', value: '제주도교육청' },
+  { text: '전라북도교육청', value: '전라북도교육청' },
+  { text: '전라남도교육청', value: '전라남도교육청' },
+  { text: '인천광역시교육청', value: '인천광역시교육청' },
+  { text: '울산광역시교육청', value: '울산광역시교육청' },
+  { text: '세종특별자치시교육청', value: '세종특별자치시교육청' },
+  { text: '서울특별시교육청', value: '서울특별시교육청' },
+  { text: '부산광역시교육청', value: '부산광역시교육청' },
+  { text: '대전광역시교육청', value: '대전광역시교육청' },
+  { text: '대구광역시교육청', value: '대구광역시교육청' },
+  { text: '광주광역시교육청', value: '광주광역시교육청' },
+  { text: '경상북도교육청', value: '경상북도교육청' },
+  { text: '경상남도교육청', value: '경상남도교육청' },
+  { text: '경기도교육청', value: '경기도교육청' },
+  { text: '강원도교육청', value: '강원도교육청' },
+];
 
 export default {
+  directives: { focus },
   name: 'school-modal',
+  components: {
+    Selectbox,
+  },
   data() {
     return {
-      placeholder: '학교명 입력',
+      offices,
+      office: offices[0].value,
       keyword: '',
-      current: 1,
       schools: [],
     };
   },
@@ -71,32 +78,17 @@ export default {
       this.getSchools();
     },
     getSchools() {
-      const pageCount = 10; // 한 페이지에 보여질 건수
-      const keyword = encodeURI(this.keyword);
-      const dataURI = `http://www.career.go.kr/cnet/openapi/getOpenApi?apiKey=${config.appKey}&svcType=api&svcCode=SCHOOL&contentType=json&gubun=midd_list&thisPage=${this.current}&perPage=${pageCount}&searchSchulNm=${keyword}`;
-      this.$axios.get(dataURI)
-        .then((result) => {
-          this.schools = result.data.dataSearch.content;
-        });
+      const token = this.$cookies.get('accessToken');
+      this.$axios.get(`${CONSTANT.SCHOOL_URI}/search?name=${this.keyword}&government=${this.office}`,
+        { headers: { Authorization: `JWT ${token}` } })
+        .then(({ data }) => {
+          this.schools = data.data;
+        })
+        .catch(err => Promise.reject(err.response));
     },
-    selectSchool(name, region) {
-      const userRegion = this.$store.state.classify.region;
-      // 대전 지역, 대전 학교를 선택하거나 전국 지역, 전국 학교를 선택하면 통과
-      if ((userRegion && region === '대전광역시') || (!userRegion && region !== '대전광역시')) {
-        this.$emit('selectSchool', `${name}(${region})`);
-        this.$emit('close');
-      } else {
-        // 잘못된 선택 알림
-        this.$toastr.e(`${userRegion ? '전국' : '대전'} 구분 중학교입니다`);
-      }
-    },
-    prevPage() {
-      this.current -= 1;
-      this.getSchools();
-    },
-    nextPage() {
-      this.current += 1;
-      this.getSchools();
+    selectSchool(school) {
+      this.$emit('selectSchool', school);
+      this.$emit('close');
     },
   },
 };
@@ -104,6 +96,7 @@ export default {
 
 <style lang="scss" scoped>
 @import '../../style/setting';
+@import '../../style/input';
 $color-main1: #769b9f;
 $color-main2: #e0eef1;
 $color-main3: #5f8a90;
@@ -111,8 +104,9 @@ $color-main4: #f7fbfc;
 $modal-z-index: 5;
 
 .school-modal {
-  $modal-width: 600px;
+  $modal-width: 1000px;
   $modal-height: 500px;
+
   position: fixed;
   top: 50%;
   left: 50%;
@@ -122,89 +116,51 @@ $modal-z-index: 5;
   border: 1px solid $color-main1;
   z-index: $modal-z-index;
   background-color: #fff;
-  position: fixed;
   box-sizing: border-box;
-  padding: {
-    top: 40px;
-    left: 10px;
-    right: 10px;
-  }
-  @include e('close-btn') {
-    box-sizing: border-box;
-    $btn-size: 25px;
-    font-size: $btn-size;
-    line-height: $btn-size;
-    width: $btn-size;
-    height: $btn-size;
-    border: none;
-    background-color: #fff;
-    position: absolute;
-    top: 5px;
-    right: 5px;
-    color: $color-main3;
-    outline: none;
+  padding: 40px 45px;
+
+  @include e('select-office') {
+    width: 200px;
   }
   @include e('input') {
-    display: block;
-    width: 100%;
-    box-sizing: border-box;
-    border: 1px solid $color-main1;
-    background-color: $color-main4;
-    padding: 10px;
-    font-size: 18px;
-    line-height: 18px;
-    outline: none;
+    width: 193px;
+    margin-left: 10px;
   }
   @include e('list') {
-    border: 1px solid $color-main2;
-    height: $modal-height - 150px;
-    margin-top: 10px;
-    overflow-y: scroll;
-  }
-  @include e('item') {
-    box-sizing: border-box;
-    padding-left: 10px;
-    border-bottom: 1px solid $color-main2;
-    position: relative;
-    @include m('head') {
-      background-color: $color-main4;
-      color: $color-main3;
-      height: 30px;
-      line-height: 30px;
-    }
-    @include m('instance') {
-      height: 50px;
-      line-height: 50px;
-      @include e('name') {
-        cursor: pointer;
-        &:hover {
-          color: $color-main3;
-          border-bottom: 1px solid $color-main3;
-        }
-      }
-    }
-    @include e('name') {
-      font-size: 18px;
-    }
-    @include e('region') {
-      font-size: 15px;
-      position: absolute;
-      right: 0;
-      padding-right: 10px
-    }
-  }
-  @include e('pagination') {
     width: 100%;
-    display: flex;
-    justify-content: center;
+    height: 360px;
+    overflow-y: scroll;
     margin-top: 20px;
-    @include e('number') {
-      height: 20px;
-      font-size: 18px;
-      line-height: 20px;
-      width: 40px;
-      cursor: pointer;
-      text-align: center;
+  }
+  .select {
+    display: none;
+  }
+  .cover {
+    height: 60px;
+    line-height: 60px;
+    font-size: 18px;
+  }
+  @include e('school') {
+    border-bottom: 1px solid #f1f5f5;
+    height: 60px;
+    padding-left: 25px;
+    position: relative;
+    overflow-x: hidden;
+    &:hover {
+      background-color: #f4f9fa;
+      .select {
+        width: 95px;
+        height: 60px;
+        position: absolute;
+        top: 0;
+        right: 0;
+        color: #bbd2d6;
+        font-size: 18px;
+        line-height: 60px;
+        background-color: #f4f9fa;
+        display: block;
+        text-align: center;
+      }
     }
   }
 }

@@ -3,21 +3,21 @@
     <navigation />
     <headline :title="title" :subText="subText" />
     <div class="pdf-target a4">
-      <div class="cover">
-        <application></application>
-      </div>
-      <div class="cover">
-        <introduction class="introduction"></introduction>
-      </div>
-      <div class="cover">
-        <academic-plan></academic-plan>
-      </div>
-      <div class="cover" v-if="admission !== 'NORMAL'">
-        <recommendation-letter></recommendation-letter>
-      </div>
-      <div class="cover">
-        <quitting-smoking></quitting-smoking>
-      </div>
+      <application
+        :nowYear="nowYear"
+        :nowMonth="nowMonth"
+        :nowDay="nowDay"/>
+      <introduction class="introduction"/>
+      <academic-plan/>
+      <recommendation-letter
+        v-if="admission !== 'NORMAL'"
+        :nowYear="nowYear"
+        :nowMonth="nowMonth"
+        :nowDay="nowDay"/>
+      <quitting-smoking
+        :nowYear="nowYear"
+        :nowMonth="nowMonth"
+        :nowDay="nowDay"/>
     </div>
     <div class="btn-cover">
       <button
@@ -65,7 +65,25 @@ export default {
       subText: '대덕소프트웨어마이스터고등학교',
       prevLink: '/intro',
       nextLink: '/submit',
+      nowYear: 0,
+      nowMonth: 0,
+      nowDay: 0,
     };
+  },
+  created() {
+    const dateObj = (new Date());
+    this.nowYear = dateObj.getFullYear();
+    this.nowMonth = dateObj.getMonth() + 1;
+    this.nowDay = dateObj.getDate();
+    const token = this.$cookies.get('accessToken');
+    const { e } = this.$toastr;
+    if (token === undefined || token === null || token === '') {
+      this.$router.push('/');
+      e('해당 페이지는 로그인이 필요합니다.');
+      this.$store.commit('changeIndex', {
+        index: 1,
+      });
+    }
   },
   computed: {
     admission() {
@@ -96,30 +114,37 @@ export default {
 @import '../../style/setting';
 
 @page a4sheet { size: 21.0cm 29.7cm }
-.a4 { page: a4sheet; page-break-after: always }
 
 .pdf-target {
-  margin: 0 auto;
-  width: 595px;
   display: flex;
   flex-flow: column;
-  .cover {
-    margin: 20px 0;
+  width: 100%;
+  &>div {
+    zoom: 1.8;
+    margin: 0 auto 30px;
+    &:last-child {
+      margin: 0 auto;
+    }
   }
   &.on {
     position: absolute;
     top: 10px;
     left: 50%;
     transform: translateX(-50%);
-    .cover {
-      height: 1565px;
-      width: fit-content;
-      display: flex;
-      align-items: center;
-      margin: 0;
-    }
-    .cover div {
-      transform: scale(1.8, 1.8);
+  }
+}
+
+.info-preview {
+  .pdf-target {
+    background-color: #525659;
+    width: 1140px;
+    height: 1055px;
+    overflow-y: scroll;
+    margin: 0 auto;
+    padding: 50px 0;
+    &>div {
+      zoom: 1.3;
+      background-color: white;
     }
   }
 }

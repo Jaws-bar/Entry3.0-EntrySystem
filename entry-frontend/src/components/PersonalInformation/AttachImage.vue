@@ -7,7 +7,7 @@
     <label class="attach-image__label"
       for="image">
       <div class="attach-image__label__preview"
-        :style="{backgroundImage: `url(${this.imgPath})`}">
+        :style="{backgroundImage: `url(http://114.108.135.15/images/${this.imgPath})`}">
       </div>
     </label>
   </div>
@@ -24,22 +24,25 @@ export default {
     },
   },
   methods: {
-    onFileChange(e) {
+    onFileChange(event) {
       const token = this.$cookies.get('accessToken');
-      const file = e.target.files[0];
-      console.log(file),
-      this.$axios.post('http://entrydsm.hs.kr/api/me/profile/image',file,{
+      const { s, e } = this.$toastr;
+      const file = event.target.files[0];
+      const formData = new FormData();
+      formData.append('file', file);
+      this.$axios.post('http://114.108.135.15/api/me/profile/image',
+        formData,
+        {
           headers: {
-            'Authorization': `JWT ${token}`,
-            'Content-Type':'multipart/form-data'
+              'Content-Type': 'multipart/form-data',
+              Authorization: `JWT ${token}`,
           },
-        }).then(res => {
-          console.log(res);
-          this.$store.commit('updateImgPath', {
-            data: `http://entrydsm.hs.kr/images/${res.data.data}`
-          });
-          this.imageURL = this.$store.state.PersonInfo.imgPath;
-          this.$emit('upload', this.$store.state.PersonInfo.imgPath);
+        },
+      ).then((res) => {
+        s('사진이 성공적으로 업로드 되었습니다');
+        this.$emit('upload', `${res.data.data}`);
+      }).catch(() => {
+        e('사진 업로드가 실패하였습니다. 다른 사진으로 다시 업로드 해주세요.');
       });
     },
   },

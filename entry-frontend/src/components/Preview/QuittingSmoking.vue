@@ -16,11 +16,11 @@
           <td>연락처</td>
           <td>{{myTel}}</td>
           <td>출신 중학교</td>
-          <td>{{schoolName}}</td>
+          <td>{{school.name}}</td>
         </tr>
         <tr>
           <td><pre>주   소</pre></td>
-          <td colspan="3">{{addressBase}} ({{addressDetail}})</td>
+          <td colspan="3">{{addressBase}}{{addressDetail ? `(${addressDetail})` : ''}}</td>
         </tr>
         <tr>
           <td id="quitting-smoking-content" colspan="5">
@@ -31,13 +31,13 @@
               <p>하나, 위의 약속을 위반할 경우 어떠한 처벌에도 이의를 제기하지 않겠습니다.</p>
             </div>
             <div id="quitting-content-declaration">
-              <pre>   나 (<span class="quitting-blank"></span>)은(는) 장차 소프트웨어 분야를 선도할 전문가로 성장<br />하기 위하여 흡연을 하지 않겠습니다.</pre>
+              <pre>   나 (<span class="quitting-blank" style="text-align:center">{{personName}}</span>)은(는) 장차 소프트웨어 분야를 선도할 전문가로 성장<br />하기 위하여 흡연을 하지 않겠습니다.</pre>
               <pre>   보호자는 서약자가 금연을 하는데 용기와 도움을 줄 것을 약속합니다.</pre>
             </div>
             <div id="quitting-content-footer">
-              <p>2018년 <span class="quitting-blank"></span>월 <span class="quitting-blank"></span>일</p>
-              <p>서 약 자 : <span class="quitting-blank"></span>( 서 명 )</p>
-              <p>보 호 자 : <span class="quitting-blank"></span>( 서 명 )</p>
+              <p>2018년 <span class="quitting-blank">{{nowMonth}}</span>월 <span class="quitting-blank">{{nowDay}}</span>일</p>
+              <p>서 약 자 : <span class="quitting-blank">{{ personName }}</span>( 서 명 )</p>
+              <p>보 호 자 : <span class="quitting-blank">{{ parentName }}</span>( 서 명 )</p>
             </div>
           </td>
         </tr>
@@ -48,10 +48,16 @@
 
 <script>
 export default {
+  props: {
+    nowYear: Number,
+    nowMonth: Number,
+    nowDay: Number,
+  },
   name: 'quitting-smoking',
   computed: {
     personName() { return this.$store.state.PersonInfo.personName; },
-    schoolName() { return this.$store.state.PersonInfo.schoolName; },
+    parentName() { return this.$store.state.PersonInfo.parentName; },
+    school() { return this.$store.state.PersonInfo.school; },
     myTel() { return this.$store.state.PersonInfo.myTel; },
     addressBase() { return this.$store.state.PersonInfo.addressBase; },
     addressDetail() { return this.$store.state.PersonInfo.addressDetail; },
@@ -121,6 +127,6 @@ td {
 #quitting-smoking-content #quitting-content-footer p:nth-child(2) {  text-align: right; margin: 0 10px; }
 #quitting-smoking-content #quitting-content-footer p:nth-child(3) {  text-align: right; margin: 0 10px; }
 #quitting-smoking-content #quitting-content-footer p:nth-child(1) .quitting-blank { width: 40px; display: inline-block; }
-#quitting-smoking-content #quitting-content-footer p:nth-child(2) .quitting-blank { width: 120px; display: inline-block; }
-#quitting-smoking-content #quitting-content-footer p:nth-child(3) .quitting-blank { width: 120px; display: inline-block; }
+#quitting-smoking-content #quitting-content-footer p:nth-child(2) .quitting-blank { width: 120px; display: inline-block; text-align: left; }
+#quitting-smoking-content #quitting-content-footer p:nth-child(3) .quitting-blank { width: 120px; display: inline-block; text-align: left; }
 </style>
