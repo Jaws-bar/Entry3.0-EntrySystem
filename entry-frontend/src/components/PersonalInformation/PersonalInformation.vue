@@ -531,7 +531,7 @@ export default {
       data.schoolCode = this.school.code;
       this.$axios({
         method: 'put',
-        url: 'http://114.108.135.15/api/me/info',
+        url: 'http://entry.entrydsm.hs.kr/api/me/info',
         headers: { Authorization: `JWT ${token}` },
         data,
       }).then((res) => {

@@ -135,7 +135,7 @@
         <tbody>
           <tr>
             <td class="img-cover">
-              <img class="img" :src="`http://114.108.135.15/images/${this.imgPath}`">
+              <img class="img" :src="`http://entry.entrydsm.hs.kr/images/${this.imgPath}`">
               <pre>사     진<br /><br />(3cm×4cm)</pre>
             </td>
             <td>
@@ -238,7 +238,7 @@ export default {
     imgPath() { return this.$store.state.PersonInfo.imgPath; },
   },
   created() {
-    this.$axios.get('http://114.108.135.15/api/me/score',
+    this.$axios.get('http://entry.entrydsm.hs.kr/api/me/score',
       { headers: { Authorization: `JWT ${this.$cookies.get('accessToken')}` },
       }).then((res) => {
       if (res.status === 200) {

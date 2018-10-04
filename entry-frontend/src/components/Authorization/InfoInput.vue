@@ -188,7 +188,7 @@ export default {
     },
     moveToNextPage() {
       const { s, e } = this.$toastr;
-      this.$axios.post('http://114.108.135.15/api/signup', { email: this.email, password: this.pw }).then(() => {
+      this.$axios.post('http://entry.entrydsm.hs.kr/api/signup', { email: this.email, password: this.pw }).then(() => {
         s(`${this.email}로 인증 메일을 보냈습니다.<br/>메일함을 확인해주세요.`);
         this.$store.commit('updateEmail', '');
         this.$store.commit('updatePw', '');
