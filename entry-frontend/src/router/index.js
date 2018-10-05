@@ -9,6 +9,7 @@ import GradeInput from '../components/GradeInput/GradeInput';
 import PersonalInformation from '../components/PersonalInformation/PersonalInformation';
 import Authorization from './../components/Authorization/Authorization';
 import Preview from './../components/Preview/Preview';
+import Mypage from './../components/Mypage/Mypage';
 
 Vue.use(Router);
 
@@ -52,5 +53,9 @@ export default new Router({
     path: '/grade',
     name: 'grade-input',
     component: GradeInput,
+  }, {
+    path: '/mypage',
+    name: 'mypage',
+    component: Mypage,
   }],
 });
