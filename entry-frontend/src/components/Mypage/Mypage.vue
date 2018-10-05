@@ -11,6 +11,18 @@
         name="전형구분"
         color="#e8f3f6"
         :isValid="isClassificationValid"/>
+      <status
+        name="인적사항"
+        color="#d3ebf1"
+        :isValid="isInfoValid"/>
+      <status
+        name="성적입력"
+        color="#c0e2eb"
+        :isValid="isGradeValid"/>
+      <status
+        name="자기소개서"
+        color="#abd7e2"
+        :isValid="isDocumentValid"/>
     </div>
     <entry-footer />
   </div>
@@ -55,4 +67,7 @@ export default {
 <style lang="scss" scoped>
 @import '../../style/setting';
 
+.status-section {
+  display: flex;
+}
 </style>

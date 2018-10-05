@@ -23,7 +23,7 @@ export default {
       return this.isValid ? '작성완료' : '작성 미완료';
     },
     styleObject() {
-      return { backgroundColor: this.color };
+      return { backgroundColor: this.isValid ? this.color : '#fff' };
     },
   },
 };
