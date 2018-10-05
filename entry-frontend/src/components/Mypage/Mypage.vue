@@ -2,7 +2,16 @@
   <div class="mypage">
     <navigation />
     <headline :title="title" :subText="subText" />
-    <mypage-form/>
+    <mypage-form
+      :finalSubmit="finalSubmit"
+      :payment="payment"
+      :receipt="receipt"/>
+    <div class="status-section">
+      <status
+        name="전형구분"
+        color="#e8f3f6"
+        :isValid="isClassificationValid"/>
+    </div>
     <entry-footer />
   </div>
 </template>
@@ -13,6 +22,7 @@ import Navigation from '../common/Navigation';
 import Headline from '../common/Headline';
 import EntryFooter from '../common/EntryFooter';
 import MypageForm from './MypageForm';
+import Status from './Status';
 
 export default {
   components: {
@@ -20,6 +30,7 @@ export default {
     Headline,
     EntryFooter,
     MypageForm,
+    Status,
   },
   name: 'mypage',
   data() {
@@ -29,14 +40,12 @@ export default {
     };
   },
   computed: mapState({
-    graduateType: state => state.mypage.graduateType,
     isValid: state => state.mypage.validationResult.isValid,
     isClassificationValid: state => state.mypage.validationResult.isClassificationValid,
     isInfoValid: state => state.mypage.validationResult.isInfoValid,
     isGradeValid: state => state.mypage.validationResult.isGradeValid,
     isDocumentValid: state => state.mypage.validationResult.isDocumentValid,
     finalSubmit: state => state.mypage.applyStatus.finalSubmit,
-    passStatus: state => state.mypage.applyStatus.passStatus,
     payment: state => state.mypage.applyStatus.payment,
     receipt: state => state.mypage.applyStatus.receipt,
   }),
