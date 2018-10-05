@@ -20,7 +20,7 @@ import java.time.LocalDate;
 public class InfoDTO {
 
     private static final String PHONE_NUMBER_PATTERN = "^(\\d{11})?$";
-    private static final String SCHOOL_NUMBER_PATTERN = "^(\\d{10})?$";
+    private static final String SCHOOL_NUMBER_PATTERN = "^(\\d{10,11})?$";
     private static final String ZIP_CODE_PATTERN = "^(\\d{5})?$";
 
     @NotNull(groups = {Graduate.class, Ged.class})
