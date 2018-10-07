@@ -9,7 +9,8 @@
         :imgPath="imgPath"
         :finalSubmit="finalSubmit"
         :payment="payment"
-        :receipt="receipt"/>
+        :receipt="receipt"
+        @goto-preview="gotoPreview"/>
       <div class="mypage__status-section">
         <status
           class="mypage__status"
@@ -63,6 +64,13 @@ export default {
       title: '마이페이지',
       subText: '2019 입학원서 작성',
     };
+  },
+  methods: {
+    gotoPreview() {
+      const token = this.$cookies.get('accessToken');
+      const { introduce, studyPlan } = this.$store.state.introNPlan;
+      this.$store.dispatch('gotoPreview', { token, introduce, studyPlan });
+    },
   },
   computed: mapState({
     admission: state => state.classify.admission,

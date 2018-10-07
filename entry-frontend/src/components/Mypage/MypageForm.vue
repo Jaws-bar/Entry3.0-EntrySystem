@@ -84,7 +84,7 @@ export default {
   },
   methods: {
     gotoPreview() {
-      // 검증 요청
+      this.$emit('goto-preview');
     },
   },
 };
