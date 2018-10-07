@@ -99,7 +99,7 @@ export default {
       position: absolute;
       left: 50%;
       transform: translateX(-50%);
-      background: linear-gradient(left, transparent 0%,
+      background: -webkit-linear-gradient(left, transparent 0%,
       #769b9f 15%, #769b9f 85%, transparent 100%);
       z-index: 99;
     }

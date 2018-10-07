@@ -31,7 +31,7 @@
       :nextShow="true"
       :prevLink="prevLink"
       :disablePrevClick="true"
-      :onClick="() => confirm()"/>
+      :onClick="confirm.bind(this)"/>
     <entry-footer />
   </div>
 </template>
@@ -84,10 +84,18 @@ export default {
         index: 1,
       });
     }
+    if (!this.isValid) {
+      e('원서를 전부 채우지 못하였습니다.<br/>모두 채운 뒤 미리보기를 볼 수 있습니다.');
+    }
   },
   computed: {
     admission() {
       return this.$store.state.classify.admission;
+    },
+    isValid: {
+      get() {
+        return this.$store.state.mypage.validationResult.isValid;
+      },
     },
   },
   methods: {
@@ -108,7 +116,7 @@ export default {
     },
     confirm() {
       this.$store.commit('changeIndex', {
-        index: 6,
+        index: 7,
       });
     },
   },

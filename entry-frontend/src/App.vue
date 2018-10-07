@@ -5,18 +5,13 @@
 </template>
 
 <script>
-// import Navi from '@/components/common/Navigation';
-// import EntryFooter from '@/components/common/EntryFooter';
-// import Headline from '@/components/common/Headline';
-// import PrevNextBtn from '@/components/common/PrevNextBtn';
-// import Selectbox from '@/components/common/Selectbox';
-
 export default {
   name: 'app',
 };
 </script>
 
 <style lang="scss">
+@import 'https://cdn.rawgit.com/innks/NanumSquareRound/master/nanumsquareround.min.css';
 @import './style/input.scss';
 @import './style/setting.scss';
 @import './style/form.scss';

@@ -30,7 +30,7 @@ export default {
       const file = event.target.files[0];
       const formData = new FormData();
       formData.append('file', file);
-      this.$axios.post('https://entry.entrydsm.hs.kr:80api/me/profile/image',
+      this.$axios.post('https://entry.entrydsm.hs.kr:80/api/me/profile/image',
         formData,
         {
           headers: {

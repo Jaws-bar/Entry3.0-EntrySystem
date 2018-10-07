@@ -317,6 +317,18 @@ export const mutations = {
     state.mypage.applyStatus = applyStatus;
   },
 
+  checkValidate: (state, { data }) => {
+    const {
+      graduateType,
+      validationResult,
+      applyStatus,
+    } = data;
+    state.mypage.graduateType = graduateType;
+    state.mypage.validationResult = validationResult;
+    state.mypage.applyStatus = applyStatus;
+    state.modal.index = 6;
+  },
+
   updateaccessToken: (state, payload) => {
     state.accessToken = payload.data;
   },

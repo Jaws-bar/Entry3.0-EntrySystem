@@ -27,16 +27,6 @@
         해당 항목을 입력하거나 수정해주시길 바랍니다.<br/>
       </p>
     </div>
-    <div class="Verify__msg" v-else>
-      <p class="Verify__msg__header">최종 제출을 하시겠습니까?</p>
-      <div class="Verify__msg__hr"></div>
-      <p class="Verify__msg__content">
-        최종 제출이 완료 후에는 작성한 입학 원서를 수정할 수 없습니다.
-      </p>
-      <div class="modal--btn Verify__msg__btn" @click="FinalSubmit">
-        최종 제출
-      </div>
-    </div>
   </div>
 </template>
 
@@ -82,10 +72,12 @@ export default {
     },
   },
   created() {
-    const token = this.$cookies.get('accessToken');
-    this.$store.dispatch('getMypage', {
-      token,
-    });
+    if (this.isValid) {
+      this.$router.push('/preview');
+      this.$store.commit('changeIndex', {
+        index: 0,
+      });
+    }
   },
   methods: {
     FinalSubmit() {

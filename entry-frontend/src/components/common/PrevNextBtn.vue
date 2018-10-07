@@ -46,6 +46,10 @@ export default {
       type: Function,
       required: false,
     },
+    SavingFunction: {
+      type: Function,
+      required: false,
+    },
     disablePrevClick: {
       type: Boolean,
       required: false,
@@ -53,8 +57,10 @@ export default {
   },
   methods: {
     gotoPrev() {
-      if (typeof this.onClick === 'function' && this.disablePrevClick !== true) {
+      if (typeof this.onClick === 'function' && this.disablePrevClick !== true && typeof this.SavingFunction !== 'function') {
         this.onClick();
+      } else if (typeof this.SavingFunction === 'function') {
+        this.SavingFunction();
       }
       this.$router.push(this.prevLink);
     },

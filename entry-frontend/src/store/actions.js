@@ -45,6 +45,21 @@ export const actions = {
       Promise.reject(err.response);
     });
   },
+  gotoPreview: ({ commit }, payload) => {
+    contact.updateDocument('document', payload)
+    .then(() => {
+      payload.s('자기소개서 및 학업계획서 정보가<br/>임시저장 되었습니다.');
+      contact.getMypage('mypage', payload.token)
+      .then((response) => {
+      const { data } = response;
+      commit('checkValidate', data);
+    });
+    })
+    .catch((err) => {
+      payload.e('자기소개서와 학업계획서 정보저장을 실패하였습니다..');
+      Promise.reject(err.response);
+    });
+  },
 
   getIntro: ({ commit }, payload) => {
     contact.getDocument('document', payload.token)

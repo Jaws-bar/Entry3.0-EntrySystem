@@ -219,11 +219,11 @@ export default {
     width: 1140px;
     height: 1px;
     position: absolute;
-    background: linear-gradient(left, transparent 0%, #769b9f 50%, transparent 100%);
+    background: -webkit-linear-gradient(left, transparent 0%, #769b9f 50%, transparent 100%);
   }
   &.--false{
     &::before, &::after{
-      background: linear-gradient(left, transparent 0%, #a7a7a7 50%, transparent 100%);
+      background: -webkit-linear-gradient(left, transparent 0%, #a7a7a7 50%, transparent 100%);
     }
   }
   &::after{

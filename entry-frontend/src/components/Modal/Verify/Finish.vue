@@ -3,22 +3,32 @@
     <div class="Verify__Icon">
       <div class="Verify__Icon__box Verify__Icon__box--info" v-if="isInfoValid==='작성완료'">
       </div>
-      <div class="Verify__Icon__box Verify__Icon__box--info Verify__Icon__box--false" v-else>
+      <div class="Verify__Icon__box Verify__Icon__box--info Verify__Icon__box--false" @click="changeRouter('personal')" v-else>
       </div>
       <div class="Verify__Icon__box Verify__Icon__box--classify" v-if="isClassificationValid==='작성완료'">
       </div>
-      <div class="Verify__Icon__box Verify__Icon__box--classify Verify__Icon__box--false" v-else>
+      <div class="Verify__Icon__box Verify__Icon__box--classify Verify__Icon__box--false" @click="changeRouter('classify')" v-else>
       </div>
       <div class="Verify__Icon__box Verify__Icon__box--plan" v-if="isDocumentValid==='작성완료'">
       </div>
-      <div class="Verify__Icon__box Verify__Icon__box--plan Verify__Icon__box--false" v-else>
+      <div class="Verify__Icon__box Verify__Icon__box--plan Verify__Icon__box--false" @click="changeRouter('intro')" v-else>
       </div>
       <div class="Verify__Icon__box Verify__Icon__box--gradeInput" v-if="isGradeValid==='작성완료'">
       </div>
-      <div class="Verify__Icon__box Verify__Icon__box--gradeInput Verify__Icon__box--false" v-else>
+      <div class="Verify__Icon__box Verify__Icon__box--gradeInput Verify__Icon__box--false" @click="changeRouter('grade')" v-else>
       </div>
     </div>
-    <div class="Verify__msg">
+    <div class="Verify__msg" v-if="!submit">
+      <p class="Verify__msg__header">최종 제출을 하시겠습니까?</p>
+      <div class="Verify__msg__hr"></div>
+      <p class="Verify__msg__content">
+        최종 제출이 완료 후에는 작성한 입학 원서를 수정할 수 없습니다.
+      </p>
+      <div class="modal--btn Verify__msg__btn Verify__msg__btn--long" @click="FinalSubmit">
+        최종 제출
+      </div>
+    </div>
+    <div class="Verify__msg" v-else>
       <p class="Verify__msg__header">최종 제출이 완료되었습니다</p>
       <div class="Verify__msg__hr"></div>
       <p class="Verify__msg__content">
@@ -36,6 +46,11 @@
 
 <script>
 export default {
+  data() {
+    return {
+      submit: false,
+    };
+  },
   computed: {
     isClassificationValid: {
       get() {
@@ -87,6 +102,32 @@ export default {
         index: 0,
       });
       this.$router.push('/');
+    },
+    FinalSubmit() {
+      const token = this.$cookies.get('accessToken');
+      const { e } = this.$toastr;
+      this.$axios({
+        method: 'post',
+        url: 'https://entry.entrydsm.hs.kr:80/api/submit',
+        headers: { Authorization: `JWT ${token}` },
+      }).then(() => {
+        this.submit = true;
+        this.$store.dispatch('getMypage', {
+          token,
+        });
+      }).catch((error) => {
+        if (error.response.status === 403) {
+          e('이미 최종 제출 되어있는 수험생입니다.');
+        } else if (error.response.status === 400) {
+          e('부족한 부분이 있습니다. 위 아이콘을 통해 채우지 못한 부분을 확인해주세요.');
+        }
+      });
+    },
+    changeRouter(url) {
+      this.$router.push(`/${url}`);
+      this.$store.commit('changeIndex', {
+        index: 0,
+      });
     },
   },
   created() {
@@ -236,6 +277,9 @@ export default {
       width: 140px;
       height: 40px;
       margin: 25px 10px 0 auto;
+      @include m('long') {
+        width: 295px;
+      }
     }
   }
 }

@@ -238,7 +238,7 @@ export default {
     imgPath() { return this.$store.state.PersonInfo.imgPath; },
   },
   created() {
-    this.$axios.get('https://entry.entrydsm.hs.kr:80api/me/score',
+    this.$axios.get('https://entry.entrydsm.hs.kr:80/api/me/score',
       { headers: { Authorization: `JWT ${this.$cookies.get('accessToken')}` },
       }).then((res) => {
       if (res.status === 200) {

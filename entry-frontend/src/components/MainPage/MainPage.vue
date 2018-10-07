@@ -158,7 +158,7 @@ export default {
     display: inline-block;
     width: 175px;
     border-radius: 30px;
-    background-image: linear-gradient(101deg, #82cdca, #5db3b6);
+    background: -webkit-linear-gradient(101deg, #82cdca, #5db3b6);
     box-shadow: 1px 25px 20px -15px #9ff0eb;
     font-size: 22px;
     color: #fff;

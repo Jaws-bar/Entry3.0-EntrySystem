@@ -1793,7 +1793,7 @@ $button-color: #edf5f6;
       position: absolute;
       left: 50%;
       transform: translateX(-50%);
-      background: linear-gradient(left, transparent 0%,
+      background: -webkit-linear-gradient(left, transparent 0%,
       $table-border 15%, $table-border 85%, transparent 100%);
       z-index: 99;
     }
@@ -1882,8 +1882,8 @@ $button-color: #edf5f6;
       height: calc(100% / 2);
 
       &:first-of-type {
-        background: linear-gradient(left, transparent 0%,
-        $table-background 10%, $table-background 90%, transparent 100%);
+        background: -webkit-linear-gradient(left, transparent 0%,
+      $table-background 15%, $table-background 85%, transparent 100%);
       }
 
       & > td {

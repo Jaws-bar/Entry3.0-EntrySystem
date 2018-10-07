@@ -21,9 +21,9 @@
           <p class="schedule__content__text">
             {{ scheduleDateText }}
           </p>
-          <a @click="writeApplication" class="schedule__content__link">
+          <router-link to='/classify'  class="schedule__content__link">
             원서작성 하러가기
-          </a>
+          </router-link >
         </div>
       </transition>
     </div>
@@ -163,18 +163,6 @@ export default {
       if (startDate) this.scheduleDateText = `${this.formatDateText(startDate)} ~ ${this.formatDateText(endDate)}`;
       else this.scheduleDateText = this.formatDateText(endDate);
     },
-    writeApplication() {
-      const token = this.$cookies.get('accessToken');
-      const { e } = this.$toastr;
-      if (token !== undefined && token !== null && token !== '') {
-        this.$router.push('/classify');
-      } else {
-        e('로그인이 필요한 기능입니다.');
-      }
-      this.$store.commit('changeIndex', {
-        index: 1,
-      });
-    },
   },
 };
 </script>
@@ -231,7 +219,7 @@ export default {
       display: inline-block;
       width: 300px;
       border-radius: 30px;
-      background-image: linear-gradient(101deg, #82cdca, #5db3b6);
+      background: -webkit-linear-gradient(101deg, #82cdca, #5db3b6);
       box-shadow: 1px 25px 20px -15px #9ff0eb;
       font-size: 22px;
       color: #fff;

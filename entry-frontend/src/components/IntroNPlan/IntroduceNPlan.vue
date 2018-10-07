@@ -46,8 +46,8 @@
       :nextShow="true"
       :text="btnText"
       :prevLink="prevLink"
-      :nextLink="nextLink"
-      :onClick="() => updateIntro()"/>
+      :SavingFunction="updateIntro.bind(this)"
+      :onClick="gotoPreview.bind(this)"/>
     <entry-footer />
   </div>
 </template>
@@ -120,11 +120,21 @@ export default {
         leng: value.length,
       });
     },
-
     updateIntro() {
       const token = this.$cookies.get('accessToken');
       const { s, e } = this.$toastr;
       this.$store.dispatch('updateIntro', {
+        token,
+        introduce: this.introduce,
+        studyPlan: this.studyPlan,
+        s,
+        e,
+      });
+    },
+    gotoPreview() {
+      const token = this.$cookies.get('accessToken');
+      const { s, e } = this.$toastr;
+      this.$store.dispatch('gotoPreview', {
         token,
         introduce: this.introduce,
         studyPlan: this.studyPlan,
