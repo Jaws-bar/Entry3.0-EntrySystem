@@ -34,10 +34,11 @@
       <li class="nav__wrapper__contants__list__link
         nav__wrapper__contants__list__link--login"
         v-else
-        @click="logout">
-          로그아웃
+        @click="changeUserModal">
+          {{userName}} 님 <span class="btn" v-bind:class="{ rotate: onUserModal }">▾</span>
       </li>
     </ul>
+    <user-modal :onUserModal="onUserModal" v-if="onUserModal"/>
     </div>
   </nav>
   <modal/>
@@ -46,11 +47,18 @@
 
 <script>
 import Modal from '../Modal';
+import userModal from './userModal';
 
 export default {
   name: 'navigation',
   components: {
     Modal,
+    userModal,
+  },
+  data() {
+    return {
+      onUserModal: false,
+    };
   },
   created() {
     this.$on('CloseModal', () => {
@@ -61,6 +69,13 @@ export default {
     index() {
       return this.$store.state.modal.index;
     },
+    userName() {
+      if (this.$store.state.PersonInfo.personName === ''
+      || this.$store.state.PersonInfo.personName === null) {
+        return this.$store.state.email;
+      }
+      return this.$store.state.PersonInfo.personName;
+    },
     isLogin: {
       get() {
         const token = this.$cookies.get('accessToken');
@@ -69,11 +84,11 @@ export default {
           return true;
         } else if (this.$store.state.accessToken === null
         && token !== undefined
-        && token !== null) {
+        && token !== null
+        && localStorage.getItem('name') !== undefined) {
           this.$store.commit('updateaccessToken', {
-            data: token,
-            s,
-            e,
+            accessToken: token,
+            email: localStorage.getItem('name'),
           });
           this.$store.dispatch('getMypage',
             {
@@ -114,13 +129,8 @@ export default {
         index: 1,
       });
     },
-    logout() {
-      this.$cookies.remove('accessToken');
-      this.$store.commit('updateaccessToken', {
-        data: null,
-      });
-      this.$router.push('/');
-      window.location.reload();
+    changeUserModal() {
+      this.onUserModal = !this.onUserModal;
     },
     writeApplication() {
       const token = this.$cookies.get('accessToken');
@@ -192,5 +202,12 @@ a {
     color: #000;
     text-decoration: none;
   }
+}
+.rotate{
+  transform: rotate(180deg);
+}
+.btn{
+  display: inline-block;
+  transition: 0.5s;
 }
 </style>

@@ -282,7 +282,6 @@ export const mutations = {
       studentNumber,
       zipCode,
     } = data;
-
     state.PersonInfo.addressBase = addressBase;
     state.PersonInfo.addressDetail = addressDetail;
     state.PersonInfo.year = birth.split('-')[0];
@@ -330,7 +329,8 @@ export const mutations = {
   },
 
   updateaccessToken: (state, payload) => {
-    state.accessToken = payload.data;
+    state.accessToken = payload.accessToken;
+    state.email = payload.email;
   },
 };
 

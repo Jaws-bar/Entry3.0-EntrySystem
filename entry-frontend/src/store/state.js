@@ -15,6 +15,7 @@ export const state = {
   introNPlan,
   mypage,
   accessToken: null,
+  email: null,
 };
 
 export default state;

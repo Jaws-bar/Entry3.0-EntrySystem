@@ -34,6 +34,7 @@
 </template>
 
 <script>
+const emailReg = /^([0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*)(@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3})$/;
 export default {
   data: () => ({
     email: '',
@@ -69,7 +70,9 @@ export default {
             this.$store.dispatch('getIntro', { token });
             this.$store.commit('updateaccessToken', {
               accessToken: token,
+              email: email.replace(emailReg, '$1'),
             });
+            localStorage.setItem('name', email.replace(emailReg, '$1'));
             this.$store.dispatch('getMypage', {
               token,
             });

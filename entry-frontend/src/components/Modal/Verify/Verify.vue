@@ -80,25 +80,6 @@ export default {
     }
   },
   methods: {
-    FinalSubmit() {
-      const token = this.$cookies.get('accessToken');
-      const { e } = this.$toastr;
-      this.$axios({
-        method: 'post',
-        url: 'https://entry.entrydsm.hs.kr:80/api/submit',
-        headers: { Authorization: `JWT ${token}` },
-      }).then(() => {
-        this.$store.commit('changeIndex', {
-          index: 7,
-        });
-      }).catch((error) => {
-        if (error.response.status === 403) {
-          e('이미 최종 제출 되어있는 수험생입니다.');
-        } else if (error.response.status === 400) {
-          e('부족한 부분이 있습니다. 위 아이콘을 통해 채우지 못한 부분을 확인해주세요.');
-        }
-      });
-    },
     changeRouter(url) {
       this.$router.push(`/${url}`);
       this.$store.commit('changeIndex', {
