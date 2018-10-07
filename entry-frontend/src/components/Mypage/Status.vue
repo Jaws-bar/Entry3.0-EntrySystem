@@ -39,6 +39,7 @@ export default {
     border: solid 1px #96b2b5;
     width: 155px;
     height: 155px;
+    margin: 0 auto;
   }
   @include e('name') {
     width: 125px;

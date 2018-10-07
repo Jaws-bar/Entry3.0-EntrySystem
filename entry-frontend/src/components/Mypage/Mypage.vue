@@ -2,30 +2,39 @@
   <div class="mypage">
     <navigation />
     <headline :title="title" :subText="subText" />
-    <mypage-form
-      :admission="admission"
-      :personName="personName"
-      :imgPath="imgPath"
-      :finalSubmit="finalSubmit"
-      :payment="payment"
-      :receipt="receipt"/>
-    <div class="status-section">
-      <status
-        name="전형구분"
-        color="#e8f3f6"
-        :isValid="isClassificationValid"/>
-      <status
-        name="인적사항"
-        color="#d3ebf1"
-        :isValid="isInfoValid"/>
-      <status
-        name="성적입력"
-        color="#c0e2eb"
-        :isValid="isGradeValid"/>
-      <status
-        name="자기소개서"
-        color="#abd7e2"
-        :isValid="isDocumentValid"/>
+    <div class="mypage__cover">
+      <mypage-form
+        :admission="admission"
+        :personName="personName"
+        :imgPath="imgPath"
+        :finalSubmit="finalSubmit"
+        :payment="payment"
+        :receipt="receipt"/>
+      <div class="mypage__status-section">
+        <status
+          class="mypage__status"
+          name="전형구분"
+          color="#e8f3f6"
+          :isValid="isClassificationValid"/>
+        <div class="mypage__joiner"></div>
+        <status
+          class="mypage__status"
+          name="인적사항"
+          color="#d3ebf1"
+          :isValid="isInfoValid"/>
+        <div class="mypage__joiner"></div>
+        <status
+          class="mypage__status"
+          name="성적입력"
+          color="#c0e2eb"
+          :isValid="isGradeValid"/>
+        <div class="mypage__joiner"></div>
+        <status
+          class="mypage__status"
+          name="자기소개서"
+          color="#abd7e2"
+          :isValid="isDocumentValid"/>
+      </div>
     </div>
     <entry-footer />
   </div>
@@ -74,7 +83,25 @@ export default {
 <style lang="scss" scoped>
 @import '../../style/setting';
 
-.status-section {
-  display: flex;
+.mypage {
+  @include e('cover') {
+    width: 1140px;
+    margin: 0 auto;
+  }
+  @include e('status-section') {
+    display: flex;
+    margin: {
+      top: 108px;
+      bottom: 125px;
+    }
+  }
+  @include e('status') {
+    flex: 1;
+  }
+  @include e('joiner') {
+    width: 47px;
+    background: url('../../assets/Mypage/joiner.png') no-repeat center 70px;
+    background-size: contain;
+  }
 }
 </style>
