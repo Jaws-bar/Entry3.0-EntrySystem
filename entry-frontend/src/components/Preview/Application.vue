@@ -25,7 +25,7 @@
             <td>성명</td>
             <td>{{personName}}</td>
             <td>생년월일</td>
-            <td>{{year}}.{{month}}.{{day}}</td>
+            <td>{{year}}.{{month}}.{{day}}.</td>
             <td>성별</td>
             <td class="application-info-textalign-left">
               <input :checked="sex === 'MALE'" type="checkbox" onclick="return false" />남
@@ -55,8 +55,7 @@
             <td>학교</td>
             <td>{{schoolTel}}</td>
             <td class="application-info-textalign-left">
-              <input :checked="graduateType === 'DONE'" type="checkbox" onclick="return false" />
-              <span :style="{paddingRight: graduateType === 'DONE' ? '0' : '7px'}">{{graduateType === 'DONE' ? graduateYear : '201'}}</span>년 2월 중학교 졸업</td>
+              <input :checked="graduateType === 'DONE'" type="checkbox" onclick="return false" /><span :style="{paddingRight: graduateType === 'DONE' ? '0' : '7px'}">{{graduateType === 'DONE' ? graduateYear : '201'}}</span>년 2월 중학교 졸업</td>
           </tr>
           <tr>
             <td>학생</td>
@@ -136,11 +135,11 @@
         <tbody>
           <tr>
             <td class="img-cover">
-              <img class="img" :src="`http://114.108.135.15/images/${this.imgPath}`">
+              <img class="img" :src="`https://entry.entrydsm.hs.kr:80/images/${this.imgPath}`">
               <pre>사     진<br /><br />(3cm×4cm)</pre>
             </td>
             <td>
-              <pre>본인의 귀 고등학교에 입학하고자 소정의 서류를 갖추어<br />지원합니다.                                              </pre>
+              <pre>본인은 귀 고등학교에 입학하고자 소정의 서류를 갖추어<br />지원합니다.                                              </pre>
               <p>2018년 10 월 <span class="application-info-blank">{{nowDay}}</span>일</p>
               <p>지원자 : <span class="application-info-long-blank">{{ personName }}</span>(인)<span style="padding-right: 20px"></span>보호자 : <span class="application-info-long-blank">{{parentName}}</span>(인)</p>
               <br />
@@ -239,26 +238,17 @@ export default {
     imgPath() { return this.$store.state.PersonInfo.imgPath; },
   },
   created() {
-    this.$axios.get('http://114.108.135.15/api/me/score',
+    this.$axios.get('https://entry.entrydsm.hs.kr:80api/me/score',
       { headers: { Authorization: `JWT ${this.$cookies.get('accessToken')}` },
       }).then((res) => {
       if (res.status === 200) {
-        const {
-          firstGrade,
-          secondGrade,
-          thirdGrade,
-          conversionScore,
-          attendanceScore,
-          volunteerScore,
-          finalScore,
-        } = res.data.data;
-        this.firstGrade = firstGrade.toFixed(3);
-        this.secondGrade = secondGrade.toFixed(3);
-        this.thirdGrade = thirdGrade.toFixed(3);
-        this.conversionScore = conversionScore.toFixed(3);
-        this.attendanceScore = attendanceScore.toFixed(3);
-        this.volunteerScore = volunteerScore.toFixed(3);
-        this.finalScore = finalScore.toFixed(3);
+        const keyArray = Object.keys(res.data.data);
+        const valueArray = Object.values(res.data.data);
+        for (let i = 0; i < keyArray.length; i += 1) {
+          if (typeof valueArray[i] === 'number') {
+            this[keyArray[i]] = valueArray[i] ? valueArray[i].toFixed(3) : 0;
+          }
+        }
       } else {
         this.$toastr.e('서버와 통신이 불안정합니다.<br/> 재연결이 필요합니다.');
       }
@@ -350,7 +340,8 @@ input[type="checkbox"] {
 }
 
 #application-terms-info-box {
-  height: 150px;
+  padding-top: 10px;
+  height: 160px;
   /* padding: 2px; */
   border: 1px solid black;
 }

@@ -9,7 +9,7 @@
           <td rowspan="3">서약서</td>
           <td><pre>성   명</pre></td>
           <td>{{personName}}</td>
-          <td>수 험 번 호</td>
+          <td>접 수 번 호</td>
           <td></td>
         </tr>
         <tr>
@@ -47,6 +47,7 @@
 </template>
 
 <script>
+const phoneReg = /(^02.{0}|^01.{1}|[0-9]{3})([0-9]+)([0-9]{4})/;
 export default {
   props: {
     nowYear: Number,
@@ -58,7 +59,7 @@ export default {
     personName() { return this.$store.state.PersonInfo.personName; },
     parentName() { return this.$store.state.PersonInfo.parentName; },
     school() { return this.$store.state.PersonInfo.school; },
-    myTel() { return this.$store.state.PersonInfo.myTel; },
+    myTel() { return this.$store.state.PersonInfo.myTel.replace(phoneReg, '$1-$2-$3'); },
     addressBase() { return this.$store.state.PersonInfo.addressBase; },
     addressDetail() { return this.$store.state.PersonInfo.addressDetail; },
   },

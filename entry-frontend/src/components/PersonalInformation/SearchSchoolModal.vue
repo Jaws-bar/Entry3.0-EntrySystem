@@ -1,29 +1,32 @@
 <template>
-  <div class="school-modal">
-    <selectbox
-      class="school-modal__select-office"
-      v-model="office"
-      :options="offices"></selectbox>
-    <input
-      type="text"
-      class="input-text school-modal__input"
-      placeholder="중학교 명"
-      v-focus
-      v-model="keyword"
-      @keyup.enter="getSchools"
-      @keydown.esc="$emit('close')">
-    <ul class="school-modal__list">
-      <li
-        class="school-modal__school"
-        v-for="school in schools"
-        :key="school.code"
-        @click="selectSchool(school)">
-        <div class="cover">
-          {{ school.name }}
-        </div>
-        <div class="select">선택</div>
-      </li>
-    </ul>
+  <div class="modal">
+    <div class="modal__background" @click="closeModal"></div>
+    <div class="school-modal">
+      <selectbox
+        class="school-modal__select-office"
+        v-model="office"
+        :options="offices"></selectbox>
+      <input
+        type="text"
+        class="input-text school-modal__input"
+        placeholder="중학교 명"
+        v-focus
+        v-model="keyword"
+        v-on:input="search">
+      <ul class="school-modal__list">
+        <li
+          class="school-modal__school"
+          v-for="school in schools"
+          :key="school.code"
+          @click="selectSchool(school)">
+          <div class="cover">
+            {{ school.name }}
+          </div>
+          <div class="select">선택</div>
+        </li>
+      </ul>
+      <div class="school-modal__close" @click="closeModal"></div>
+    </div>
   </div>
 </template>
 
@@ -38,24 +41,24 @@ const focus = {
 };
 
 const offices = [
-  { text: '충청북도교육청', value: '충청북도교육청' },
-  { text: '충청남도교육청', value: '충청남도교육청' },
-  { text: '제주특별자치도교육청', value: '제주특별자치도교육청' },
-  { text: '제주도교육청', value: '제주도교육청' },
-  { text: '전라북도교육청', value: '전라북도교육청' },
-  { text: '전라남도교육청', value: '전라남도교육청' },
-  { text: '인천광역시교육청', value: '인천광역시교육청' },
-  { text: '울산광역시교육청', value: '울산광역시교육청' },
-  { text: '세종특별자치시교육청', value: '세종특별자치시교육청' },
+  { text: '전체', value: '' },
   { text: '서울특별시교육청', value: '서울특별시교육청' },
   { text: '부산광역시교육청', value: '부산광역시교육청' },
-  { text: '대전광역시교육청', value: '대전광역시교육청' },
   { text: '대구광역시교육청', value: '대구광역시교육청' },
+  { text: '인천광역시교육청', value: '인천광역시교육청' },
   { text: '광주광역시교육청', value: '광주광역시교육청' },
-  { text: '경상북도교육청', value: '경상북도교육청' },
-  { text: '경상남도교육청', value: '경상남도교육청' },
+  { text: '대전광역시교육청', value: '대전광역시교육청' },
+  { text: '울산광역시교육청', value: '울산광역시교육청' },
   { text: '경기도교육청', value: '경기도교육청' },
   { text: '강원도교육청', value: '강원도교육청' },
+  { text: '충청북도교육청', value: '충청북도교육청' },
+  { text: '충청남도교육청', value: '충청남도교육청' },
+  { text: '전라북도교육청', value: '전라북도교육청' },
+  { text: '전라남도교육청', value: '전라남도교육청' },
+  { text: '경상북도교육청', value: '경상북도교육청' },
+  { text: '경상남도교육청', value: '경상남도교육청' },
+  { text: '세종특별자치시교육청', value: '세종특별자치시교육청' },
+  { text: '제주특별자치도교육청', value: '제주특별자치도교육청' },
 ];
 
 export default {
@@ -90,6 +93,9 @@ export default {
       this.$emit('selectSchool', school);
       this.$emit('close');
     },
+    closeModal() {
+      this.$emit('close');
+    },
   },
 };
 </script>
@@ -103,22 +109,56 @@ $color-main3: #5f8a90;
 $color-main4: #f7fbfc;
 $modal-z-index: 5;
 
-.school-modal {
-  $modal-width: 1000px;
-  $modal-height: 500px;
-
+.modal{
+  width: 100vw;
+  height: 100vh;
+  display: flex;
   position: fixed;
-  top: 50%;
-  left: 50%;
+  justify-content: center;
+  align-items: center;
+  @include e('background'){
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba($color: #8C8C8C, $alpha: 0.3);
+  }
+}
+.school-modal {
+  position: relative;
+  $modal-width: 920px;
+  $modal-height: 410px;
   width: $modal-width;
   height: $modal-height;
-  transform: translate(-$modal-width / 2, -$modal-height / 2);
   border: 1px solid $color-main1;
   z-index: $modal-z-index;
   background-color: #fff;
-  box-sizing: border-box;
   padding: 40px 45px;
-
+  @include e('close'){
+    position: absolute;
+    top: 18px;
+    right: 14px;
+    width: 12px;
+    height: 12px;
+    &::before, &::after{
+      position: relative;
+      content: "";
+      display: block;
+      z-index: 8;
+      width: 12px;
+      height: 2px;
+      border-radius: 10px;
+      background-color: #dee8e9;
+    }
+    &::before{
+      transform: rotate(-45deg);
+      top: 2px;
+    }
+    &::after{
+      transform: rotate(45deg);
+    }
+  }
   @include e('select-office') {
     width: 200px;
   }

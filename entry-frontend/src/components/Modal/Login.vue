@@ -58,14 +58,20 @@ export default {
           this.pwwrong = false;
         }, 5000);
       } else {
-        this.$axios.post('http://114.108.135.15/api/signin', { email, password }).then((res) => {
+        this.$axios.post('https://entry.entrydsm.hs.kr:80/api/signin', { email, password }).then((res) => {
           if (res.status === 200) {
             // Promise.all
-            this.$cookies.set('accessToken', res.data.data.accessToken, '4d');
-            this.$store.dispatch('getClassify', res.data.data.accessToken);
-            this.$store.dispatch('getInfo', res.data.data.accessToken);
+            const token = res.data.data.accessToken;
+            this.$cookies.set('accessToken', token, '4d');
+            this.$store.dispatch('getClassify', { token });
+            this.$store.dispatch('getInfo', { token });
+            this.$store.dispatch('getGrades', { token });
+            this.$store.dispatch('getIntro', { token });
             this.$store.commit('updateaccessToken', {
-              accessToken: res.data.data.accessToken,
+              accessToken: token,
+            });
+            this.$store.dispatch('getMypage', {
+              token,
             });
             this.$store.commit('changeIndex', {
               index: 0,
@@ -87,7 +93,7 @@ export default {
             this.pwwrong = false;
           }, 5000);
           if (error.response.status !== 401) {
-            e('로그인 실패');
+            e('로그인 실패. 학교에 문의 주시기 바랍니다.');
             e(error);
           }
         });

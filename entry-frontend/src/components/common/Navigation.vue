@@ -64,6 +64,7 @@ export default {
     isLogin: {
       get() {
         const token = this.$cookies.get('accessToken');
+        const { s, e } = this.$toastr;
         if (this.$store.state.accessToken !== null && typeof token === 'string') {
           return true;
         } else if (this.$store.state.accessToken === null
@@ -71,10 +72,36 @@ export default {
         && token !== null) {
           this.$store.commit('updateaccessToken', {
             data: token,
+            s,
+            e,
           });
-          this.$store.dispatch('getClassify', token);
-          this.$store.dispatch('getInfo', token);
-          this.$store.dispatch('getIntro', token);
+          this.$store.dispatch('getMypage',
+            {
+              token,
+              s,
+              e,
+            },
+          );
+          this.$store.dispatch('getClassify', {
+            token,
+            s,
+            e,
+          });
+          this.$store.dispatch('getInfo', {
+            token,
+            s,
+            e,
+          });
+          this.$store.dispatch('getGrades', {
+            token,
+            s,
+            e,
+          });
+          this.$store.dispatch('getIntro', {
+            token,
+            s,
+            e,
+          });
           return true;
         }
         return false;

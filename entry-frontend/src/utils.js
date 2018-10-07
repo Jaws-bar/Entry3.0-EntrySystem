@@ -58,17 +58,9 @@ const utilsOfGrade = {
       volunteerTime,
     } = responseGrade;
     const totalGrades = [];
-    const subjects = [
-      'korean',
-      'social',
-      'history',
-      'math',
-      'science',
-      'tech',
-      'english',
-    ];
+    const subjects = Object.keys(grades[0]);
 
-    for (let sub = 0; sub < subjects.length; sub += 1) {
+    for (let sub = 1; sub < subjects.length; sub += 1) {
       totalGrades.push(filteredGrade(grades, subjects[sub]));
     }
 

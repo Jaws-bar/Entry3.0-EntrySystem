@@ -203,7 +203,7 @@
         :prevShow="false"
         :nextShow="true"
         :nextLink="nextLink"
-        :onClick="() => sendServer()"/>
+        :onClick="sendServer.bind(this)"/>
     </div>
     <entry-footer />
   </div>
@@ -250,8 +250,14 @@ export default {
         this.$store.commit('updateGraduateType', {
           data: 'GED',
         });
-        this.$store.commit('updateGraduateType', {
-          data: 'GED',
+        this.$store.commit('updateStudentClass', {
+          data: '',
+        });
+        this.$store.commit('updateStudentNumber', {
+          data: '',
+        });
+        this.$store.commit('updateSchoolTel', {
+          data: '',
         });
         return 'GED';
       } else if (!this.isGraduated) {
@@ -261,10 +267,22 @@ export default {
         this.$store.commit('updateGraduateType', {
           data: 'WILL',
         });
+        this.$store.commit('updateStudentClass', {
+          data: '1',
+        });
+        this.$store.commit('updateStudentNumber', {
+          data: '1',
+        });
         return 'WILL';
       } else if (this.isGraduated) {
         this.$store.commit('updateGraduateType', {
           data: 'DONE',
+        });
+        this.$store.commit('updateStudentClass', {
+          data: 1,
+        });
+        this.$store.commit('updateStudentNumber', {
+          data: 1,
         });
         this.$store.commit('updateGraduateType', {
           data: 'DONE',
@@ -283,6 +301,14 @@ export default {
         });
         this.$store.commit('updateGraduateType', {
           data: this.graduateType,
+        });
+        this.$store.commit('updateSchool', {
+          data: {
+            code: null,
+            government: null,
+            name: null,
+            schoolRegion: null,
+          },
         });
       },
     },
@@ -371,6 +397,10 @@ export default {
         index: 1,
       });
     }
+    if (this.$store.state.mypage.applyStatus.finalSubmit) {
+      e('최종 제출 후에는 접근 할 수 없습니다.');
+      this.$router.push('/');
+    }
   },
   methods: {
     moveNext() {
@@ -426,7 +456,7 @@ export default {
       }
       this.$axios({
         method: 'put',
-        url: 'http://114.108.135.15/api/me/classification',
+        url: 'https://entry.entrydsm.hs.kr:80/api/me/classification',
         headers: { Authorization: `JWT ${token}` },
         data,
       }).then((res) => {
@@ -435,7 +465,8 @@ export default {
         }
       }).catch((error) => {
         if (error.response.status === 400) {
-          error.response.data.errors.map((msg => w(`${msg.field}-${msg.message}`)));
+          e('전형 구분 임시저장에 실패하였습니다.');
+          error.response.data.errors.map((msg => (w(`${msg.field}-${msg.message}`))));
         } else if (error.response.status === 401) {
           e('로그인이 반드시 필요합니다.');
           this.$router.push('/');

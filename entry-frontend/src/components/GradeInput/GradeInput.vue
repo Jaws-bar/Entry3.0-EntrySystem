@@ -47,6 +47,10 @@ export default {
         index: 1,
       });
     }
+    if (this.$store.state.mypage.applyStatus.finalSubmit) {
+      e('최종 제출 후에는 접근 할 수 없습니다.');
+      this.$router.push('/');
+    }
   },
   data() {
     return {
@@ -76,10 +80,6 @@ export default {
       },
     },
   },
-  mounted() {
-    const token = this.$cookies.get('accessToken');
-    this.$store.dispatch('getGrades', token);
-  },
   methods: {
     updateGrade() {
       const {
@@ -91,7 +91,6 @@ export default {
       const { s, e } = this.$toastr;
       const token = this.$cookies.get('accessToken');
       const sendData = utils.sendGrade(grade, grades, graduateType, volunteerNAttendance);
-
       this.$store.dispatch('updateGrade', {
         token,
         sendData,

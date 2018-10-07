@@ -6,7 +6,6 @@ export const PersonInfo = {
   day: null, // 생일 -> YYYY-MM-DD 로 보내야함
   studentClass: null, // 학급 반
   studentNumber: null, //  학급 번호
-  schoolCode: null, // 중학교 코드
   school: {
     code: null,
     government: null,

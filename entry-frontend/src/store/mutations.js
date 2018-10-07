@@ -289,9 +289,10 @@ export const mutations = {
     state.PersonInfo.month = birth.split('-')[1];
     state.PersonInfo.day = birth.split('-')[2];
     state.classify.graduateYear = graduateYear;
-    state.PersonInfo.school = school;
-    state.PersonInfo.schoolName = (school != null) ? school.name : '';
-    state.PersonInfo.schoolCode = (school != null) ? school.code : '';
+    state.PersonInfo.school.code = school.code;
+    state.PersonInfo.school.government = school.government;
+    state.PersonInfo.school.name = school.name;
+    state.PersonInfo.school.schoolRegion = school.schoolRegion;
     state.PersonInfo.schoolTel = schoolTel;
     state.PersonInfo.sex = sex;
     state.PersonInfo.studentClass = studentClass;

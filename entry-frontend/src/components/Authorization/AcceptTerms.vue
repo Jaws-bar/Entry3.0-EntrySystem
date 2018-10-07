@@ -40,7 +40,7 @@
     </div>
     <div class="AcceptTerms__checkbox">
       <input type="checkbox" class="AcceptTerms__checkbox--input" id="Accept-checkbox"
-      @click="sendAccept"/>
+      v-model="isAccept"/>
       <label class="AcceptTerms__checkbox--label" for="Accept-checkbox"></label>
       개인정보 이용약관에 동의합니다
     </div>
@@ -49,9 +49,14 @@
 
 <script>
 export default {
-  methods: {
-    sendAccept() {
-      this.$store.commit('updateAccept', !this.$store.state.auth.isAccept);
+  computed: {
+    isAccept: {
+      get() {
+        return this.$store.state.auth.isAccept;
+      },
+      set(value) {
+        this.$store.commit('updateAccept', value);
+      },
     },
   },
 };

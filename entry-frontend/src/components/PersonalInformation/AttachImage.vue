@@ -7,7 +7,7 @@
     <label class="attach-image__label"
       for="image">
       <div class="attach-image__label__preview"
-        :style="{backgroundImage: `url(http://114.108.135.15/images/${this.imgPath})`}">
+        :style="{backgroundImage: `url(https://entry.entrydsm.hs.kr:80/images/${this.imgPath})`}">
       </div>
     </label>
   </div>
@@ -30,7 +30,7 @@ export default {
       const file = event.target.files[0];
       const formData = new FormData();
       formData.append('file', file);
-      this.$axios.post('http://114.108.135.15/api/me/profile/image',
+      this.$axios.post('https://entry.entrydsm.hs.kr:80api/me/profile/image',
         formData,
         {
           headers: {

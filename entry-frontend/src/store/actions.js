@@ -47,21 +47,29 @@ export const actions = {
   },
 
   getIntro: ({ commit }, payload) => {
-    contact.getDocument('document', payload)
+    contact.getDocument('document', payload.token)
     .then((response) => {
       const { data } = response;
       commit('updateIntroAndPlan', data);
+      payload.s('자기소개서 및 학업계획서 정보를<br/>불러왔습니다');
     })
-    .catch(err => Promise.reject(err.response));
+    .catch((err) => {
+      payload.e('자기소개서 및 학업계획서 정보를<br/>불러오는데 실패하였습니다.');
+      Promise.reject(err.response);
+    });
   },
 
   getGrades: ({ commit }, payload) => {
-    contact.getGrades('grade', payload)
+    contact.getGrades('grade', payload.token)
     .then((response) => {
       const { data } = response.data;
       commit('getGrades', utils.getGrade(data));
+      payload.s('성적 정보를 불러왔습니다');
     })
-    .catch(err => Promise.reject(err.response));
+    .catch((err) => {
+      payload.e('성적 정보를 불러오는데<br/>실패하였습니다.');
+      Promise.reject(err.response);
+    });
   },
 
   updateGrade: (store, payload) => {
@@ -74,18 +82,26 @@ export const actions = {
   },
 
   getClassify: ({ commit }, payload) => {
-    contact.getClassify('classification', payload)
+    contact.getClassify('classification', payload.token)
     .then((response) => {
       const { data } = response;
       commit('updateClassify', data);
+      payload.s('전형 정보를 불러왔습니다');
+    }).catch((err) => {
+      payload.e('전형 정보를 불러오는데<br/>실패하였습니다.');
+      Promise.reject(err.response);
     });
   },
 
   getInfo: ({ commit }, payload) => {
-    contact.getInfo('info', payload)
+    contact.getInfo('info', payload.token)
     .then((response) => {
       const { data } = response;
       commit('updateInfo', data);
+      payload.s('인적사항 정보를 불러왔습니다');
+    }).catch((err) => {
+      payload.e('인적사항 정보를 불러오는데<br/>실패하였습니다.');
+      Promise.reject(err.response);
     });
   },
 
@@ -94,6 +110,10 @@ export const actions = {
     .then((response) => {
       const { data } = response;
       commit('updateMypage', data);
+      payload.s('유저 정보를 불러왔습니다');
+    }).catch((err) => {
+      payload.e('유저 정보를 불러오는데<br/>실패하였습니다.');
+      Promise.reject(err.response);
     });
   },
 };

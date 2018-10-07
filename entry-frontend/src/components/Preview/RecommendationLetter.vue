@@ -5,7 +5,7 @@
     </div>
     <div id="recommendation-letter-content">
       <div>
-        <p>[<span class="recommendation-blank"></span>]중학교</p>
+        <p>{{school.name}}</p>
         <p>3학년 <span class="recommendation-blank">{{studentClass}}</span>반</p>
         <p>성 명 : <span class="recommendation-blank">{{personName}}</span></p>
       </div>
@@ -41,7 +41,7 @@
       <div id="recommendation-footer">
         <p>2018 년 <span class="recommendation-blank">{{nowMonth}}</span>월 <span class="recommendation-blank">{{nowDay}}</span>일</p>
         <p>작성자 담임 : <span class="recommendation-blank"></span>(인)</p>
-        <p>[<span class="recommendation-blank"></span>] 중학교장</p>
+        <p>{{school.name}}장</p>
         <div>출신중학교장<br />직인</div>
         <p id="recommendation-school">대덕소프트웨어마이스터고등학교장 귀하</p>
       </div>
@@ -63,6 +63,7 @@ export default {
     region() { return this.$store.state.classify.region; },
     personName() { return this.$store.state.PersonInfo.personName; },
     studentClass() { return this.$store.state.PersonInfo.studentClass; },
+    school() { return this.$store.state.PersonInfo.school; },
     isOpportunity() {
       return (
         this.admissionDetail.value === 'BENEFICIARY' ||
