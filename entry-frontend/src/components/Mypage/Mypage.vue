@@ -3,6 +3,9 @@
     <navigation />
     <headline :title="title" :subText="subText" />
     <mypage-form
+      :admission="admission"
+      :personName="personName"
+      :imgPath="imgPath"
       :finalSubmit="finalSubmit"
       :payment="payment"
       :receipt="receipt"/>
@@ -35,6 +38,7 @@ import Headline from '../common/Headline';
 import EntryFooter from '../common/EntryFooter';
 import MypageForm from './MypageForm';
 import Status from './Status';
+import CONSTANT from '../../api/constant';
 
 export default {
   components: {
@@ -52,6 +56,9 @@ export default {
     };
   },
   computed: mapState({
+    admission: state => state.classify.admission,
+    personName: state => state.PersonInfo.personName,
+    imgPath: state => (state.PersonInfo.imgPath ? `${CONSTANT.IMAGE_URI}${state.PersonInfo.imgPath}` : ''),
     isValid: state => state.mypage.validationResult.isValid,
     isClassificationValid: state => state.mypage.validationResult.isClassificationValid,
     isInfoValid: state => state.mypage.validationResult.isInfoValid,
