@@ -135,7 +135,7 @@
         <tbody>
           <tr>
             <td class="img-cover">
-              <img class="img" :src="`https://entry.entrydsm.hs.kr:80/images/${this.imgPath}`">
+              <img class="img" :src="this.imgPath">
               <pre>사     진<br /><br />(3cm×4cm)</pre>
             </td>
             <td>
@@ -193,6 +193,8 @@
 </template>
 
 <script>
+import CONSTANT from '../../api/constant';
+
 const phoneReg = /(^02.{0}|^01.{1}|[0-9]{3})([0-9]+)([0-9]{4})/;
 export default {
   props: {
@@ -235,7 +237,7 @@ export default {
     zipCode() { return this.$store.state.PersonInfo.zipCode; },
     addressBase() { return this.$store.state.PersonInfo.addressBase; },
     addressDetail() { return this.$store.state.PersonInfo.addressDetail; },
-    imgPath() { return this.$store.state.PersonInfo.imgPath; },
+    imgPath() { return `${CONSTANT.IMAGE_URI}${this.$store.state.PersonInfo.imgPath}`; },
   },
   created() {
     this.$axios.get('https://entry.entrydsm.hs.kr:80/api/me/score',

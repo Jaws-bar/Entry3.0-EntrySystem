@@ -63,4 +63,8 @@ export default {
       { headers: { Authorization: `JWT ${token}` } },
     );
   },
+
+  confirmSignup(code) {
+    return axios.get(`${CONSTANT.CONFIRM_URI}${code}`);
+  },
 };
