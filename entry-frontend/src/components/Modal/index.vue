@@ -2,7 +2,7 @@
   <div class="modal" v-if="index > 0">
     <div class="modal__background" @click="closeModal"></div>
     <div class="modal__contants">
-      <div class="modal__contants__close" @click="closeModal"></div>
+      <div class="modal__contants__close" v-if="index < 6" @click="closeModal"></div>
       <login v-if="index === 1"/>
       <reset-pw v-if="(index >= 2 && index < 6)"/>
     </div>
