@@ -8,7 +8,7 @@
         이름
       </div>
       <div class="form__value">
-        {{ personName }}
+        {{ personName || '비어있음' }}
       </div>
     </div>
     <div class="form__colum">
