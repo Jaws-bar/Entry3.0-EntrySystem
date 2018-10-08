@@ -1,5 +1,5 @@
 <template>
-  <div class="status">
+  <div class="status" @click="moveRoute">
     <div class="status__color-block" :style="styleObject"></div>
     <div class="status__name">
       {{ name }}
@@ -17,6 +17,12 @@ export default {
     name: String,
     color: String,
     isValid: Boolean,
+    route: String,
+  },
+  methods: {
+    moveRoute() {
+      this.$router.push(this.route);
+    },
   },
   computed: {
     state() {
@@ -40,6 +46,7 @@ export default {
     width: 155px;
     height: 155px;
     margin: 0 auto;
+    cursor: pointer;
   }
   @include e('name') {
     width: 125px;
@@ -50,12 +57,14 @@ export default {
     line-height: 50px;
     border-bottom: solid 1px #c3d4d7;
     text-align: center;
+    cursor: pointer;
   }
   @include e('state') {
     font-size: 18px;
     text-align: center;
     line-height: 30px;
     width: 100%;
+    cursor: pointer;
   }
 }
 </style>

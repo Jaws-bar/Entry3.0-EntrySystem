@@ -16,24 +16,28 @@
           class="mypage__status"
           name="전형구분"
           color="#e8f3f6"
+          route="/classify"
           :isValid="isClassificationValid"/>
         <div class="mypage__joiner"></div>
         <status
           class="mypage__status"
           name="인적사항"
           color="#d3ebf1"
+          route="/personal"
           :isValid="isInfoValid"/>
         <div class="mypage__joiner"></div>
         <status
           class="mypage__status"
           name="성적입력"
           color="#c0e2eb"
+          route="/grade"
           :isValid="isGradeValid"/>
         <div class="mypage__joiner"></div>
         <status
           class="mypage__status"
           name="자기소개서"
           color="#abd7e2"
+          route="/intro"
           :isValid="isDocumentValid"/>
       </div>
     </div>
