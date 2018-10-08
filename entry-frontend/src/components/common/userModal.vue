@@ -4,22 +4,22 @@
       {{finalSubmit}}
     </div>
     <div class="userModal__hr" />
-    <div class="userModal__Icon">
+    <div class="userModal__Icon" @click="changeModalIndex">
       <div class="userModal__Icon__box userModal__Icon__box--info" v-if="isInfoValid">
       </div>
-      <div class="userModal__Icon__box userModal__Icon__box--info userModal__Icon__box--false" @click="changeRouter('personal')" v-else>
+      <div class="userModal__Icon__box userModal__Icon__box--info userModal__Icon__box--false" v-else>
       </div>
       <div class="userModal__Icon__box userModal__Icon__box--classify" v-if="isClassificationValid">
       </div>
-      <div class="userModal__Icon__box userModal__Icon__box--classify userModal__Icon__box--false" @click="changeRouter('classify')" v-else>
+      <div class="userModal__Icon__box userModal__Icon__box--classify userModal__Icon__box--false" v-else>
       </div>
       <div class="userModal__Icon__box userModal__Icon__box--plan" v-if="isDocumentValid">
       </div>
-      <div class="userModal__Icon__box userModal__Icon__box--plan userModal__Icon__box--false" @click="changeRouter('intro')" v-else>
+      <div class="userModal__Icon__box userModal__Icon__box--plan userModal__Icon__box--false" v-else>
       </div>
       <div class="userModal__Icon__box userModal__Icon__box--gradeInput" v-if="isGradeValid">
       </div>
-      <div class="userModal__Icon__box userModal__Icon__box--gradeInput userModal__Icon__box--false" @click="changeRouter('grade')" v-else>
+      <div class="userModal__Icon__box userModal__Icon__box--gradeInput userModal__Icon__box--false" v-else>
       </div>
     </div>
     <div class="userModal__hr userModal__hr--long" />
@@ -99,6 +99,11 @@ export default {
       this.$router.push('/');
       window.location.reload();
     },
+    changeModalIndex() {
+      this.$store.commit('changeIndex', {
+        index: 8,
+      });
+    },
     changeRouter(url) {
       this.$router.push(`/${url}`);
       this.$store.commit('changeIndex', {
@@ -145,6 +150,7 @@ export default {
     transform: rotate(-45deg);
     position: relative;
     margin: 25px auto 30px auto;
+    cursor: pointer;
     @include e('box'){
       display: inline-block;
       width: 35px;
@@ -158,7 +164,6 @@ export default {
       align-items: center;
       @include m('false') {
         background-color: #FFF !important;
-        cursor: pointer;
       }
       @include e('text') {
         transform: rotate(45deg);

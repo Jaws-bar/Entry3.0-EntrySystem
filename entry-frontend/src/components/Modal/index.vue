@@ -10,6 +10,7 @@
       <div class="modal__contants__close" @click="closeModal"></div>
       <verify v-if="index === 6"/>
       <finish v-if="index === 7"/>
+      <check-modal v-if="index === 8"/>
     </div>
   </div>
 </template>
@@ -18,6 +19,7 @@
 // div class="modal__background" @click="changeModal"></div>  고치기
 import Login from './Login';
 import ResetPw from './ResetPw';
+import CheckModal from './CheckModal';
 import Verify from './Verify/Verify';
 import Finish from './Verify/Finish';
 
@@ -26,6 +28,7 @@ export default {
   components: {
     Login,
     ResetPw,
+    CheckModal,
     Verify,
     Finish,
   },
