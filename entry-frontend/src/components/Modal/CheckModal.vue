@@ -1,36 +1,36 @@
 <template>
-  <div class="Verify">
-    <div class="Verify__Icon">
-      <div class="Verify__Icon__box Verify__Icon__box--info" v-if="isInfoValid==='작성완료'">
+  <div class="verify">
+    <div class="verify__Icon">
+      <div class="verify__Icon__box verify__Icon__box--info" v-if="isInfoValid==='작성완료'">
       </div>
-      <div class="Verify__Icon__box Verify__Icon__box--info Verify__Icon__box--false" @click="changeRouter('personal')" v-else>
+      <div class="verify__Icon__box verify__Icon__box--info verify__Icon__box--false" @click="changeRouter('personal')" v-else>
       </div>
-      <div class="Verify__Icon__box Verify__Icon__box--classify" v-if="isClassificationValid==='작성완료'">
+      <div class="verify__Icon__box verify__Icon__box--classify" v-if="isClassificationValid==='작성완료'">
       </div>
-      <div class="Verify__Icon__box Verify__Icon__box--classify Verify__Icon__box--false" @click="changeRouter('classify')" v-else>
+      <div class="verify__Icon__box verify__Icon__box--classify verify__Icon__box--false" @click="changeRouter('classify')" v-else>
       </div>
-      <div class="Verify__Icon__box Verify__Icon__box--plan" v-if="isDocumentValid==='작성완료'">
+      <div class="verify__Icon__box verify__Icon__box--plan" v-if="isDocumentValid==='작성완료'">
       </div>
-      <div class="Verify__Icon__box Verify__Icon__box--plan Verify__Icon__box--false" @click="changeRouter('intro')" v-else>
+      <div class="verify__Icon__box verify__Icon__box--plan verify__Icon__box--false" @click="changeRouter('intro')" v-else>
       </div>
-      <div class="Verify__Icon__box Verify__Icon__box--gradeInput" v-if="isGradeValid==='작성완료'">
+      <div class="verify__Icon__box verify__Icon__box--gradeInput" v-if="isGradeValid==='작성완료'">
       </div>
-      <div class="Verify__Icon__box Verify__Icon__box--gradeInput Verify__Icon__box--false" @click="changeRouter('grade')" v-else>
+      <div class="verify__Icon__box verify__Icon__box--gradeInput verify__Icon__box--false" @click="changeRouter('grade')" v-else>
       </div>
     </div>
-    <div class="Verify__msg" >
-      <p class="Verify__msg__header">현재 원서 작성 현황입니다.</p>
-      <div class="Verify__msg__hr"></div>
-      <p class="Verify__msg__content" v-if="!isValid">
+    <div class="verify__msg" >
+      <p class="verify__msg__header">현재 원서 작성 현황입니다.</p>
+      <div class="verify__msg__hr"></div>
+      <p class="verify__msg__content" v-if="!isValid">
         아직 입력되지 않았거나 잘못 된 정보가 있습니다.<br/>
         위의 카드를 통해 페이지를 확인하시고 <br/>
         해당 항목을 입력하거나 수정해주시길 바랍니다.<br/>
       </p>
-      <p class="Verify__msg__content" v-else>
+      <p class="verify__msg__content" v-else>
         현재 원서 입력이 다 된 상태입니다.<br/>
         아래 버튼을 눌러 미리 보기를 할 수 있습니다.<br/>
       </p>
-      <div class="modal--btn Verify__msg__btn Verify__msg__btn--long" @click="gotoPreview" v-if="isValid">
+      <div class="modal--btn verify__msg__btn verify__msg__btn--long" @click="gotoPreview" v-if="isValid">
         미리 보기
       </div>
     </div>
@@ -97,7 +97,7 @@ export default {
 
 <style lang="scss" scoped>
 @import '../../style/setting';
-.Verify{
+.verify{
   widows: 100%;
   height: 100%;
   position: absolute;
