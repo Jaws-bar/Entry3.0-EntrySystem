@@ -60,7 +60,7 @@ $M-close-color: #dee8e9;
 
 .modal{
   position: fixed;
-  z-index: 9;
+  z-index: 99;
   top: 0;
   left: 0;
   width: 100vw;
