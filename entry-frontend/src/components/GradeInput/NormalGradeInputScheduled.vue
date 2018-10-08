@@ -1569,7 +1569,7 @@ $button-color: #edf5f6;
       transform: translateX(-50%);
       background: -webkit-linear-gradient(left, transparent 0%,
       $table-border 15%, $table-border 85%, transparent 100%);
-      z-index: 99;
+      z-index: 98;
     }
 
     &::before { top: 0; }
