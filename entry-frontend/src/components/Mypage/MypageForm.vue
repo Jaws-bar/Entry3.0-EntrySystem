@@ -31,6 +31,12 @@
           class="form__preview-btn">
           원서 미리보기
         </button>
+        <button
+          v-else
+          @click="gotoPreview"
+          class="form__preview-btn">
+          원서 인쇄
+        </button>
       </div>
     </div>
     <div class="form__colum">
@@ -84,7 +90,7 @@ export default {
   },
   methods: {
     gotoPreview() {
-      this.$emit('goto-preview');
+      this.$router.push('/preview');
     },
   },
 };
