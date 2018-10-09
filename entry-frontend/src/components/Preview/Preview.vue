@@ -2,7 +2,7 @@
   <div class="info-preview">
     <navigation />
     <headline v-if="!finalSubmit" :title="title" :subText="subText" />
-    <headline v-else :title="'입학원서 인쇄'" :subText="subText" />
+    <headline v-else :title="'입학원서 출력'" :subText="subText" />
     <div class="pdf-target a4">
       <application
         :nowYear="nowYear"
