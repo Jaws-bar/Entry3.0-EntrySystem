@@ -15,7 +15,7 @@ import org.springframework.transaction.annotation.Transactional;
 import javax.mail.SendFailedException;
 import javax.validation.Valid;
 
-@Service("auth-service")
+@Service("test-auth-service")
 public class TestAuthService implements AuthService {
 
     @Autowired

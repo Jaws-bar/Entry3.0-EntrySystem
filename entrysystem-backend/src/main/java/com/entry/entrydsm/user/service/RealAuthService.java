@@ -25,7 +25,7 @@ import javax.mail.SendFailedException;
 import javax.validation.Valid;
 import java.util.Optional;
 
-@Service("test-auth-service")
+@Service("auth-service")
 @Slf4j
 public class RealAuthService implements AuthService {
 
