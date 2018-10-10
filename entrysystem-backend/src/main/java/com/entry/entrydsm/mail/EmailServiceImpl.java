@@ -34,7 +34,7 @@ public class EmailServiceImpl implements EmailService {
     @Async
     @Override
     public void sendConfirmCode(String email, TempUser tempUser) {
-        sendMessage(email, "[대덕소프트웨어마이스터고등학교 입학전형시스템] 회원가입 인증 코드입니다.", "다음 링크를 클릭하세요.\n" +
-                String.format("http://%s/signup/confirm/%s", baseUrl, tempUser.getCode()));
+        sendMessage(email, "[대덕소프트웨어마이스터고등학교 입학전형시스템] 회원가입 인증 링크입니다.", "다음 링크를 클릭하세요.\n" +
+                String.format("%s/%s", baseUrl, tempUser.getCode()));
     }
 }
