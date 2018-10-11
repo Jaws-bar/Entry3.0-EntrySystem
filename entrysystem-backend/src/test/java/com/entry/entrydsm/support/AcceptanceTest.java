@@ -87,6 +87,10 @@ public abstract class AcceptanceTest {
         return template().exchange(url, HttpMethod.POST, new HttpEntity<>(dto), typeRef);
     }
 
+    protected <R> ResponseEntity<RestResponse<R>> postRequest(String url, ParameterizedTypeReference<RestResponse<R>> typeRef) {
+        return template().exchange(url, HttpMethod.POST, null, typeRef);
+    }
+
     protected <T, R> ResponseEntity<RestResponse<R>> putRequest(String url, T dto, ParameterizedTypeReference<RestResponse<R>> typeRef) {
         return template().exchange(url, HttpMethod.PUT, new HttpEntity<>(dto), typeRef);
     }

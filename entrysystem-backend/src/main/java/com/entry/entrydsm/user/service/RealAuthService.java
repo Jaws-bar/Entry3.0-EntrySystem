@@ -67,11 +67,11 @@ public class RealAuthService implements AuthService {
     }
 
     @Transactional
-    public User confirm(String code) {
+    public JwtToken confirm(String code) throws Exception {
         TempUser tempUser = tempUserRepository.findById(code).orElseThrow(() -> new BadRequestException("올바르지 않은 인증 코드입니다."));
         User user = new User(tempUser);
         tempUserRepository.delete(tempUser);
-        return userRepository.save(user);
+        return jwt.createToken(userRepository.save(user));
     }
 
     public Optional<User> validateToken(String authorizationHeader) {

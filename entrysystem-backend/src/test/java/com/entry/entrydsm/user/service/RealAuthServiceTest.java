@@ -3,6 +3,7 @@ package com.entry.entrydsm.user.service;
 import com.entry.entrydsm.common.exception.BadRequestException;
 import com.entry.entrydsm.common.exception.ConflictException;
 import com.entry.entrydsm.common.exception.UnauthorizedException;
+import com.entry.entrydsm.common.response.JwtToken;
 import com.entry.entrydsm.common.security.jwt.Jwt;
 import com.entry.entrydsm.mail.EmailService;
 import com.entry.entrydsm.user.domain.User;
@@ -42,21 +43,23 @@ public class RealAuthServiceTest {
 
     @Mock
     private PasswordEncoder passwordEncoder;
+
     @Mock
     private TempUserRepository tempUserRepository;
+
     @Mock
     private UserRepository userRepository;
+
     @Mock
     private EmailService emailService;
+
     @Mock
     private Jwt jwt;
 
-    //    private TempUser tempUser;
     private SigninDTO signinDTO;
 
     @Before
     public void setUp() throws Exception {
-//        tempUser = new TempUser(DEFAULT_EMAIL, DEFAULT_PASSWORD);
         signinDTO = new SigninDTO(DEFAULT_EMAIL, DEFAULT_PASSWORD);
         when(passwordEncoder.encode(anyString())).then(returnsFirstArg());
         when(tempUserRepository.save(any())).then(returnsFirstArg());
@@ -78,26 +81,28 @@ public class RealAuthServiceTest {
     }
 
     @Test
-    public void 회원가입_인증() {
+    public void 회원가입_인증() throws Exception {
         when(tempUserRepository.findById(DEFAULT_CODE)).thenReturn(Optional.of(new TempUser(DEFAULT_EMAIL, DEFAULT_PASSWORD)));
         when(userRepository.save(any())).then(returnsFirstArg());
-
-        User user = authService.confirm(DEFAULT_CODE);
-        assertThat(user.getEmail()).isEqualTo(DEFAULT_EMAIL);
-        assertThat(user.getPassword()).isEqualTo(DEFAULT_PASSWORD);
+        when(jwt.createToken(any())).thenAnswer(invocation -> new JwtToken(((User) invocation.getArgument(0)).getEmail(), null));
+        JwtToken token = authService.confirm(DEFAULT_CODE);
+        assertThat(token.getAccessToken()).isEqualTo(DEFAULT_EMAIL);
     }
 
     @Test(expected = BadRequestException.class)
-    public void 회원가입_인증_실패() {
+    public void 회원가입_인증_실패() throws Exception {
         when(tempUserRepository.findById(DEFAULT_CODE)).thenReturn(Optional.empty());
         authService.confirm(DEFAULT_CODE);
     }
 
     @Test
     public void 로그인() throws Exception {
-        when(userRepository.findByEmail(signinDTO.getEmail())).thenReturn(Optional.of(new User()));
+        User user = new User();
+        when(userRepository.findByEmail(signinDTO.getEmail())).thenReturn(Optional.of(user));
+        when(jwt.createToken(any())).thenAnswer(invocation -> new JwtToken(invocation.getArgument(0).toString(), null));
         when(passwordEncoder.matches(signinDTO.getPassword(), null)).thenReturn(true);
-        authService.signin(signinDTO);
+        JwtToken token = authService.signin(signinDTO);
+        assertThat(token.getAccessToken()).isEqualTo(user.toString());
     }
 
     @Test(expected = UnauthorizedException.class)

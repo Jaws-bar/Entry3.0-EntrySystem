@@ -2,8 +2,8 @@ package com.entry.entrydsm.user.controller;
 
 import com.entry.entrydsm.common.response.JwtToken;
 import com.entry.entrydsm.common.response.RestResponse;
+import com.entry.entrydsm.common.security.jwt.Jwt;
 import com.entry.entrydsm.support.AcceptanceTest;
-import com.entry.entrydsm.user.domain.GraduateType;
 import com.entry.entrydsm.user.domain.User;
 import com.entry.entrydsm.user.domain.tempuser.TempUser;
 import com.entry.entrydsm.user.domain.tempuser.TempUserRepository;
@@ -31,6 +31,9 @@ public class AuthControllerTest extends AcceptanceTest {
 
     @Autowired
     private TempUserRepository tempUserRepository;
+
+    @Autowired
+    private Jwt jwt;
 
     private TempUser tempUser;
 
@@ -90,15 +93,14 @@ public class AuthControllerTest extends AcceptanceTest {
 
     @Test
     public void 회원가입_인증() {
-        ResponseEntity<RestResponse<User>> response = getRequest(String.format("%s/%s", SIGNUP_CONFIRM_BASE_URL, tempUser.getCode()), userTypeRef());
+        ResponseEntity<RestResponse<JwtToken>> response = postRequest(String.format("%s/%s", SIGNUP_CONFIRM_BASE_URL, tempUser.getCode()), tokenTypeRef());
         assertThat(response.getStatusCode()).isEqualTo(HttpStatus.CREATED);
-        assertThat(response.getBody().getData().getGraduateType()).isEqualTo(GraduateType.WILL);
-        assertThat(response.getBody().getData().getEmail()).isEqualTo(tempUser.getEmail());
+        assertThat(jwt.validation(response.getBody().getData().getAccessToken())).isTrue();
     }
 
     @Test
     public void 회원가입_인증_실패() {
-        ResponseEntity<RestResponse<User>> response = getRequest(String.format("%s/%s", SIGNUP_CONFIRM_BASE_URL, tempUser.getCode() + "A"), userTypeRef());
+        ResponseEntity<RestResponse<JwtToken>> response = postRequest(String.format("%s/%s", SIGNUP_CONFIRM_BASE_URL, tempUser.getCode() + "A"), tokenTypeRef());
         assertThat(response.getStatusCode()).isEqualTo(HttpStatus.BAD_REQUEST);
         assertThat(response.getBody().getErrors()).hasSize(1);
     }

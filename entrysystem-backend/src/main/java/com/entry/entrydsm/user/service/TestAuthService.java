@@ -39,8 +39,8 @@ public class TestAuthService implements AuthService {
 
     @Override
     @Transactional
-    public User confirm(String code) {
-        return realAuthService.confirm(code);
+    public JwtToken confirm(String code) {
+        return null;
     }
 
     @Override

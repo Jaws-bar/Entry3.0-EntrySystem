@@ -29,9 +29,9 @@ public class AuthController {
         return RestResponse.success(authService.signup(dto));
     }
 
-    @GetMapping("/signup/confirm/{code}")
+    @PostMapping("/signup/confirm/{code}")
     @ResponseStatus(HttpStatus.CREATED)
-    public RestResponse<User> confirm(@PathVariable String code) {
+    public RestResponse<JwtToken> confirm(@PathVariable String code) throws Exception {
         return RestResponse.success(authService.confirm(code));
     }
 

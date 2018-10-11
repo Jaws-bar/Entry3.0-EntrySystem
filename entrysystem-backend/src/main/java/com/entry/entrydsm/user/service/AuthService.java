@@ -1,7 +1,6 @@
 package com.entry.entrydsm.user.service;
 
 import com.entry.entrydsm.common.response.JwtToken;
-import com.entry.entrydsm.user.domain.User;
 import com.entry.entrydsm.user.domain.tempuser.TempUser;
 import com.entry.entrydsm.user.dto.SigninDTO;
 import com.entry.entrydsm.user.dto.SignupDTO;
@@ -14,7 +13,7 @@ public interface AuthService {
 
     TempUser signup(@Valid @RequestBody SignupDTO dto) throws SendFailedException;
 
-    User confirm(String code);
+    JwtToken confirm(String code) throws Exception;
 
     JwtToken signin(SigninDTO dto) throws Exception;
 }
