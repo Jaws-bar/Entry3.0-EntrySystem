@@ -53,7 +53,7 @@ public class Jwt {
 
     public JwtToken createToken(User user) throws Exception {
         String accessToken = createToken(user.getId());
-        return new JwtToken(accessToken, createRefreshToken(accessToken));
+        return new JwtToken(user.getEmail(), accessToken, createRefreshToken(accessToken));
     }
 
     private String createToken(String userId) {
