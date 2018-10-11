@@ -65,6 +65,6 @@ export default {
   },
 
   confirmSignup(code) {
-    return axios.get(`${CONSTANT.CONFIRM_URI}${code}`);
+    return axios.post(`${CONSTANT.CONFIRM_URI}${code}`);
   },
 };
