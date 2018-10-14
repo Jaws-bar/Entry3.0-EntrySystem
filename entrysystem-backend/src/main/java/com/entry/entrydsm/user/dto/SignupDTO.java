@@ -20,7 +20,7 @@ public class SignupDTO {
     private String email;
 
     @NotNull
-    @Pattern(regexp = "^.*(?=^.{8,16}$)(?=.*\\d)(?=.*[a-zA-Z]).*$")
+    @Pattern(regexp = "^(?=.*[a-zA-Z])(?=.*[0-9]).{8,16}$")
     private String password;
 
     public TempUser toTempUser(PasswordEncoder passwordEncoder) {
