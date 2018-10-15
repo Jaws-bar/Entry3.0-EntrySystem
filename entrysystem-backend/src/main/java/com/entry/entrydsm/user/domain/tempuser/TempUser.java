@@ -1,7 +1,6 @@
 package com.entry.entrydsm.user.domain.tempuser;
 
 import com.entry.entrydsm.common.domain.BaseTimeEntity;
-import com.entry.entrydsm.user.domain.User;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -34,13 +33,6 @@ public class TempUser extends BaseTimeEntity {
     public TempUser(String email, String password) {
         this.email = email;
         this.password = password;
-    }
-
-    public User toUser() {
-        return User.builder()
-                .email(email)
-                .password(password)
-                .build();
     }
 
     @JsonIgnore

@@ -98,7 +98,7 @@ public class Info extends BaseTimeEntity {
         this.parentName = "";
         this.parentTel = "";
         this.zipCode = "";
-        this.birth = LocalDate.of(2002, 1, 1);
+        this.birth = LocalDate.of(2003, 1, 1);
     }
 
     public void update(InfoDTO infoDTO) {
