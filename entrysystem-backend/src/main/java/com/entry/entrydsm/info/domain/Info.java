@@ -34,46 +34,49 @@ public class Info extends BaseTimeEntity {
     @JsonIgnore
     private User user;
 
-    @NotBlank
+    @NotBlank(message = "이름을 입력해주세요.")
     @Column(length = 20, nullable = false)
     private String name;
 
-    @NotNull
     @Column
+    @NotNull(message = "성별을 입력해주세요.")
     @Enumerated(EnumType.STRING)
     private Sex sex;
 
     @Column(nullable = false)
     private LocalDate birth;
 
-    @Pattern(regexp = PHONE_NUMBER_PATTERN)
     @Column(length = 15, nullable = false)
+    @Pattern(regexp = PHONE_NUMBER_PATTERN,
+            message = "전화번호를 입력해주세요. (숫자 11자)")
     private String myTel;
 
-    @NotBlank
     @Column(length = 20, nullable = false)
+    @NotBlank(message = "보호자 성함을 입력해주세요.")
     private String parentName;
 
-    @Pattern(regexp = PHONE_NUMBER_PATTERN)
     @Column(length = 15, nullable = false)
+    @Pattern(regexp = PHONE_NUMBER_PATTERN,
+            message = "보호자 전화번호를 입력해주세요. (숫자 11자)")
     private String parentTel;
 
-    @NotBlank
     @Column(length = 100, nullable = false)
+    @NotBlank(message = "주소를 입력해주세요.")
     private String addressBase;
 
-    @NotBlank
     @Column(length = 50, nullable = false)
+    @NotBlank(message = "상세 주소를 입력해주세요.")
     private String addressDetail;
 
-    @NotNull
-    @Pattern(regexp = ZIP_CODE_PATTERN)
     @Column(length = 5, nullable = false)
+    @NotNull(message = "우편번호를 제대로 입력해주세요.")
+    @Pattern(regexp = ZIP_CODE_PATTERN,
+            message = "우편번호를 제대로 입력해주세요.")
     private String zipCode;
 
     @Setter
-    @NotBlank
     @Column(length = 50)
+    @NotBlank(message = "증명사진을 업로드해주세요.")
     private String imgPath;
 
     @Override

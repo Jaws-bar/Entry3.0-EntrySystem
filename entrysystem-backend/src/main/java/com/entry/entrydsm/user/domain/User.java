@@ -67,13 +67,11 @@ public class User extends BaseTimeEntity {
 
     @Setter
     @Column(nullable = false)
-    @NotNull
     private Boolean region;
 
     @Setter
     @Column(nullable = false)
     @Enumerated(EnumType.STRING)
-    @NotNull
     private AdditionalType additionalType;
 
     @JsonIgnore
@@ -180,7 +178,7 @@ public class User extends BaseTimeEntity {
         this.applyStatus = new ApplyStatus(this);
     }
 
-    @AssertTrue
+    @AssertTrue(message = "사회통합전형 세부 내용을 선택하지 않으셨습니다.")
     private boolean isValidAdmissionDetail() {
         return (admission.isSocial()) == (!admissionDetail.isNone());
     }

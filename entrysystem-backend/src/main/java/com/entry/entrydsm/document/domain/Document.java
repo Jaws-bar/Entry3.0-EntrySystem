@@ -25,12 +25,12 @@ public class Document extends BaseTimeEntity {
     @JsonIgnore
     private User user;
 
-    @NotBlank
     @Column(length = 1600, nullable = false)
+    @NotBlank(message = "자기소개서는 비어있을 수 없습니다.")
     private String introduce;
 
-    @NotBlank
     @Column(length = 1600, nullable = false)
+    @NotBlank(message = "학업소개서는 비어있을 수 없습니다.")
     private String studyPlan;
 
     public Document(User user) {

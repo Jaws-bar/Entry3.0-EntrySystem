@@ -36,24 +36,25 @@ public class GraduateInfo extends BaseTimeEntity {
     @Column(length = 4, nullable = false)
     private Integer graduateYear;
 
-    @NotNull
     @ManyToOne
     @JoinColumn(name = "school_code")
+    @NotNull(message = "학교 정보가 입력되지 않았습니다.")
     private School school;
 
-    @Pattern(regexp = SCHOOL_NUMBER_PATTERN)
+    @Pattern(regexp = SCHOOL_NUMBER_PATTERN,
+            message = "학교 연락처를 제대로 입력해주세요. (숫자 10~11자)")
     @Column(length = 15, nullable = false)
     private String schoolTel;
 
     @Column(length = 1, nullable = false, updatable = false)
     private Integer studentGrade;
 
-    @Min(1)
     @Column(length = 2, nullable = false)
+    @Min(value = 1, message = "반을 제대로 입력해주세요.")
     private Integer studentClass;
 
-    @Min(1)
     @Column(length = 2, nullable = false)
+    @Min(value = 1, message = "번호를 제대로 입력해주세요.")
     private Integer studentNumber;
 
     public GraduateInfo(User user) {
@@ -83,12 +84,11 @@ public class GraduateInfo extends BaseTimeEntity {
     }
 
 
-    @AssertTrue
     @JsonIgnore
+    @AssertTrue(message = "관내 지원자는 관내 학교를, 관외 지원자는 관외 학교를 선택해주세요.")
     public boolean isValidSchoolForRegion() {
-
         if (school == null) {
-            return false;
+            return true;
         }
 
         if (user.getRegion()) {

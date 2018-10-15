@@ -26,28 +26,28 @@ public class GraduateScore extends Score {
     private Double thirdGrade;
 
     @Column(nullable = false, length = 10)
-    @NotNull
-    @Min(value = 0)
+    @NotNull(message = "봉사 시간을 입력해주세요.")
+    @Min(value = 0, message = "봉사 시간은 음수가 될 수 없습니다.")
     private Integer volunteerTime;
 
     @Column(nullable = false, length = 10)
-    @NotNull
-    @Min(value = 0)
+    @NotNull(message = "무단 지각 횟수를 입력해주세요.")
+    @Min(value = 0, message = "무단 지각 횟수는 음수가 될 수 없습니다.")
     private Integer periodCut;
 
     @Column(nullable = false, length = 10)
-    @NotNull
-    @Min(value = 0)
+    @NotNull(message = "무단 결섯 횟수를 입력해주세요.")
+    @Min(value = 0, message = "무단 결석 횟수는 음수가 될 수 없습니다.")
     private Integer fullCut;
 
     @Column(nullable = false, length = 10)
-    @NotNull
-    @Min(value = 0)
+    @NotNull(message = "지각 횟수를 입력해주세요.")
+    @Min(value = 0, message = "지각 횟수는 음수가 될 수 없습니다.")
     private Integer late;
 
     @Column(nullable = false, length = 10)
-    @NotNull
-    @Min(value = 0)
+    @NotNull(message = "무단 지각 횟수를 입력해주세요.")
+    @Min(value = 0, message = "무단 지각 횟수는 음수가 될 수 없습니다.")
     private Integer earlyLeave;
 
     public GraduateScore(User user) {

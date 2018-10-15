@@ -55,6 +55,7 @@ public class GraduateValidationService extends BaseValidationService implements 
 
         if (!gradeInputCheck(grades, WILL_SEMESTER_COUNT)) {
             errors.add(new RestResponse.Error("성적 입력이 완료되지 않았습니다."));
+            return errors;
         }
 
         if (grades.get(WILL_SEMESTER_COUNT - 1).isSkipped()) {
@@ -70,6 +71,7 @@ public class GraduateValidationService extends BaseValidationService implements 
 
         if (!gradeInputCheck(grades, DONE_SEMESTER_COUNT)) {
             errors.add(new RestResponse.Error("성적 입력이 완료되지 않았습니다."));
+            return errors;
         }
 
         // TODO: Check validation logic
