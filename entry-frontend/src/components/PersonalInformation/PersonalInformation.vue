@@ -291,6 +291,11 @@ export default {
     },
     personName: {
       get() {
+        if (this.$store.state.PersonInfo.personName === null) {
+          this.$store.commit('updatePersonName', {
+            data: '',
+          });
+        }
         return this.$store.state.PersonInfo.personName;
       },
       set(data) {
@@ -341,6 +346,11 @@ export default {
     },
     studentClass: {
       get() {
+        if (this.$store.state.PersonInfo.studentClass === null) {
+          this.$store.commit('updateStudentClass', {
+            data: 0,
+          });
+        }
         return this.$store.state.PersonInfo.studentClass;
       },
       set(data) {
@@ -351,6 +361,11 @@ export default {
     },
     studentNumber: {
       get() {
+        if (this.$store.state.PersonInfo.studentNumber === null) {
+          this.$store.commit('updateStudentNumber', {
+            data: 0,
+          });
+        }
         return this.$store.state.PersonInfo.studentNumber;
       },
       set(data) {
@@ -361,6 +376,16 @@ export default {
     },
     school: {
       get() {
+        if (this.$store.state.PersonInfo.school.code === null) {
+          this.$store.commit('updateSchool', {
+            data: {
+              code: null,
+              government: null,
+              name: null,
+              schoolRegion: null,
+            },
+          });
+        }
         return this.$store.state.PersonInfo.school;
       },
       set(data) {
@@ -371,6 +396,11 @@ export default {
     },
     parentName: {
       get() {
+        if (this.$store.state.PersonInfo.parentName === null) {
+          this.$store.commit('updateParentName', {
+            data: '',
+          });
+        }
         return this.$store.state.PersonInfo.parentName;
       },
       set(data) {
@@ -381,6 +411,11 @@ export default {
     },
     schoolTel: {
       get() {
+        if (this.$store.state.PersonInfo.schoolTel === null) {
+          this.$store.commit('updateSchoolTel', {
+            data: '',
+          });
+        }
         return this.$store.state.PersonInfo.schoolTel;
       },
       set(data) {
@@ -391,6 +426,11 @@ export default {
     },
     parentTel: {
       get() {
+        if (this.$store.state.PersonInfo.parentTel === null) {
+          this.$store.commit('updateParentTel', {
+            data: '',
+          });
+        }
         return this.$store.state.PersonInfo.parentTel;
       },
       set(data) {
@@ -401,6 +441,11 @@ export default {
     },
     myTel: {
       get() {
+        if (this.$store.state.PersonInfo.myTel === null) {
+          this.$store.commit('updateMyTel', {
+            data: '',
+          });
+        }
         return this.$store.state.PersonInfo.myTel;
       },
       set(data) {
@@ -411,6 +456,11 @@ export default {
     },
     zipCode: {
       get() {
+        if (this.$store.state.PersonInfo.zipCode === null) {
+          this.$store.commit('updateZipCode', {
+            data: '',
+          });
+        }
         return this.$store.state.PersonInfo.zipCode;
       },
       set(data) {
@@ -421,6 +471,11 @@ export default {
     },
     addressBase: {
       get() {
+        if (this.$store.state.PersonInfo.addressBase === null) {
+          this.$store.commit('updateAddressBase', {
+            data: '',
+          });
+        }
         return this.$store.state.PersonInfo.addressBase;
       },
       set(data) {
@@ -431,6 +486,11 @@ export default {
     },
     addressDetail: {
       get() {
+        if (this.$store.state.PersonInfo.addressDetail === null) {
+          this.$store.commit('updateAddressDetail', {
+            data: '',
+          });
+        }
         return this.$store.state.PersonInfo.addressDetail;
       },
       set(data) {
@@ -441,6 +501,11 @@ export default {
     },
     imgPath: {
       get() {
+        if (this.$store.state.PersonInfo.imgPath === null) {
+          this.$store.commit('updateImgPath', {
+            data: '',
+          });
+        }
         return this.$store.state.PersonInfo.imgPath;
       },
       set(data) {
