@@ -18,7 +18,7 @@
       <div class="verify__Icon__box verify__Icon__box--gradeInput verify__Icon__box--false" @click="changeRouter('grade')" v-else>
       </div>
     </div>
-    <div class="verify__msg" >
+    <div class="verify__msg" v-if="!finalSubmit">
       <p class="verify__msg__header">현재 원서 작성 현황입니다.</p>
       <div class="verify__msg__hr"></div>
       <p class="verify__msg__content" v-if="!isValid">
@@ -32,6 +32,16 @@
       </p>
       <div class="modal--btn verify__msg__btn verify__msg__btn--long" @click="gotoPreview" v-if="isValid">
         미리 보기
+      </div>
+    </div>
+    <div class="verify__msg" v-else>
+      <p class="verify__msg__header">최종제출이 완료되었습니다</p>
+      <div class="verify__msg__hr"></div>
+      <p class="verify__msg__content">
+        최종제출이 완료되었으니 원서를 인쇄하여 접수하여주시기 바랍니다.<br/>
+      </p>
+      <div class="modal--btn verify__msg__btn verify__msg__btn--long" @click="gotoPreview" v-if="isValid">
+        원서 인쇄하기
       </div>
     </div>
   </div>
@@ -76,6 +86,9 @@ export default {
       get() {
         return this.$store.state.mypage.validationResult.isValid;
       },
+    },
+    finalSubmit() {
+      return this.$store.state.mypage.applyStatus.finalSubmit;
     },
   },
   methods: {
