@@ -27,7 +27,7 @@ public class GedCalculationService implements CalculationService {
         if (grade < 50) {
             return 0;
         }
-        return (grade - 50) / 50 * (admission == Admission.MEISTER ? 90 : 150);
+        return (grade - 50) / 50 * (admission != Admission.NORMAL ? 90 : 150);
     }
 
     private double calculateVolunteerScore(GedScore score) {

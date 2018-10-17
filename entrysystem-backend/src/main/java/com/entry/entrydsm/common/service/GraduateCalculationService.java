@@ -119,7 +119,7 @@ public class GraduateCalculationService implements CalculationService {
     }
 
     private double getMultiply(Admission admissionType, boolean isThirdGrade) {
-        return admissionType == Admission.MEISTER
+        return admissionType != Admission.NORMAL
                 ? isThirdGrade ? 3.6 : 2.7
                 : isThirdGrade ? 6 : 4.5;
     }
