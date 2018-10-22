@@ -10,8 +10,8 @@ public class ScoreService {
 
     public ScoreResponse getScore(User user) {
         if (user.getGraduateType() == GraduateType.GED) {
-            return new ScoreResponse(user.getGraduateType(), user.getGedScore());
+            return new ScoreResponse(user.getGraduateType(), user.getGedScore(), user.getApplyStatus().getReceiptCode());
         }
-        return new ScoreResponse(user.getGraduateType(), user.getGraduateScore());
+        return new ScoreResponse(user.getGraduateType(), user.getGraduateScore(), user.getApplyStatus().getReceiptCode());
     }
 }

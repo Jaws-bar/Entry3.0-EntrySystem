@@ -35,6 +35,9 @@ public class ApplyStatus extends BaseTimeEntity {
     @Column(nullable = false)
     private Boolean receipt;
 
+    @Column(insertable = false, updatable = false)
+    private Integer receiptCode;
+
     public ApplyStatus(User user) {
         this.user = user;
         this.finalSubmit = false;
