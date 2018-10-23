@@ -8,4 +8,6 @@ public interface EmailService {
     void sendMessage(String to, String title, String body) throws SendFailedException;
 
     void sendConfirmCode(String email, TempUser tempUser);
+
+    void sendPasswordResetCode(String email, String generatePasswordResetCode);
 }

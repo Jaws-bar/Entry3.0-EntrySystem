@@ -26,7 +26,7 @@ public class AuthControllerTest extends AcceptanceTest {
     private static final String SAFE_PASSWORD = "password1234";
     private static final String UNSAFE_PASSWORD = "unsafe";
     public static final String SIGNUP_URL = "/api/signup";
-    public static final String SIGNUP_CONFIRM_BASE_URL = "/api/signup/confirm";
+    public static final String SIGNUP_CONFIRM_BASE_URL = "/api/signup/confirmSignup";
     public static final String SIGNIN_URL = "/api/signin";
 
     @Autowired

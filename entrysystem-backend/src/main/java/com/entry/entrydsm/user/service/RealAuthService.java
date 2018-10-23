@@ -10,6 +10,7 @@ import com.entry.entrydsm.user.domain.User;
 import com.entry.entrydsm.user.domain.UserRepository;
 import com.entry.entrydsm.user.domain.tempuser.TempUser;
 import com.entry.entrydsm.user.domain.tempuser.TempUserRepository;
+import com.entry.entrydsm.user.dto.PasswordResetDTO;
 import com.entry.entrydsm.user.dto.SigninDTO;
 import com.entry.entrydsm.user.dto.SignupDTO;
 import lombok.extern.slf4j.Slf4j;
@@ -67,7 +68,7 @@ public class RealAuthService implements AuthService {
     }
 
     @Transactional
-    public JwtToken confirm(String code) throws Exception {
+    public JwtToken confirmSignup(String code) throws Exception {
         TempUser tempUser = tempUserRepository.findById(code).orElseThrow(() -> new BadRequestException("올바르지 않은 인증 코드입니다."));
         User user = new User(tempUser);
         tempUserRepository.delete(tempUser);
@@ -97,5 +98,31 @@ public class RealAuthService implements AuthService {
         return jwt.createToken(userRepository.findByEmail(dto.getEmail())
                 .filter(user -> user.matchPassword(dto.getPassword(), passwordEncoder))
                 .orElseThrow(UnauthorizedException::new));
+    }
+
+    @Override
+    @Transactional
+    public void sendPasswordResetCode(String email) {
+        User user = userRepository.findByEmail(email).orElseThrow(BadRequestException::new);
+        emailService.sendPasswordResetCode(email, user.generatePasswordResetCode());
+    }
+
+    @Override
+    public void confirmPasswordResetCode(String email, String passwordResetCode) {
+        User user = userRepository.findByEmail(email).orElseThrow(BadRequestException::new);
+        if (!user.matchPasswordResetCode(passwordResetCode)) {
+            throw new BadRequestException();
+        }
+    }
+
+    @Override
+    @Transactional
+    public void resetPassword(PasswordResetDTO dto) {
+        User user = userRepository.findByEmail(dto.getEmail()).orElseThrow(BadRequestException::new);
+        if (!user.matchPasswordResetCode(dto.getPasswordResetCode())) {
+            throw new BadRequestException();
+        }
+        user.resetPassword(dto.getPassword(), passwordEncoder);
+        user.clearPasswordResetCode();
     }
 }

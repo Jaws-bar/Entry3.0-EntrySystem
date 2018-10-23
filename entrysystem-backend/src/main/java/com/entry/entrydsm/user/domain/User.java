@@ -19,6 +19,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.apache.commons.lang3.RandomStringUtils;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.SortComparator;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -46,6 +47,9 @@ public class User extends BaseTimeEntity {
 
     @Column(nullable = false, length = 100)
     private String password;
+
+    @Column(unique = true)
+    private String passwordResetCode;
 
     @Setter
     @Column(nullable = false)
@@ -195,5 +199,23 @@ public class User extends BaseTimeEntity {
     public void submit() {
         if (this.applyStatus == null) return;
         this.applyStatus.submit();
+    }
+
+    public boolean matchPasswordResetCode(String passwordResetCode) {
+        if (this.passwordResetCode == null) return false;
+        return this.passwordResetCode.equals(passwordResetCode);
+    }
+
+    public String generatePasswordResetCode() {
+        this.passwordResetCode = RandomStringUtils.randomAlphanumeric(5);
+        return this.passwordResetCode;
+    }
+
+    public void resetPassword(String password, PasswordEncoder passwordEncoder) {
+        this.password = passwordEncoder.encode(password);
+    }
+
+    public void clearPasswordResetCode() {
+        this.passwordResetCode = null;
     }
 }

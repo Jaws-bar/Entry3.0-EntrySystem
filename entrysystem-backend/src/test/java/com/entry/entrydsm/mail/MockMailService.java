@@ -16,4 +16,9 @@ public class MockMailService implements EmailService {
     @Override
     public void sendConfirmCode(String email, TempUser tempUser) {
     }
+
+    @Override
+    public void sendPasswordResetCode(String email, String generatePasswordResetCode) {
+
+    }
 }

@@ -5,6 +5,7 @@ import com.entry.entrydsm.common.response.JwtToken;
 import com.entry.entrydsm.user.domain.User;
 import com.entry.entrydsm.user.domain.UserRepository;
 import com.entry.entrydsm.user.domain.tempuser.TempUser;
+import com.entry.entrydsm.user.dto.PasswordResetDTO;
 import com.entry.entrydsm.user.dto.SigninDTO;
 import com.entry.entrydsm.user.dto.SignupDTO;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,7 +40,7 @@ public class TestAuthService implements AuthService {
 
     @Override
     @Transactional
-    public JwtToken confirm(String code) {
+    public JwtToken confirmSignup(String code) {
         return null;
     }
 
@@ -47,5 +48,17 @@ public class TestAuthService implements AuthService {
     @Transactional
     public JwtToken signin(SigninDTO dto) throws Exception {
         return realAuthService.signin(dto);
+    }
+
+    @Override
+    public void sendPasswordResetCode(String email) {
+    }
+
+    @Override
+    public void confirmPasswordResetCode(String email, String passwordResetCode) {
+    }
+
+    @Override
+    public void resetPassword(PasswordResetDTO dto) {
     }
 }

@@ -85,14 +85,14 @@ public class RealAuthServiceTest {
         when(tempUserRepository.findById(DEFAULT_CODE)).thenReturn(Optional.of(new TempUser(DEFAULT_EMAIL, DEFAULT_PASSWORD)));
         when(userRepository.save(any())).then(returnsFirstArg());
         when(jwt.createToken(any())).thenAnswer(invocation -> new JwtToken(((User) invocation.getArgument(0)).getEmail(), null));
-        JwtToken token = authService.confirm(DEFAULT_CODE);
+        JwtToken token = authService.confirmSignup(DEFAULT_CODE);
         assertThat(token.getAccessToken()).isEqualTo(DEFAULT_EMAIL);
     }
 
     @Test(expected = BadRequestException.class)
     public void 회원가입_인증_실패() throws Exception {
         when(tempUserRepository.findById(DEFAULT_CODE)).thenReturn(Optional.empty());
-        authService.confirm(DEFAULT_CODE);
+        authService.confirmSignup(DEFAULT_CODE);
     }
 
     @Test
